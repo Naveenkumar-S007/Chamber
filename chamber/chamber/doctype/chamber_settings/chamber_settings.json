@@ -1,0 +1,162 @@
+{
+ "actions": [],
+ "creation": "2026-08-15 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_ecourts",
+  "enable_ecourts_sync",
+  "ecourts_api_url",
+  "ecourts_app_code",
+  "section_break_reminders",
+  "enable_hearing_reminders",
+  "default_reminder_days",
+  "reminder_recipient_role",
+  "section_break_ai",
+  "enable_ai",
+  "ai_provider",
+  "ai_api_url",
+  "ai_api_key",
+  "ai_model",
+  "ai_max_tokens",
+  "require_lawyer_review_sensitive"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_ecourts",
+   "fieldtype": "Section Break",
+   "label": "eCourts Sync"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_ecourts_sync",
+   "fieldtype": "Check",
+   "label": "Enable eCourts Sync",
+   "description": "Runs the hourly CNR auto-poll for matters marked for auto-sync."
+  },
+  {
+   "fieldname": "ecourts_api_url",
+   "fieldtype": "Data",
+   "label": "eCourts API URL",
+   "description": "Defaults to the eCourts NJDG case-status endpoint."
+  },
+  {
+   "fieldname": "ecourts_app_code",
+   "fieldtype": "Data",
+   "label": "eCourts App Code",
+   "description": "App code issued by the eCourts portal (services.ecourts.gov.in) for CNR status lookups."
+  },
+  {
+   "fieldname": "section_break_reminders",
+   "fieldtype": "Section Break",
+   "label": "Hearing Reminders"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_hearing_reminders",
+   "fieldtype": "Check",
+   "label": "Enable Hearing Reminders",
+   "description": "Daily job emails the assigned advocate before upcoming chamber hearings."
+  },
+  {
+   "default": "3",
+   "fieldname": "default_reminder_days",
+   "fieldtype": "Int",
+   "label": "Default Reminder Days Before Hearing"
+  },
+  {
+   "fieldname": "reminder_recipient_role",
+   "fieldtype": "Link",
+   "label": "Reminder Recipient Role",
+   "options": "Role",
+   "description": "All users with this role receive hearing reminders (in addition to the assigned advocate)."
+  },
+  {
+   "fieldname": "section_break_ai",
+   "fieldtype": "Section Break",
+   "label": "Neethi AI"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_ai",
+   "fieldtype": "Check",
+   "label": "Enable AI (Drafting / Extraction / Summarization)"
+  },
+  {
+   "fieldname": "ai_provider",
+   "fieldtype": "Select",
+   "label": "AI Provider",
+   "options": "\nOpenAI\nOpenAI Compatible\nAzure OpenAI\nAnthropic",
+   "description": "OpenAI Compatible covers local/self-hosted endpoints (Ollama, vLLM, LM Studio, etc.)"
+  },
+  {
+   "fieldname": "ai_api_url",
+   "fieldtype": "Data",
+   "label": "AI API Base URL",
+   "description": "e.g. https://api.openai.com/v1 or http://localhost:11434/v1"
+  },
+  {
+   "fieldname": "ai_api_key",
+   "fieldtype": "Password",
+   "label": "AI API Key"
+  },
+  {
+   "fieldname": "ai_model",
+   "fieldtype": "Data",
+   "label": "AI Model",
+   "description": "e.g. gpt-4o-mini, deepseek-chat, llama3.1"
+  },
+  {
+   "default": "2000",
+   "fieldname": "ai_max_tokens",
+   "fieldtype": "Int",
+   "label": "Max Tokens"
+  },
+  {
+   "default": "1",
+   "fieldname": "require_lawyer_review_sensitive",
+   "fieldtype": "Check",
+   "label": "Require Lawyer Review for Sensitive Matters",
+   "description": "DV / 498A / adoption AI drafts are always flagged for mandatory lawyer review."
+  }
+ ],
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-08-15 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Chamber",
+ "name": "Chamber Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Chamber Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Advocate"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,151 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:vertical_name",
+ "creation": "2026-08-15 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "vertical_name",
+  "code",
+  "description",
+  "priority",
+  "color",
+  "enabled",
+  "section_break_deliverables",
+  "milestone_sequence",
+  "section_break_documents",
+  "template_documents",
+  "section_break_notes",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "vertical_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Vertical Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Code"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "priority",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Build Priority",
+   "description": "Lower number = higher priority (1: Criminal Defense, 2: Cheque Bounce, 3: Civil, ...)"
+  },
+  {
+   "fieldname": "color",
+   "fieldtype": "Select",
+   "label": "Color",
+   "options": "\nRed\nOrange\nYellow\nGreen\nBlue\nPurple\nGrey"
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "section_break_deliverables",
+   "fieldtype": "Section Break",
+   "label": "Timeline Milestones"
+  },
+  {
+   "fieldname": "milestone_sequence",
+   "fieldtype": "Code",
+   "label": "Milestone Sequence (JSON)",
+   "options": "JSON",
+   "description": "Ordered milestone labels shown on the matter timeline, e.g. [\"FIR Registered\", \"Bail Application Filed\", \"Charge Framed\", \"Judgment\"]"
+  },
+  {
+   "fieldname": "section_break_documents",
+   "fieldtype": "Section Break",
+   "label": "Document Templates"
+  },
+  {
+   "fieldname": "template_documents",
+   "fieldtype": "Table",
+   "label": "Typical Template Documents",
+   "options": "Vertical Template Doc",
+   "description": "Document types commonly produced in this vertical (used to seed Document Templates)."
+  },
+  {
+   "fieldname": "section_break_notes",
+   "fieldtype": "Section Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Text",
+   "label": "Notes"
+  }
+ ],
+ "links": [],
+ "modified": "2026-08-15 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Chamber",
+ "name": "Legal Vertical",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Chamber Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Advocate"
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Filing Clerk"
+  }
+ ],
+ "sort_field": "priority",
+ "sort_order": "ASC",
+ "states": [],
+ "title_field": "vertical_name",
+ "track_changes": 1
+}

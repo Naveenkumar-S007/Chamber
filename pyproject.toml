@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chamber"
+version = "0.1.0"
+description = "Chamber — Legal practice / chamber work management for Frappe v15 & ERPNext v15. Vertical-wise case intake, template-based document generation, litigation timelines, eCourts CNR sync and AI-assisted drafting."
+authors = [
+    { name = "Naveenkumar S", email = "naveenkumar.s007@gmail.com" },
+]
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "frappe",
+    "requests",
+]
+
+[tool.setuptools]
+packages = ["chamber"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+chamber = ["**/*.json", "**/*.md", "**/*.html", "**/*.js", "**/*.css", "**/*.txt"]

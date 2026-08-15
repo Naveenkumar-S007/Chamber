@@ -1,0 +1,97 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-08-15 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "clause_title",
+  "clause_text",
+  "applicable_drafting_type",
+  "tags"
+ ],
+ "fields": [
+  {
+   "fieldname": "clause_title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Clause Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "clause_text",
+   "fieldtype": "Text Editor",
+   "in_list_view": 1,
+   "label": "Clause Text",
+   "reqd": 1
+  },
+  {
+   "fieldname": "applicable_drafting_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Applicable Drafting Type",
+   "options": "\nLitigation\nTransactional\nLegislative & Policy\nAll"
+  },
+  {
+   "fieldname": "tags",
+   "fieldtype": "Data",
+   "label": "Tags",
+   "description": "Comma-separated keywords used to auto-suggest clauses (e.g. indemnity, termination, jurisdiction, bail, notice)"
+  }
+ ],
+ "links": [],
+ "modified": "2026-08-15 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Chamber",
+ "name": "Clause Library",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Chamber Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Advocate",
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Filing Clerk"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

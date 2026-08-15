@@ -1,0 +1,43 @@
+{
+ "actions": [],
+ "creation": "2026-08-15 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "tag",
+  "source",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "tag",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Merge Tag",
+   "reqd": 1
+  },
+  {
+   "fieldname": "source",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Source"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "label": "Description"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2026-08-15 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Chamber",
+ "name": "Document Merge Tag",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "idx",
+ "sort_order": "ASC",
+ "states": []
+}

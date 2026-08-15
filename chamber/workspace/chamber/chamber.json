@@ -1,0 +1,267 @@
+{
+ "category": "Modules",
+ "charts": [],
+ "creation": "2026-08-15 00:00:00.000000",
+ "developer_mode_only": 0,
+ "disable_user_customization": 0,
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "extends_priority": 0,
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "octicon-briefcase",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "Chamber",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Matters",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Legal Matter",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link",
+   "link_to": "Legal Matter"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Hearing",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "link_to": "Hearing"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Chamber Application",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link",
+   "link_to": "Chamber Application"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Timeline Entry",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "link_to": "Timeline Entry"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Matter Timeline (Page)",
+   "link_count": 0,
+   "link_type": "Page",
+   "onboard": 0,
+   "type": "Link",
+   "link_to": "matter-timeline"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Masters",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Legal Vertical",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "link_to": "Legal Vertical"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Matter Type",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "link_to": "Matter Type"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Legal Party",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "link_to": "Legal Party"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Court",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "link_to": "Court"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Clause Library",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "link_to": "Clause Library"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Intake & Forms",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Intake Form Template",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "link_to": "Intake Form Template"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Intake Submission",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "link_to": "Intake Submission"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Intake Form (Page)",
+   "link_count": 0,
+   "link_type": "Page",
+   "onboard": 0,
+   "type": "Link",
+   "link_to": "intake-form"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Documents",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Document Template",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "link_to": "Document Template"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Generated Document",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "link_to": "Generated Document"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "eCourts & AI",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "eCourts Sync Log",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "link_to": "eCourts Sync Log"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Chamber Settings",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link",
+   "link_to": "Chamber Settings"
+  }
+ ],
+ "modified": "2026-08-15 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Chamber",
+ "name": "Chamber",
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 1,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "New Legal Matter",
+   "link_to": "Legal Matter",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "New Chamber Application",
+   "link_to": "Chamber Application",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Chamber Settings",
+   "link_to": "Chamber Settings",
+   "type": "DocType"
+  }
+ ],
+ "title": "Chamber"
+}

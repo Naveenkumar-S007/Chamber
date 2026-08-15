@@ -1,0 +1,180 @@
+{
+ "actions": [],
+ "autoname": "format:GEN-{legal_matter}-{######}",
+ "creation": "2026-08-15 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "legal_matter",
+  "document_template",
+  "title",
+  "status",
+  "requires_lawyer_review",
+  "reviewed_by",
+  "review_date",
+  "drafted_by_ai",
+  "section_break_content",
+  "content",
+  "section_break_merge",
+  "merge_data",
+  "section_break_file",
+  "attachment",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "legal_matter",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Legal Matter",
+   "options": "Legal Matter",
+   "reqd": 1
+  },
+  {
+   "fieldname": "document_template",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Document Template",
+   "options": "Document Template",
+   "reqd": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "\nDraft\nReady for Review\nReview Required\nUnder Review\nApproved\nSent\nSigned"
+  },
+  {
+   "default": "0",
+   "fieldname": "requires_lawyer_review",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Requires Lawyer Review",
+   "description": "Mandatory for sensitive matters (DV, 498A, adoption) and AI-drafted content."
+  },
+  {
+   "fieldname": "reviewed_by",
+   "fieldtype": "Link",
+   "label": "Reviewed By",
+   "options": "User"
+  },
+  {
+   "fieldname": "review_date",
+   "fieldtype": "Date",
+   "label": "Review Date"
+  },
+  {
+   "default": "0",
+   "fieldname": "drafted_by_ai",
+   "fieldtype": "Check",
+   "label": "Drafted by AI"
+  },
+  {
+   "fieldname": "section_break_content",
+   "fieldtype": "Section Break",
+   "label": "Generated Content"
+  },
+  {
+   "fieldname": "content",
+   "fieldtype": "Code",
+   "label": "Generated Content",
+   "options": "HTML"
+  },
+  {
+   "fieldname": "section_break_merge",
+   "fieldtype": "Section Break",
+   "label": "Merge Data"
+  },
+  {
+   "fieldname": "merge_data",
+   "fieldtype": "Code",
+   "label": "Merge Data Used",
+   "options": "JSON",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_file",
+   "fieldtype": "Section Break",
+   "label": "Output File"
+  },
+  {
+   "fieldname": "attachment",
+   "fieldtype": "Attach",
+   "label": "Attachment",
+   "description": "PDF / Word output of the generated document."
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "links": [],
+ "modified": "2026-08-15 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Chamber",
+ "name": "Generated Document",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Chamber Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Advocate",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Filing Clerk"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "title",
+ "track_changes": 1
+}

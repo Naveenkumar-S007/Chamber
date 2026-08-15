@@ -1,0 +1,136 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2026-08-15 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "legal_matter",
+  "intake_form_template",
+  "vertical",
+  "submission_date",
+  "status",
+  "section_break_responses",
+  "responses"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "INTAKE-.YYYY.-.#####",
+   "reqd": 1
+  },
+  {
+   "fieldname": "legal_matter",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Legal Matter",
+   "options": "Legal Matter",
+   "reqd": 1
+  },
+  {
+   "fieldname": "intake_form_template",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Intake Form Template",
+   "options": "Intake Form Template",
+   "reqd": 1
+  },
+  {
+   "fieldname": "vertical",
+   "fieldtype": "Link",
+   "label": "Legal Vertical",
+   "options": "Legal Vertical",
+   "read_only": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "submission_date",
+   "fieldtype": "Date",
+   "label": "Submission Date",
+   "reqd": 1
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "\nDraft\nSubmitted"
+  },
+  {
+   "fieldname": "section_break_responses",
+   "fieldtype": "Section Break",
+   "label": "Responses"
+  },
+  {
+   "fieldname": "responses",
+   "fieldtype": "Table",
+   "label": "Responses",
+   "options": "Intake Response"
+  }
+ ],
+ "links": [],
+ "modified": "2026-08-15 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Chamber",
+ "name": "Intake Submission",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Chamber Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Advocate",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Filing Clerk",
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "legal_matter",
+ "track_changes": 1
+}

@@ -1,0 +1,3 @@
+# Patches applied in order during migration. Keep appended, never reorder.
+[pre_model_sync]
+[post_model_sync]

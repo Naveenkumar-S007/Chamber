@@ -1,0 +1,136 @@
+{
+ "actions": [],
+ "autoname": "format:HRG-{legal_matter}-{######}",
+ "creation": "2026-08-15 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "legal_matter",
+  "hearing_date",
+  "purpose",
+  "outcome",
+  "next_hearing_date",
+  "source",
+  "court",
+  "judge",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "legal_matter",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Legal Matter",
+   "options": "Legal Matter",
+   "reqd": 1
+  },
+  {
+   "fieldname": "hearing_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Hearing Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "purpose",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Purpose",
+   "description": "e.g. Bail hearing, Evidence, Arguments, First motion"
+  },
+  {
+   "fieldname": "outcome",
+   "fieldtype": "Small Text",
+   "label": "Outcome / What Happened"
+  },
+  {
+   "fieldname": "next_hearing_date",
+   "fieldtype": "Date",
+   "label": "Next Date Given"
+  },
+  {
+   "fieldname": "source",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Source",
+   "options": "\nManual\neCourts\nCause List"
+  },
+  {
+   "fieldname": "court",
+   "fieldtype": "Link",
+   "label": "Court",
+   "options": "Court"
+  },
+  {
+   "fieldname": "judge",
+   "fieldtype": "Data",
+   "label": "Presiding Judge"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Text",
+   "label": "Notes"
+  }
+ ],
+ "links": [],
+ "modified": "2026-08-15 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Chamber",
+ "name": "Hearing",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Chamber Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Advocate",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Filing Clerk",
+   "write": 1
+  }
+ ],
+ "sort_field": "hearing_date",
+ "sort_order": "ASC",
+ "states": [],
+ "title_field": "purpose",
+ "track_changes": 1
+}

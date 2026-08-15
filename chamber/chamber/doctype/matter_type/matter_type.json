@@ -1,0 +1,127 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{vertical}-{matter_type}",
+ "creation": "2026-08-15 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "matter_type",
+  "vertical",
+  "code",
+  "is_sub_type",
+  "parent_type",
+  "description",
+  "milestone_sequence",
+  "enabled"
+ ],
+ "fields": [
+  {
+   "fieldname": "matter_type",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Matter Type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "vertical",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Legal Vertical",
+   "options": "Legal Vertical",
+   "reqd": 1
+  },
+  {
+   "fieldname": "code",
+   "fieldtype": "Data",
+   "label": "Code"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_sub_type",
+   "fieldtype": "Check",
+   "label": "Is Sub-Matter Type",
+   "description": "Sub-matter types are the granular case categories within a vertical (e.g. Anticipatory Bail, Quashing Petition within Criminal Defense)."
+  },
+  {
+   "fieldname": "parent_type",
+   "fieldtype": "Link",
+   "label": "Parent Matter Type",
+   "options": "Matter Type"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "milestone_sequence",
+   "fieldtype": "Code",
+   "label": "Milestone Sequence (JSON)",
+   "options": "JSON",
+   "description": "Overrides the vertical-level milestone sequence for this specific matter type, e.g. anticipatory bail has its own shape."
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  }
+ ],
+ "links": [],
+ "modified": "2026-08-15 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Chamber",
+ "name": "Matter Type",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Chamber Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Advocate"
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Filing Clerk"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "matter_type",
+ "track_changes": 1
+}

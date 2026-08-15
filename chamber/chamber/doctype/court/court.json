@@ -1,0 +1,123 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:court_name",
+ "creation": "2026-08-15 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "court_name",
+  "court_tier",
+  "state",
+  "jurisdiction",
+  "bench_number",
+  "judge_name",
+  "ecourts_enabled",
+  "remarks"
+ ],
+ "fields": [
+  {
+   "fieldname": "court_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Court Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "court_tier",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Court Tier",
+   "options": "\nSupreme Court\nHigh Court\nCommercial Court\nDistrict Court\nFamily Court\nMagistrate Court\nMACT Tribunal\nRent Control Court\nLabour Court\nConsumer Forum\nNCLT\nOther"
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Data",
+   "label": "State"
+  },
+  {
+   "fieldname": "jurisdiction",
+   "fieldtype": "Data",
+   "label": "Jurisdiction"
+  },
+  {
+   "fieldname": "bench_number",
+   "fieldtype": "Data",
+   "label": "Court / Bench Number"
+  },
+  {
+   "fieldname": "judge_name",
+   "fieldtype": "Data",
+   "label": "Presiding Judge"
+  },
+  {
+   "default": "1",
+   "fieldname": "ecourts_enabled",
+   "fieldtype": "Check",
+   "label": "eCourts Sync Available",
+   "description": "Whether this court's digitization level supports live eCourts sync for this court tier/state. Leave unchecked where coverage is manual-entry fallback only."
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  }
+ ],
+ "links": [],
+ "modified": "2026-08-15 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Chamber",
+ "name": "Court",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Chamber Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Advocate",
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Filing Clerk"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "court_name",
+ "track_changes": 1
+}

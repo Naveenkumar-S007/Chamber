@@ -1,0 +1,146 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:party_name",
+ "creation": "2026-08-15 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "party_name",
+  "party_type",
+  "role",
+  "is_client",
+  "contact_number",
+  "email",
+  "address",
+  "erpnext_customer",
+  "erpnext_contact",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "party_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Party Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "party_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Party Type",
+   "options": "\nIndividual\nCompany\nPartnership\nLLP\nTrust\nGovernment\nOther"
+  },
+  {
+   "fieldname": "role",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Default Role",
+   "options": "\nClient\nComplainant\nAccused\nRespondent\nAppellant\nWitness\nCounterparty\nOpposing Counsel\nJudge\nOther"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_client",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Is Client"
+  },
+  {
+   "fieldname": "contact_number",
+   "fieldtype": "Data",
+   "label": "Contact Number"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Small Text",
+   "label": "Address"
+  },
+  {
+   "depends_on": "eval:frappe.db.exists('DocType', 'Customer')",
+   "fieldname": "erpnext_customer",
+   "fieldtype": "Link",
+   "label": "ERPNext Customer",
+   "options": "Customer",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:frappe.db.exists('DocType', 'Contact')",
+   "fieldname": "erpnext_contact",
+   "fieldtype": "Link",
+   "label": "ERPNext Contact",
+   "options": "Contact",
+   "read_only": 1
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Text",
+   "label": "Notes"
+  }
+ ],
+ "links": [],
+ "modified": "2026-08-15 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Chamber",
+ "name": "Legal Party",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Chamber Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Advocate",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Filing Clerk",
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "party_name",
+ "track_changes": 1
+}

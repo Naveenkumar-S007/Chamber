@@ -1,0 +1,467 @@
+{
+ "actions": [
+  {
+   "action": "Sync eCourts",
+   "action_type": "Action",
+   "group": "External Sync"
+  },
+  {
+   "action": "Open Intake Form",
+   "action_type": "Route",
+   "group": "Intake",
+   "link": "intake-form?matter=%(name)s"
+  },
+  {
+   "action": "Generate Document",
+   "action_type": "Action",
+   "group": "Documents"
+  },
+  {
+   "action": "View Timeline",
+   "action_type": "Route",
+   "group": "Documents",
+   "link": "matter-timeline?matter=%(name)s"
+  }
+ ],
+ "allow_events_in_timeline": 1,
+ "autoname": "naming_series:",
+ "creation": "2026-08-15 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "matter_title",
+  "vertical",
+  "matter_type",
+  "status",
+  "priority",
+  "column_break_6",
+  "case_number",
+  "cnr_number",
+  "case_category",
+  "client",
+  "assigned_advocate",
+  "opposing_counsel",
+  "section_break_parties",
+  "parties",
+  "section_break_court",
+  "court",
+  "court_bench",
+  "judge_name",
+  "column_break_court",
+  "filing_date",
+  "cause_of_action_date",
+  "claim_amount",
+  "suit_valuation",
+  "section_break_limitation",
+  "limitation_years",
+  "limitation_expiry_date",
+  "limitation_flagged",
+  "statutory_deadline_date",
+  "statutory_deadline_note",
+  "section_break_criminal",
+  "fir_number",
+  "police_station",
+  "fir_date",
+  "column_break_criminal",
+  "sections_charged",
+  "bail_status",
+  "custody_status",
+  "investigating_officer",
+  "prior_case_history",
+  "section_break_ecourts",
+  "ecourts_auto_sync",
+  "last_sync",
+  "last_sync_status",
+  "section_break_notes",
+  "description",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "MATTER-.YYYY.-.#####",
+   "reqd": 1
+  },
+  {
+   "fieldname": "matter_title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Matter Title / Subject",
+   "reqd": 1
+  },
+  {
+   "fieldname": "vertical",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Legal Vertical",
+   "options": "Legal Vertical",
+   "reqd": 1
+  },
+  {
+   "fieldname": "matter_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Matter Type",
+   "options": "Matter Type",
+   "reqd": 1
+  },
+  {
+   "default": "Intake Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "\nIntake Pending\nActive\nOn Hold\nDisposed\nWithdrawn\nClosed"
+  },
+  {
+   "fieldname": "priority",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Priority",
+   "options": "\nLow\nMedium\nHigh\nUrgent"
+  },
+  {
+   "fieldname": "column_break_6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "case_number",
+   "fieldtype": "Data",
+   "label": "Case Number"
+  },
+  {
+   "fieldname": "cnr_number",
+   "fieldtype": "Data",
+   "label": "CNR Number",
+   "description": "Case Number Record as used by eCourts (e.g. KA01-000123-2024). Filled manually or by eCourts sync."
+  },
+  {
+   "fieldname": "case_category",
+   "fieldtype": "Select",
+   "label": "Case Category",
+   "options": "\nCriminal\nCivil\nFamily\nProperty\nCommercial\nConsumer\nMotor Accident\nIP\nOther"
+  },
+  {
+   "fieldname": "client",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Client",
+   "options": "Legal Party"
+  },
+  {
+   "fieldname": "assigned_advocate",
+   "fieldtype": "Link",
+   "label": "Assigned Advocate",
+   "options": "User"
+  },
+  {
+   "fieldname": "opposing_counsel",
+   "fieldtype": "Data",
+   "label": "Opposing Counsel"
+  },
+  {
+   "fieldname": "section_break_parties",
+   "fieldtype": "Section Break",
+   "label": "Parties"
+  },
+  {
+   "fieldname": "parties",
+   "fieldtype": "Table",
+   "label": "Parties",
+   "options": "Legal Matter Party"
+  },
+  {
+   "fieldname": "section_break_court",
+   "fieldtype": "Section Break",
+   "label": "Court"
+  },
+  {
+   "fieldname": "court",
+   "fieldtype": "Link",
+   "label": "Court",
+   "options": "Court"
+  },
+  {
+   "fieldname": "court_bench",
+   "fieldtype": "Data",
+   "label": "Court / Bench Number"
+  },
+  {
+   "fieldname": "judge_name",
+   "fieldtype": "Data",
+   "label": "Judge Name"
+  },
+  {
+   "fieldname": "column_break_court",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "filing_date",
+   "fieldtype": "Date",
+   "label": "Filing Date"
+  },
+  {
+   "fieldname": "cause_of_action_date",
+   "fieldtype": "Date",
+   "label": "Cause of Action Date"
+  },
+  {
+   "fieldname": "claim_amount",
+   "fieldtype": "Currency",
+   "label": "Claim Amount",
+   "options": "INR"
+  },
+  {
+   "fieldname": "suit_valuation",
+   "fieldtype": "Currency",
+   "label": "Suit Valuation",
+   "options": "INR"
+  },
+  {
+   "fieldname": "section_break_limitation",
+   "fieldtype": "Section Break",
+   "label": "Limitation & Statutory Deadlines"
+  },
+  {
+   "fieldname": "limitation_years",
+   "fieldtype": "Int",
+   "label": "Limitation Period (years)",
+   "description": "Under the Limitation Act, 1963 (3 years for suits, 1 year for some actions, etc.). Used to auto-flag expiry."
+  },
+  {
+   "fieldname": "limitation_expiry_date",
+   "fieldtype": "Date",
+   "label": "Limitation Expiry Date",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "limitation_flagged",
+   "fieldtype": "Check",
+   "label": "Limitation Risk Flagged",
+   "read_only": 1
+  },
+  {
+   "fieldname": "statutory_deadline_date",
+   "fieldtype": "Date",
+   "label": "Statutory Deadline Date",
+   "description": "e.g. cheque-bounce complaint deadline (15/30 days from demand notice), appeal filing deadline."
+  },
+  {
+   "fieldname": "statutory_deadline_note",
+   "fieldtype": "Data",
+   "label": "Statutory Deadline Note"
+  },
+  {
+   "fieldname": "section_break_criminal",
+   "fieldtype": "Section Break",
+   "label": "Criminal / Enforcement Details"
+  },
+  {
+   "fieldname": "fir_number",
+   "fieldtype": "Data",
+   "label": "FIR Number"
+  },
+  {
+   "fieldname": "police_station",
+   "fieldtype": "Data",
+   "label": "Police Station"
+  },
+  {
+   "fieldname": "fir_date",
+   "fieldtype": "Date",
+   "label": "Date of FIR"
+  },
+  {
+   "fieldname": "column_break_criminal",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sections_charged",
+   "fieldtype": "Small Text",
+   "label": "Sections / Offences Charged",
+   "description": "IPC/BNS section lookup or free text, e.g. 138 NI Act, 420 IPC, 498A IPC"
+  },
+  {
+   "fieldname": "bail_status",
+   "fieldtype": "Select",
+   "label": "Bail Status",
+   "options": "\nNot Applied\nApplied\nGranted\nRejected\nAnticipatory Bail Filed\nAnticipatory Bail Granted\nAnticipatory Bail Rejected"
+  },
+  {
+   "fieldname": "custody_status",
+   "fieldtype": "Select",
+   "label": "Custody Status",
+   "options": "\nNot Arrested\nOn Bail\nJudicial Custody\nPolice Custody\nReleased"
+  },
+  {
+   "fieldname": "investigating_officer",
+   "fieldtype": "Data",
+   "label": "Investigating Officer"
+  },
+  {
+   "default": "0",
+   "fieldname": "prior_case_history",
+   "fieldtype": "Check",
+   "label": "Prior Case History",
+   "description": "Repeat offender / prior matters flag"
+  },
+  {
+   "fieldname": "section_break_ecourts",
+   "fieldtype": "Section Break",
+   "label": "eCourts Sync"
+  },
+  {
+   "default": "0",
+   "fieldname": "ecourts_auto_sync",
+   "fieldtype": "Check",
+   "label": "Auto-Sync from eCourts",
+   "description": "Poll this matter's CNR on the scheduled eCourts refresh."
+  },
+  {
+   "fieldname": "last_sync",
+   "fieldtype": "Datetime",
+   "label": "Last eCourts Sync",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_sync_status",
+   "fieldtype": "Select",
+   "label": "Last Sync Status",
+   "options": "\nNot Synced\nSuccess\nFailed\nNo Data",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_notes",
+   "fieldtype": "Section Break",
+   "label": "Description & Notes"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Text",
+   "label": "Notes"
+  }
+ ],
+ "links": [
+  {
+   "fieldname": "legal_matter",
+   "label": "Hearings",
+   "options": "Hearing"
+  },
+  {
+   "fieldname": "legal_matter",
+   "label": "Timeline Entries",
+   "options": "Timeline Entry"
+  },
+  {
+   "fieldname": "legal_matter",
+   "label": "Generated Documents",
+   "options": "Generated Document"
+  },
+  {
+   "fieldname": "matter",
+   "label": "Chamber Applications",
+   "options": "Chamber Application"
+  },
+  {
+   "fieldname": "legal_matter",
+   "label": "Intake Submissions",
+   "options": "Intake Submission"
+  }
+ ],
+ "modified": "2026-08-15 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Chamber",
+ "name": "Legal Matter",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Chamber Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Advocate",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Filing Clerk",
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [
+  {
+   "color": "Blue",
+   "title": "Intake Pending"
+  },
+  {
+   "color": "Green",
+   "title": "Active"
+  },
+  {
+   "color": "Orange",
+   "title": "On Hold"
+  },
+  {
+   "color": "Grey",
+   "title": "Disposed"
+  },
+  {
+   "color": "Grey",
+   "title": "Withdrawn"
+  },
+  {
+   "color": "Grey",
+   "title": "Closed"
+  }
+ ],
+ "title_field": "matter_title",
+ "track_changes": 1
+}

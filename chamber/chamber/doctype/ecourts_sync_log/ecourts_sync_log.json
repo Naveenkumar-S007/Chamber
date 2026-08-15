@@ -1,0 +1,118 @@
+{
+ "actions": [],
+ "autoname": "format:ESYNC-{YYYY}-{######}",
+ "creation": "2026-08-15 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "legal_matter",
+  "cnr_number",
+  "sync_date",
+  "status",
+  "auto",
+  "response",
+  "error"
+ ],
+ "fields": [
+  {
+   "fieldname": "legal_matter",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Legal Matter",
+   "options": "Legal Matter",
+   "reqd": 1
+  },
+  {
+   "fieldname": "cnr_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "CNR Number"
+  },
+  {
+   "fieldname": "sync_date",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Sync Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "\nSuccess\nFailed\nNo Data",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "auto",
+   "fieldtype": "Check",
+   "label": "Automatic Sync"
+  },
+  {
+   "fieldname": "response",
+   "fieldtype": "Code",
+   "label": "Response Payload",
+   "options": "JSON"
+  },
+  {
+   "fieldname": "error",
+   "fieldtype": "Small Text",
+   "label": "Error"
+  }
+ ],
+ "links": [],
+ "modified": "2026-08-15 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Chamber",
+ "name": "eCourts Sync Log",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Chamber Manager",
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Advocate"
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Filing Clerk"
+  }
+ ],
+ "sort_field": "sync_date",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "cnr_number",
+ "track_changes": 1
+}

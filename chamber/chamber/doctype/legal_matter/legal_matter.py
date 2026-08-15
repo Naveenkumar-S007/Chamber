@@ -11,6 +11,7 @@ class LegalMatter(Document):
 		self.compute_limitation()
 		self.validate_matter_type_vertical()
 		self.sync_client_from_parties()
+		self.compute_ecourts_coverage()
 
 	def after_insert(self):
 		self.create_registration_timeline_entry()
@@ -32,6 +33,19 @@ class LegalMatter(Document):
 						self.matter_type, mt, self.vertical
 					)
 				)
+
+	def compute_ecourts_coverage(self):
+		"""State-coverage transparency surfaced on the form: live sync vs manual fallback."""
+		if self.portal and self.portal != "eCourts":
+			self.ecourts_coverage = f"{self.portal}: coverage depends on the portal connector/manual entry."
+			return
+		if not self.cnr_number:
+			self.ecourts_coverage = "No CNR number — manual entry only."
+			return
+		if self.court and frappe.db.get_value("Court", self.court, "ecourts_enabled") == 0:
+			self.ecourts_coverage = "Court flagged as manual-entry fallback (digitization coverage varies by state/tier)."
+			return
+		self.ecourts_coverage = "Live eCourts sync available for this CNR."
 
 	def sync_client_from_parties(self):
 		"""Keep the Client link in step with the parties child table."""
@@ -168,6 +182,47 @@ class LegalMatter(Document):
 			alert=True,
 		)
 		return result
+
+	@frappe.whitelist()
+	def log_custody_change(self, custody_status, note=None):
+		"""Log a custody-status change as a timeline marker and update the matter."""
+		if custody_status:
+			self.custody_status = custody_status
+		self.flags.ignore_permissions = True
+		self.save(ignore_permissions=True)
+		frappe.get_doc(
+			{
+				"doctype": "Timeline Entry",
+				"legal_matter": self.name,
+				"entry_date": getdate(),
+				"event_type": "Custody Change",
+				"title": f"Custody status changed to {custody_status}",
+				"description": note or "",
+				"source": "Manual",
+			}
+		).insert(ignore_permissions=True)
+		return {"custody_status": custody_status}
+
+	@frappe.whitelist()
+	def update_portal_status(self, status, status_date=None, notes=None):
+		"""Record manual portal status (IP India / NCLT / RERA) when no API connector exists."""
+		self.portal_status = status
+		self.portal_status_date = status_date or getdate()
+		self.portal_status_notes = notes
+		self.flags.ignore_permissions = True
+		self.save(ignore_permissions=True)
+		frappe.get_doc(
+			{
+				"doctype": "Timeline Entry",
+				"legal_matter": self.name,
+				"entry_date": getdate(),
+				"event_type": "Milestone",
+				"title": f"Portal status updated — {status}",
+				"description": notes or "",
+				"source": "Manual",
+			}
+		).insert(ignore_permissions=True)
+		return {"portal_status": status}
 
 
 # ---------------------------------------------------------------- doc events

@@ -1186,6 +1186,1016 @@ Yours faithfully,
 {{ client_name or "[Rights Holder]" }}
 Through Advocate""",
 	},
+	{
+		"template_name": "Discharge Application",
+		"vertical": "Criminal Defense",
+		"drafting_type": "Litigation",
+		"description": "Application for discharge under Section 227 CrPC / 250 BNSS.",
+		"template_body": """APPLICATION FOR DISCHARGE
+
+IN THE COURT OF {{ court or "[Court Name]" }}
+{{ case_number or "Case No. [_____]" }}
+
+State of {{ jurisdiction or "[State]" }}
+Versus
+{{ party_accused or "[Accused]" }}
+
+APPLICATION UNDER SECTION 227 CrPC / 250 BNSS FOR DISCHARGE
+
+The accused most respectfully submits:
+
+1. That the accused has been charge-sheeted in the above case for offences under {{ sections_charged or "[sections]" }}.
+
+2. That the material on record, taken at face value, does not disclose the commission of any offence by the accused.
+
+3. That there is no legal or factual basis to frame charges against the accused.
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Court may be pleased to discharge the accused from the above case.
+
+{{ client_name or "[Accused]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Application for Certified Copies",
+		"vertical": "Criminal Defense",
+		"drafting_type": "Litigation",
+		"description": "Application to the court registry for certified copies of the judgment/record.",
+		"template_body": """APPLICATION FOR CERTIFIED COPIES
+
+IN THE COURT OF {{ court or "[Court Name]" }}
+{{ case_number or "Case No. [_____]" }}
+
+APPLICATION ON BEHALF OF {{ client_name or "[Applicant]" }} FOR GRANT OF CERTIFIED COPIES
+
+The applicant most respectfully submits:
+
+1. That the applicant is a party in the above case and requires certified copies of the judgment dated {{ intake_trial_judgment_date or "[judgment date]" }} and the complete record of proceedings.
+
+2. That the copies are required for filing an appeal/memorandum of revision and for bona fide legal purposes.
+
+3. That the applicant undertakes to pay the prescribed copying charges.
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Court may be pleased to direct the issuance of certified copies of the above documents to the applicant.
+
+{{ client_name or "[Applicant]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Appeal Memorandum",
+		"vertical": "Criminal Defense",
+		"drafting_type": "Litigation",
+		"description": "Memorandum of appeal against a trial-court judgment.",
+		"template_body": """MEMORANDUM OF APPEAL
+
+IN THE COURT OF {{ court or "[Appellate Court]" }}
+Criminal Appeal No. {{ case_number or "[_____]" }}
+
+{{ party_appellant or "[Appellant]" }}
+Versus
+State of {{ jurisdiction or "[State]" }}
+
+MEMORANDUM OF APPEAL UNDER SECTION 374 CrPC / 415 BNSS
+
+The appellant most respectfully submits:
+
+1. That the appellant was convicted in S.C. No. {{ intake_trial_case_number or "[trial case no.]" }} by the trial court vide judgment dated {{ intake_trial_judgment_date or "[judgment date]" }} and sentenced as per the order on sentence.
+
+2. That the impugned judgment is erroneous in law and on facts and is liable to be set aside.
+
+3. That the appeal is filed within the period of limitation prescribed.
+
+GROUNDS:
+[LAWYER REVIEW REQUIRED: list specific grounds of appeal]
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Court may be pleased to set aside the impugned judgment of conviction and acquit the appellant, or pass such other relief as deemed fit.
+
+{{ client_name or "[Appellant]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Revision Petition",
+		"vertical": "Criminal Defense",
+		"drafting_type": "Litigation",
+		"description": "Petition for revision against an interlocutory/final order.",
+		"template_body": """PETITION FOR REVISION
+
+IN THE COURT OF {{ court or "[Revisional Court]" }}
+Criminal Revision No. {{ case_number or "[_____]" }}
+
+{{ party_petitioner or "[Petitioner]" }}
+Versus
+State of {{ jurisdiction or "[State]" }}
+
+PETITION FOR REVISION UNDER SECTION 397 / 401 CrPC
+
+The petitioner most respectfully submits:
+
+1. That the petitioner is aggrieved by the order dated {{ intake_trial_judgment_date or "[order date]" }} passed by the court below in the above matter.
+
+2. That the impugned order suffers from illegality, material irregularity and/or jurisdictional error.
+
+3. That the revision is filed within limitation.
+
+GROUNDS:
+[LAWYER REVIEW REQUIRED: specify grounds]
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Court may be pleased to call for the records, set aside the impugned order, and pass such order as deemed fit.
+
+{{ client_name or "[Petitioner]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Cross-Examination Question Checklist",
+		"vertical": "Criminal Defense",
+		"drafting_type": "Litigation",
+		"description": "Structured, non-prose checklist for cross-examination prep — supports timeline/prep.",
+		"template_body": """CROSS-EXAMINATION QUESTION CHECKLIST
+
+IN THE COURT OF {{ court or "[Court Name]" }}
+{{ case_number or "Case No. [_____]" }}
+
+Matter: {{ matter_title }}
+Witness: [Witness name]  |  Date: {{ today }}
+
+A. IDENTITY & RELATIONSHIP
+1. [ ] State your name, father's name and address.
+2. [ ] What is your relationship with the complainant/accused?
+3. [ ] Were you present at the scene? If not, what is the source of your knowledge?
+
+B. OCCURRENCE / FACTS
+4. [ ] What time did the incident occur? How do you fix the time?
+5. [ ] Describe the sequence of events in your own words.
+6. [ ] Did you see the accused at the spot? From what distance and light?
+
+C. DOCUMENTS / EXHIBITS
+7. [ ] Have you seen Exhibit [X]? Is your signature on it?
+8. [ ] Who prepared this document and when?
+9. [ ] Was the FIR registered at your instance? Were contents read over to you?
+
+D. PRIOR STATEMENTS / CONTRADICTIONS
+10. [ ] Did you make a statement to the police? Does this court statement match it?
+11. [ ] Was any suggestion put to you in cross-examination previously?
+
+E. MOTIVE / IMPARTIALITY
+12. [ ] Have you any enmity, interest or bias in the case?
+13. [ ] Did anyone tutor you or suggest what to depose?
+
+Notes for arguments:
+[LAWYER REVIEW REQUIRED: tailor to the deposition on record]""",
+	},
+	{
+		"template_name": "Settlement / Compounding Application (Sec. 138)",
+		"vertical": "Cheque Bounce / NI Act 138",
+		"drafting_type": "Litigation",
+		"description": "Compounding/settlement application — most 138 matters resolve by settlement, not trial.",
+		"template_body": """APPLICATION FOR COMPOUNDING / SETTLEMENT
+
+IN THE COURT OF {{ court or "[Court Name]" }}
+C.C. No. {{ case_number or "[_____]" }}
+
+{{ party_complainant or "[Complainant]" }}
+Versus
+{{ party_accused or "[Accused]" }}
+
+APPLICATION FOR COMPOUNDING OF OFFENCE UNDER SECTION 147 OF THE NI ACT, 1881
+
+The parties jointly submit:
+
+1. That the accused issued a cheque for Rs. {{ intake_cheque_amount or "[amount]" }} which was dishonoured, giving rise to the present complaint.
+
+2. That the parties have amicably settled the matter, and the accused has paid/undertakes to pay Rs. {{ intake_cheque_amount or "[settlement amount]" }} to the complainant.
+
+3. That the complainant has no objection to the offence being compounded and the complaint being dismissed as compounded.
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Court may be pleased to record the settlement and compound the offence, dismissing the complaint accordingly.
+
+{{ party_complainant or "[Complainant]" }}                    {{ party_accused or "[Accused]" }}
+Through Advocates""",
+	},
+	{
+		"template_name": "Interim Application (Injunction / Stay)",
+		"vertical": "Civil Litigation",
+		"drafting_type": "Litigation",
+		"description": "Interlocutory application for temporary injunction under Order XXXIX, CPC.",
+		"template_body": """INTERIM APPLICATION FOR TEMPORARY INJUNCTION
+
+IN THE COURT OF {{ court or "[Court Name]" }}
+{{ case_number or "Suit No. [_____]" }}
+
+{{ party_plaintiff or "[Plaintiff]" }}
+Versus
+{{ party_defendant or "[Defendant]" }}
+
+I.A. NO. ____ UNDER ORDER XXXIX RULES 1 & 2, CPC
+
+The applicant/plaintiff most respectfully submits:
+
+1. That the plaintiff has instituted the above suit and has a prima facie case on the merits.
+
+2. That the balance of convenience lies in favour of granting the interim injunction.
+
+3. That irreparable loss and injury would be caused to the plaintiff if the defendant is not restrained from [describe act].
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Court may be pleased to grant an ex-parte ad-interim injunction restraining the defendant from [describe act] pending disposal of the application, and confirm the same thereafter.
+
+{{ client_name or "[Plaintiff]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Eviction Petition (Civil)",
+		"vertical": "Civil Litigation",
+		"drafting_type": "Litigation",
+		"description": "Eviction petition under rent control / tenancy law (civil variant).",
+		"template_body": """EVICTION PETITION
+
+IN THE COURT OF {{ court or "[Rent Control Court]" }}
+Petition No. {{ case_number or "[_____]" }}
+
+{{ party_petitioner or "[Landlord]" }}
+Versus
+{{ party_respondent or "[Tenant]" }}
+
+PETITION FOR EVICTION
+
+The petitioner submits:
+
+1. That the petitioner is the owner/landlord of the premises and the respondent is a tenant therein under a tenancy dating from {{ intake_tenancy_agreement_date or "[tenancy date]" }}.
+
+2. That the respondent is in arrears of rent for {{ intake_rent_default_period or "[default period]" }} and has failed to pay despite demand.
+
+3. That a notice to vacate was served on {{ intake_notice_to_vacate_date or "[notice date]" }} and the statutory notice period has expired.
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Court may be pleased to order eviction of the respondent and direct delivery of vacant possession, with arrears of rent, mesne profits and costs.
+
+{{ client_name or "[Landlord]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Vakalatnama (Civil)",
+		"vertical": "Civil Litigation",
+		"drafting_type": "Litigation",
+		"description": "Authority to appear for the party in civil proceedings.",
+		"template_body": """VAKALATNAMA
+
+IN THE COURT OF {{ court or "[Court Name]" }}
+{{ case_number or "Suit No. [_____]" }}
+
+I, {{ client_name or "[Client]" }}, son/daughter of ________________, residing at {{ client_address or "[address]" }}, do hereby appoint and authorize Shri/Smt. {{ assigned_advocate or "[Advocate Name]" }}, Advocate, to appear, plead and act for me in the above suit, to file and withdraw pleadings and applications, and to do all acts necessary in connection therewith.
+
+I agree to pay the professional fees as agreed.
+
+Dated: {{ today }}
+
+Signature of Client
+{{ client_name or "[Client]" }}
+
+Accepted:
+{{ assigned_advocate or "[Advocate]" }}
+Advocate, {{ court or "[Court]" }}""",
+	},
+	{
+		"template_name": "Divorce Petition — Contested (Skeleton)",
+		"vertical": "Family Law",
+		"drafting_type": "Litigation",
+		"sensitive": 1,
+		"description": "Contested divorce petition with grounds selector — sensitive, lawyer review mandatory.",
+		"template_body": """PETITION FOR DIVORCE (CONTESTED)
+
+IN THE COURT OF {{ court or "[Court Name]" }}
+Petition No. {{ case_number or "[_____]" }}
+
+{{ party_petitioner or "[Petitioner]" }}
+Versus
+{{ party_respondent or "[Respondent]" }}
+
+PETITION FOR DISSOLUTION OF MARRIAGE BY DECREE OF DIVORCE
+
+The petitioner submits:
+
+1. That the parties were married on {{ intake_marriage_date or "[marriage date]" }} at {{ intake_place_of_marriage or "[place]" }} under {{ intake_personal_law or "[personal law]" }}.
+
+2. That the respondent has treated the petitioner with cruelty / deserted the petitioner for a continuous period / committed adultery / [ground] as set out herein.
+
+3. That the parties have been living separately and there is no reasonable prospect of reconciliation.
+
+[LAWYER REVIEW REQUIRED: select and particularise the statutory ground (cruelty/desertion/adultery/conversion/mental disorder); verify particulars, evidence and limitation]
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Court may be pleased to pass a decree of divorce dissolving the marriage, with costs.
+
+{{ client_name or "[Petitioner]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Judicial Separation Petition",
+		"vertical": "Family Law",
+		"drafting_type": "Litigation",
+		"sensitive": 1,
+		"description": "Petition for judicial separation — sensitive, lawyer review required.",
+		"template_body": """PETITION FOR JUDICIAL SEPARATION
+
+IN THE COURT OF {{ court or "[Court Name]" }}
+Petition No. {{ case_number or "[_____]" }}
+
+{{ party_petitioner or "[Petitioner]" }}
+Versus
+{{ party_respondent or "[Respondent]" }}
+
+PETITION FOR JUDICIAL SEPARATION
+
+The petitioner submits:
+
+1. That the parties were married on {{ intake_marriage_date or "[marriage date]" }} at {{ intake_place_of_marriage or "[place]" }} under {{ intake_personal_law or "[personal law]" }}.
+
+2. That the respondent has [cruelty/desertion/ground] as particularized herein, entitling the petitioner to judicial separation.
+
+3. That the parties are presently living separately.
+
+[LAWYER REVIEW REQUIRED: particularise the ground]
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Court may be pleased to pass a decree of judicial separation, with costs.
+
+{{ client_name or "[Petitioner]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Restitution of Conjugal Rights Petition",
+		"vertical": "Family Law",
+		"drafting_type": "Litigation",
+		"sensitive": 1,
+		"description": "Petition for restitution of conjugal rights — sensitive, lawyer review required.",
+		"template_body": """PETITION FOR RESTITUTION OF CONJUGAL RIGHTS
+
+IN THE COURT OF {{ court or "[Court Name]" }}
+Petition No. {{ case_number or "[_____]" }}
+
+{{ party_petitioner or "[Petitioner]" }}
+Versus
+{{ party_respondent or "[Respondent]" }}
+
+PETITION FOR RESTITUTION OF CONJUGAL RIGHTS
+
+The petitioner submits:
+
+1. That the parties were married on {{ intake_marriage_date or "[marriage date]" }} at {{ intake_place_of_marriage or "[place]" }} and have been living as husband and wife.
+
+2. That the respondent has withdrawn from the society of the petitioner without reasonable excuse since [date].
+
+3. That the petitioner is willing to resume cohabitation.
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Court may be pleased to pass a decree of restitution of conjugal rights directing the respondent to resume cohabitation.
+
+{{ client_name or "[Petitioner]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Guardianship Application",
+		"vertical": "Family Law",
+		"drafting_type": "Litigation",
+		"sensitive": 1,
+		"description": "Application for guardianship of a minor — sensitive, lawyer review required.",
+		"template_body": """APPLICATION FOR GUARDIANSHIP
+
+IN THE COURT OF {{ court or "[Court Name]" }}
+Application No. {{ case_number or "[_____]" }}
+
+{{ party_petitioner or "[Applicant]" }}
+Versus
+{{ party_respondent or "[Respondent]" }}
+
+APPLICATION FOR GUARDIANSHIP OF THE MINOR
+
+The applicant submits:
+
+1. That the applicant is the father/mother/near relative of the minor child [name], born on [date of birth].
+
+2. That the welfare of the minor requires that the applicant be appointed guardian of the person and property of the minor.
+
+3. That the applicant is a fit and proper person to be appointed guardian.
+
+[LAWYER REVIEW REQUIRED: welfare assessment and consents]
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Court may be pleased to appoint the applicant as guardian of the person and property of the minor.
+
+{{ client_name or "[Applicant]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Domestic Violence Complaint (PWDVA)",
+		"vertical": "Family Law",
+		"drafting_type": "Litigation",
+		"sensitive": 1,
+		"description": "Complaint under the Protection of Women from Domestic Violence Act, 2005 — sensitive, lawyer review mandatory.",
+		"template_body": """COMPLAINT UNDER THE PROTECTION OF WOMEN FROM DOMESTIC VIOLENCE ACT, 2005
+
+IN THE COURT OF {{ court or "[Magistrate Court]" }}
+Complaint No. {{ case_number or "[_____]" }}
+
+{{ party_complainant or "[Aggrieved Person]" }}
+Versus
+{{ party_respondent or "[Respondent]" }}
+
+COMPLAINT UNDER SECTION 12 OF THE PWDVA, 2005
+
+The complainant submits:
+
+1. That the complainant is in a domestic relationship with the respondent as {{ intake_relationship_to_respondent or "[relationship]" }} and shares/shared a household with him.
+
+2. That the respondent has subjected the complainant to domestic violence, particulars of which are set out herein ({{ intake_incident_details or "[incident details/dates]" }}).
+
+3. That the complainant seeks protection and/or residence orders as marked below.
+
+[LAWYER REVIEW REQUIRED: high-sensitivity matter — verify incident particulars, protection officer report and interim orders]
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Court may be pleased to pass a protection order, residence order and/or monetary relief as prayed, and such other orders as deemed fit.
+
+{{ client_name or "[Complainant]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Adoption Application (HAMA / CARA)",
+		"vertical": "Family Law",
+		"drafting_type": "Litigation",
+		"sensitive": 1,
+		"description": "Adoption application under Hindu law or JJ Act via CARA — sensitive, lawyer review required.",
+		"template_body": """APPLICATION FOR ADOPTION
+
+IN THE COURT OF {{ court or "[Court Name]" }}
+Application No. {{ case_number or "[_____]" }}
+
+APPLICATION FOR ADOPTION OF THE MINOR CHILD
+
+The applicant submits:
+
+1. That the applicant desires to adopt the minor child [name], presently {{ intake_adoption_type or "[under Hindu Adoption law / JJ Act via CARA]" }}.
+
+2. That the applicant fulfils the conditions prescribed under the applicable law and the consent of the biological parents/authorized agency has been obtained as per law.
+
+3. That the adoption is for the welfare of the child.
+
+[LAWYER REVIEW REQUIRED: high-sensitivity matter — verify CARA/home-study requirements and consents]
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Court may be pleased to grant the application and pass an order of adoption.
+
+{{ client_name or "[Applicant]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Annulment Petition (Void / Voidable Marriage)",
+		"vertical": "Family Law",
+		"drafting_type": "Litigation",
+		"sensitive": 1,
+		"description": "Petition to declare a marriage void / annul a voidable marriage — sensitive, lawyer review required.",
+		"template_body": """PETITION FOR ANNULMENT OF MARRIAGE
+
+IN THE COURT OF {{ court or "[Court Name]" }}
+Petition No. {{ case_number or "[_____]" }}
+
+{{ party_petitioner or "[Petitioner]" }}
+Versus
+{{ party_respondent or "[Respondent]" }}
+
+PETITION FOR DECLARATION OF NULLITY / ANNULMENT
+
+The petitioner submits:
+
+1. That the parties went through a ceremony of marriage on {{ intake_marriage_date or "[marriage date]" }} at {{ intake_place_of_marriage or "[place]" }}.
+
+2. That the marriage is void/voidable on the ground of [impotency / fraud / non-consummation / prohibited relationship / unsoundness of mind / ground] as particularized herein.
+
+3. That the petition is filed within the period prescribed.
+
+[LAWYER REVIEW REQUIRED: verify the statutory ground and evidence]
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Court may be pleased to declare the marriage null and void / annul the same.
+
+{{ client_name or "[Petitioner]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Affidavit of Assets and Liabilities",
+		"vertical": "Family Law",
+		"drafting_type": "Litigation",
+		"sensitive": 1,
+		"description": "Disclosure affidavit of assets and liabilities — sensitive, lawyer review required.",
+		"template_body": """AFFIDAVIT OF ASSETS AND LIABILITIES
+
+IN THE COURT OF {{ court or "[Court Name]" }}
+{{ case_number or "Case No. [_____]" }}
+
+I, {{ client_name or "[Deponent]" }}, aged about ____ years, residing at {{ client_address or "[address]" }}, do hereby solemnly affirm and state as follows:
+
+1. I am the petitioner/respondent in the above matter and am competent to swear this affidavit.
+
+2. IMMOVABLE ASSETS: [list properties with description and value]
+
+3. MOVABLE ASSETS: [bank accounts, vehicles, investments, jewellery with values]
+
+4. INCOME: [monthly income from all sources]
+
+5. LIABILITIES: [loans, debts and other liabilities]
+
+6. I verify that the contents of this affidavit are true and correct to the best of my knowledge, information and belief, and that I have not concealed any material fact.
+
+DEPONENT
+{{ client_name or "[Deponent]" }}
+
+[LAWYER REVIEW REQUIRED: complete schedules with verified figures before filing]""",
+	},
+	{
+		"template_name": "Memorandum of Settlement",
+		"vertical": "Family Law",
+		"drafting_type": "Litigation",
+		"sensitive": 1,
+		"description": "Settlement terms for mediated/consent family matters — sensitive, lawyer review required.",
+		"template_body": """MEMORANDUM OF SETTLEMENT
+
+IN THE COURT OF {{ court or "[Court Name]" }}
+{{ case_number or "Case No. [_____]" }}
+
+{{ party_petitioner or "[Party A]" }}
+Versus
+{{ party_respondent or "[Party B]" }}
+
+MEMORANDUM OF SETTLEMENT
+
+The parties have amicably settled the above matter on the following terms:
+
+1. MAINTENANCE: [amount, mode and duration of payment]
+2. PROPERTY: [division / transfer of assets]
+3. CHILDREN: [custody, visitation and education arrangements]
+4. STRIDHAN / OTHER CLAIMS: [settlement of outstanding claims]
+5. The parties shall withdraw/not press all pending proceedings and shall not raise further claims against each other.
+
+[LAWYER REVIEW REQUIRED: verify terms are enforceable and consistent with the reliefs sought]
+
+IN WITNESS WHEREOF, the parties have signed this memorandum on {{ today }}.
+
+{{ party_petitioner or "[Party A]" }}                    {{ party_respondent or "[Party B]" }}
+Through Advocates""",
+	},
+	{
+		"template_name": "Legal Notice (Property Dispute)",
+		"vertical": "Property / Real Estate Disputes",
+		"drafting_type": "Litigation",
+		"description": "Pre-litigation legal notice for property disputes.",
+		"template_body": """LEGAL NOTICE (PROPERTY DISPUTE)
+
+TO,
+{{ party_respondent or "[Recipient]" }}
+{{ client_address or "[address]" }}
+
+FROM,
+{{ client_name or "[Sender]" }}
+Through Advocate
+
+DATED: {{ today }}
+
+Subject: Legal notice regarding the property described below
+
+Dear Sir/Madam,
+
+1. Our client is the owner/co-owner of the property bearing survey No. {{ intake_survey_number or "[survey no.]" }} situated at [description].
+
+2. You have [encroached / failed to deliver possession / committed breach of the sale agreement / other] in respect of the said property.
+
+3. You are hereby called upon to [vacate / deliver possession / perform the agreement / remedy the breach] within 15 days of receipt of this notice.
+
+TAKE NOTICE that in default, our client shall be constrained to institute appropriate proceedings against you at your entire risk as to costs.
+
+Yours faithfully,
+{{ client_name or "[Sender]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Title Verification Report",
+		"vertical": "Property / Real Estate Disputes",
+		"drafting_type": "Transactional",
+		"description": "Structured title verification report template for property due diligence.",
+		"template_body": """TITLE VERIFICATION REPORT
+
+Property: [description]
+Survey / Registration No.: {{ intake_survey_number or "[survey no.]" }}
+Client: {{ client_name or "[Client]" }}
+Date: {{ today }}
+
+1. CHAIN OF TITLE
+   - [ ] Sale deeds / registered documents reviewed (list with dates and parties)
+   - [ ] Prior ownership chain verified for [number] years
+
+2. ENCUMBRANCES
+   - [ ] Encumbrance certificate obtained and reviewed for the last [years]
+   - [ ] No subsisting mortgage/charge/litigation noted
+
+3. REVENUE RECORDS
+   - [ ] RTC / Khata / Mutation verified and in the name of the owner
+   - [ ] Property tax paid up to date
+
+4. PERMISSIONS
+   - [ ] Building/plan approvals and occupancy certificate available
+
+5. OPINION
+   The title of the property is marketable / has the following defects: [list]
+
+[LAWYER REVIEW REQUIRED: confirm records verified and attach copies]""",
+	},
+	{
+		"template_name": "Sale Agreement Review Checklist",
+		"vertical": "Property / Real Estate Disputes",
+		"drafting_type": "Transactional",
+		"description": "Checklist for reviewing a sale agreement.",
+		"template_body": """SALE AGREEMENT REVIEW CHECKLIST
+
+Agreement dated: {{ today }}
+Parties: {{ client_name or "[Buyer]" }} / {{ party_respondent or "[Seller]" }}
+
+1. PARTIES & PROPERTY
+   - [ ] Correct names and addresses; property description and survey number match records
+
+2. CONSIDERATION & PAYMENT
+   - [ ] Sale consideration, payment schedule, and penalty for delay defined
+
+3. TITLE & CLEARANCES
+   - [ ] Seller's title, encumbrance certificate and khata/mutation conditions included
+
+4. POSSESSION & HANDOVER
+   - [ ] Possession date, vacant possession clause, and consequences of default
+
+5. DEFAULT & DISPUTES
+   - [ ] Forfeiture/damages clauses, arbitration/jurisdiction clause, notice provisions
+
+6. RISKS
+   - [ ] Material adverse clauses flagged for negotiation: [list]
+
+[LAWYER REVIEW REQUIRED: negotiate flagged clauses before execution]""",
+	},
+	{
+		"template_name": "Eviction Petition (Property)",
+		"vertical": "Property / Real Estate Disputes",
+		"drafting_type": "Litigation",
+		"description": "Property-specific eviction petition variant.",
+		"template_body": """EVICTION PETITION (PROPERTY)
+
+IN THE COURT OF {{ court or "[Court Name]" }}
+Petition No. {{ case_number or "[_____]" }}
+
+{{ party_petitioner or "[Owner]" }}
+Versus
+{{ party_respondent or "[Occupant]" }}
+
+PETITION FOR EVICTION AND POSSESSION
+
+The petitioner submits:
+
+1. That the petitioner is the owner of the property bearing survey No. {{ intake_survey_number or "[survey no.]" }} situated at [address].
+
+2. That the respondent is in unauthorized occupation / is a tenant whose tenancy has been validly terminated.
+
+3. That notice to vacate was served on {{ intake_notice_to_vacate_date or "[notice date]" }} and the respondent has failed to vacate.
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Court may be pleased to decree eviction and direct delivery of vacant possession of the property, with mesne profits and costs.
+
+{{ client_name or "[Owner]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Land Acquisition Objection / Appeal",
+		"vertical": "Property / Real Estate Disputes",
+		"drafting_type": "Litigation",
+		"description": "Objection/appeal against land acquisition compensation award.",
+		"template_body": """OBJECTION / APPEAL AGAINST COMPENSATION AWARD
+
+IN THE COURT OF {{ court or "[Court Name]" }}
+{{ case_number or "L.A.C. No. [_____]" }}
+
+{{ party_petitioner or "[Claimant]" }}
+Versus
+Land Acquisition Officer, {{ jurisdiction or "[District]" }}
+
+OBJECTION / APPEAL UNDER SECTION 18 / 64 OF THE RIGHT TO FAIR COMPENSATION AND TRANSPARENCY IN LAND ACQUISITION, REHABILITATION AND RESETTLEMENT ACT, 2013
+
+The claimant submits:
+
+1. That the claimant's land bearing survey No. {{ intake_survey_number or "[survey no.]" }} was acquired vide notification dated {{ intake_la_notification_date or "[notification date]" }}.
+
+2. That the award offers compensation of Rs. {{ intake_compensation_offered or "[award amount]" }} which is grossly inadequate compared to the market value of Rs. {{ intake_compensation_claimed or "[claimed amount]" }}.
+
+3. That the claimant is entitled to enhanced compensation with solatium and interest.
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Court may be pleased to enhance the compensation to Rs. {{ intake_compensation_claimed or "[claimed amount]" }} with all statutory benefits, solatium and interest.
+
+{{ client_name or "[Claimant]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Service Agreement",
+		"vertical": "Corporate / Commercial",
+		"drafting_type": "Transactional",
+		"description": "Standard service agreement skeleton.",
+		"template_body": """SERVICE AGREEMENT
+
+This Service Agreement is made on {{ today }} between:
+
+{{ client_name or "[Service Provider]" }} of {{ client_address or "[address]" }} ("Provider")
+
+AND
+
+{{ party_respondent or "[Client]" }} ("Client")
+
+1. SERVICES: The Provider shall render the services described in Schedule A to the Client in a professional and timely manner.
+
+2. FEES & PAYMENT: The Client shall pay the fees set out in Schedule A within 30 days of invoice.
+
+3. TERM: This Agreement shall commence on [start date] and continue until terminated by either party on 30 days' written notice.
+
+4. CONFIDENTIALITY: Each party shall keep confidential all non-public information received from the other.
+
+5. LIABILITY: Neither party shall be liable for indirect or consequential losses; total liability is capped at the fees paid in the preceding 12 months.
+
+6. GOVERNING LAW: This Agreement is governed by the laws of India; courts at {{ jurisdiction or "[city]" }} have exclusive jurisdiction.
+
+IN WITNESS WHEREOF, the parties have executed this Agreement on the date first above written.
+
+{{ client_name or "[Provider]" }}                    {{ party_respondent or "[Client]" }}""",
+	},
+	{
+		"template_name": "Employment Agreement",
+		"vertical": "Corporate / Commercial",
+		"drafting_type": "Transactional",
+		"description": "Employment agreement skeleton with standard terms.",
+		"template_body": """EMPLOYMENT AGREEMENT
+
+This Employment Agreement is made on {{ today }} between:
+
+{{ client_name or "[Employer]" }} of {{ client_address or "[address]" }} ("Employer")
+
+AND
+
+{{ party_respondent or "[Employee]" }} ("Employee")
+
+1. POSITION: The Employee is appointed as [designation] reporting to [manager].
+
+2. COMPENSATION: The Employee shall receive a monthly salary of Rs. [amount] plus benefits as per the Employer's policies.
+
+3. DUTIES: The Employee shall diligently perform the duties assigned and devote full working time to the Employer's business.
+
+4. PROBATION: The appointment is subject to a probationary period of [months], extendable at the Employer's discretion.
+
+5. CONFIDENTIALITY & IP: All IP and confidential information created during employment shall vest in the Employer.
+
+6. TERMINATION: Either party may terminate with [notice period] days' notice; the Employer may terminate summarily for misconduct.
+
+7. GOVERNING LAW: Governed by the laws of India; courts at {{ jurisdiction or "[city]" }} have jurisdiction.
+
+{{ client_name or "[Employer]" }}                    {{ party_respondent or "[Employee]" }}""",
+	},
+	{
+		"template_name": "Termination Letter",
+		"vertical": "Corporate / Commercial",
+		"drafting_type": "Transactional",
+		"description": "Termination letter with notice-period compliance.",
+		"template_body": """TERMINATION LETTER
+
+TO,
+{{ party_respondent or "[Employee]" }}
+{{ client_address or "[address]" }}
+
+FROM,
+{{ client_name or "[Employer]" }}
+
+DATED: {{ today }}
+
+Subject: Termination of employment
+
+Dear [Employee],
+
+1. This is to inform you that your employment with the Company stands terminated with effect from [date], in accordance with your terms of employment.
+
+2. You are entitled to [notice pay / pay in lieu of notice] as per clause [x] of your employment agreement, which shall be paid with your final settlement.
+
+3. Kindly hand over all Company property and complete the exit formalities by [date].
+
+4. You are reminded of your continuing confidentiality and non-compete obligations.
+
+Yours faithfully,
+{{ client_name or "[Employer]" }}
+Authorized Signatory
+
+[LAWYER REVIEW REQUIRED: verify notice period compliance and statutory dues]""",
+	},
+	{
+		"template_name": "Compliance Checklist (by Entity Type)",
+		"vertical": "Corporate / Commercial",
+		"drafting_type": "Transactional",
+		"description": "Compliance checklist skeleton keyed to entity type.",
+		"template_body": """COMPLIANCE CHECKLIST — {{ intake_entity_type or "[Entity Type]" }}
+
+Entity: {{ intake_entity_name or "[Entity Name]" }} | CIN/LLPIN: {{ intake_cin or "[CIN]" }} | Year: {{ today }}
+
+A. REGISTRATIONS
+   - [ ] ROC annual filings (AOC-4 / MGT-7) within due dates
+   - [ ] GST registration and returns current
+   - [ ] Professional tax / PF / ESI registrations active
+
+B. BOARD & MEETINGS
+   - [ ] Board meetings held and minutes maintained as per Companies Act
+   - [ ] Statutory registers updated (members, charges, directors)
+
+C. TAX
+   - [ ] Income-tax returns and advance tax paid
+   - [ ] TDS deducted and deposited; returns filed
+
+D. LABOUR
+   - [ ] Wage register, attendance and leave records maintained
+   - [ ] Annual returns under labour laws filed
+
+E. INDUSTRY-SPECIFIC
+   - [ ] Licences and approvals current (list):
+
+F. DEADLINES
+   - Next due dates: [list]
+
+[LAWYER REVIEW REQUIRED: tailor to entity type and confirm filings]""",
+	},
+	{
+		"template_name": "Board Resolution Template",
+		"vertical": "Corporate / Commercial",
+		"drafting_type": "Legislative & Policy",
+		"description": "Board resolution template (blank for purpose).",
+		"template_body": """BOARD RESOLUTION
+
+RESOLVED THAT pursuant to [provision], the Board of Directors of {{ intake_entity_name or "[Company Name]" }} hereby approves [purpose of resolution] as set out in the proposal placed before the Board.
+
+RESOLVED FURTHER THAT [the Director/Authorized Signatory] be and is hereby authorized to execute all documents, make filings and do all acts necessary to give effect to this resolution.
+
+Certified true copy of the resolution passed at the meeting of the Board of Directors held on {{ today }}.
+
+For {{ intake_entity_name or "[Company Name]" }}
+Company Secretary / Director
+
+[LAWYER REVIEW REQUIRED: specify the statutory provision and purpose]""",
+	},
+	{
+		"template_name": "Shareholders' Agreement (Skeleton)",
+		"vertical": "Corporate / Commercial",
+		"drafting_type": "Transactional",
+		"description": "Shareholders' agreement skeleton.",
+		"template_body": """SHAREHOLDERS' AGREEMENT
+
+This Shareholders' Agreement is made on {{ today }} between the shareholders of {{ intake_entity_name or "[Company Name]" }}:
+
+[Shareholder A], [Shareholder B] (together "Shareholders")
+
+1. SHAREHOLDING: The shareholding and subscription amounts are as set out in Schedule A.
+
+2. BOARD: The Board shall comprise [x] directors nominated as per Schedule A.
+
+3. TRANSFER RESTRICTIONS: No shareholder may transfer shares without following the right of first refusal in clause 4.
+
+4. ROFR / TAG-ALONG / DRAG-ALONG: [set out terms]
+
+5. DECISION RIGHTS: Reserved matters require consent of [%] of shareholders.
+
+6. NON-COMPETE & CONFIDENTIALITY: Shareholders shall not compete with or disclose the affairs of the Company.
+
+7. DISPUTE RESOLUTION: Disputes shall be referred to arbitration under the Arbitration and Conciliation Act, 1996, seated at {{ jurisdiction or "[city]" }}.
+
+8. GOVERNING LAW: Laws of India.
+
+IN WITNESS WHEREOF, the Shareholders have executed this Agreement on the date first above written.
+
+[Shareholder A]                    [Shareholder B]""",
+	},
+	{
+		"template_name": "Legal Notice (Commercial Dispute)",
+		"vertical": "Corporate / Commercial",
+		"drafting_type": "Litigation",
+		"description": "Pre-litigation legal notice for commercial disputes.",
+		"template_body": """LEGAL NOTICE (COMMERCIAL DISPUTE)
+
+TO,
+{{ party_respondent or "[Recipient]" }}
+{{ client_address or "[address]" }}
+
+FROM,
+{{ client_name or "[Sender]" }}
+Through Advocate
+
+DATED: {{ today }}
+
+Subject: Legal notice for recovery of Rs. {{ claim_amount or "[amount]" }} and damages
+
+Dear Sir/Madam,
+
+1. Our client is engaged with you under the agreement/arrangement dated [date] and has performed its obligations thereunder.
+
+2. You have failed to [pay / perform / remedy breach] despite demands, causing loss to our client.
+
+3. You are hereby called upon to [pay Rs. claim_amount / perform] within 15 days of receipt of this notice.
+
+TAKE NOTICE that in default, our client shall institute appropriate commercial proceedings against you, claiming interest and costs.
+
+Yours faithfully,
+{{ client_name or "[Sender]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "IBC Application Draft",
+		"vertical": "Corporate / Commercial",
+		"drafting_type": "Litigation",
+		"description": "Skeleton for a CIRP application before NCLT under the IBC, 2016.",
+		"template_body": """APPLICATION UNDER THE INSOLVENCY AND BANKRUPTCY CODE, 2016
+
+BEFORE THE NATIONAL COMPANY LAW TRIBUNAL, {{ jurisdiction or "[Bench]" }}
+Company Petition No. {{ case_number or "[_____]" }}
+
+{{ party_petitioner or "[Operational/Financial Creditor]" }}
+Versus
+{{ party_respondent or "[Corporate Debtor]" }}
+
+APPLICATION UNDER SECTION 7 / 9 OF THE IBC, 2016
+
+The applicant submits:
+
+1. That the corporate debtor owes the applicant a sum of Rs. {{ claim_amount or "[debt]" }} which is due and payable and has remained unpaid.
+
+2. That the applicant issued a demand notice under Section 8 of the Code dated [date], and the debt remains unpaid for more than 10 days from receipt.
+
+3. That there is no subsisting dispute in respect of the debt, and the applicant is entitled to initiate CIRP.
+
+4. That the application is complete and in order as required under the Code and regulations.
+
+[LAWYER REVIEW REQUIRED: verify debt documents, limitation and NCLT form requirements]
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Tribunal may be pleased to admit the application and initiate CIRP against the corporate debtor, appoint an Interim Resolution Professional, and pass consequential orders.
+
+{{ client_name or "[Creditor]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Licensing Agreement (IP)",
+		"vertical": "IP Law",
+		"drafting_type": "Transactional",
+		"description": "IP licensing agreement skeleton.",
+		"template_body": """LICENSING AGREEMENT
+
+This Licensing Agreement is made on {{ today }} between:
+
+{{ client_name or "[Licensor]" }} of {{ client_address or "[address]" }} ("Licensor")
+
+AND
+
+{{ party_respondent or "[Licensee]" }} ("Licensee")
+
+1. LICENSED RIGHTS: The Licensor grants the Licensee a non-exclusive, non-transferable licence to use the {{ intake_ip_type or "[IP right]" }} bearing No. {{ intake_application_number or "[registration no.]" }} for [territory/purpose].
+
+2. ROYALTIES: The Licensee shall pay royalties of {{ intake_royalty_terms or "[royalty terms]" }} as per Schedule A.
+
+3. TERM: This licence is valid from [start] to {{ intake_licence_term or "[end date]" }} unless terminated earlier.
+
+4. RESTRICTIONS: The Licensee shall not sub-licence, assign or reverse-engineer the licensed rights.
+
+5. INFRINGEMENT: The Licensor shall defend infringement claims; the Licensee shall notify promptly of suspected infringement.
+
+6. GOVERNING LAW: Governed by the laws of India; courts at {{ jurisdiction or "[city]" }} have jurisdiction.
+
+IN WITNESS WHEREOF, the parties have executed this Agreement on the date first above written.
+
+{{ client_name or "[Licensor]" }}                    {{ party_respondent or "[Licensee]" }}""",
+	},
 ]
 
 

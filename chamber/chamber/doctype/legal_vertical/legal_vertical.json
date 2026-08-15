@@ -15,6 +15,8 @@
   "enabled",
   "section_break_deliverables",
   "milestone_sequence",
+  "section_break_ai",
+  "ai_extraction_fields",
   "section_break_documents",
   "template_documents",
   "section_break_notes",
@@ -71,6 +73,18 @@
    "label": "Milestone Sequence (JSON)",
    "options": "JSON",
    "description": "Ordered milestone labels shown on the matter timeline, e.g. [\"FIR Registered\", \"Bail Application Filed\", \"Charge Framed\", \"Judgment\"]"
+  },
+  {
+   "fieldname": "section_break_ai",
+   "fieldtype": "Section Break",
+   "label": "AI Extraction Field Map"
+  },
+  {
+   "fieldname": "ai_extraction_fields",
+   "fieldtype": "Table",
+   "label": "AI Extraction Fields",
+   "options": "AI Extraction Field",
+   "description": "Admin-configurable per-vertical mapping of AI-extracted keys to Legal Matter fields or Intake Response fieldnames."
   },
   {
    "fieldname": "section_break_documents",

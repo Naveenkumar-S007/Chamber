@@ -78,6 +78,10 @@
   "ecourts_auto_sync",
   "portal",
   "portal_sync_enabled",
+  "ecourts_coverage",
+  "portal_status",
+  "portal_status_date",
+  "portal_status_notes",
   "last_sync",
   "last_sync_status",
   "section_break_notes",
@@ -367,6 +371,29 @@
    "fieldtype": "Check",
    "label": "Auto-Sync from Portal",
    "description": "Poll the selected portal on the scheduled refresh (manual-entry fallback where no API is configured)."
+  },
+  {
+   "fieldname": "ecourts_coverage",
+   "fieldtype": "Data",
+   "label": "Sync Coverage",
+   "read_only": 1,
+   "description": "State-coverage transparency: live sync vs manual-entry fallback for this matter's court/portal."
+  },
+  {
+   "fieldname": "portal_status",
+   "fieldtype": "Data",
+   "label": "Portal Status",
+   "description": "Latest status recorded from the selected portal (auto-fetched or manually logged)."
+  },
+  {
+   "fieldname": "portal_status_date",
+   "fieldtype": "Date",
+   "label": "Portal Status Date"
+  },
+  {
+   "fieldname": "portal_status_notes",
+   "fieldtype": "Small Text",
+   "label": "Portal Status Notes"
   },
   {
    "fieldname": "last_sync",

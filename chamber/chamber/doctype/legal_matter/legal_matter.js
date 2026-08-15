@@ -25,6 +25,55 @@ frappe.ui.form.on("Legal Matter", {
 					callback: (r) => frm.refresh(),
 				});
 			});
+			frm.add_custom_button(__("Log Custody Change"), () => {
+				const d = new frappe.ui.Dialog({
+					title: __("Log Custody Change"),
+					fields: [
+						{
+							fieldname: "custody_status",
+							fieldtype: "Select",
+							label: __("Custody Status"),
+							options: "\nNot Arrested\nOn Bail\nJudicial Custody\nPolice Custody\nReleased",
+							reqd: 1,
+						},
+						{ fieldname: "note", fieldtype: "Small Text", label: __("Note") },
+					],
+					primary_action_label: __("Log"),
+					primary_action(values) {
+						frappe.call({
+							method: "chamber.chamber.doctype.legal_matter.legal_matter.log_custody_change",
+							args: { doc: frm.doc, custody_status: values.custody_status, note: values.note },
+							callback: () => {
+								d.hide();
+								frm.reload_doc();
+							},
+						});
+					},
+				});
+				d.show();
+			});
+			frm.add_custom_button(__("Update Portal Status"), () => {
+				const d = new frappe.ui.Dialog({
+					title: __("Record Portal Status (Manual)"),
+					fields: [
+						{ fieldname: "status", fieldtype: "Data", label: __("Status"), reqd: 1, placeholder: __("e.g. Objection pending / Admitted / Awaiting hearing") },
+						{ fieldname: "status_date", fieldtype: "Date", label: __("Status Date") },
+						{ fieldname: "notes", fieldtype: "Small Text", label: __("Notes") },
+					],
+					primary_action_label: __("Save"),
+					primary_action(values) {
+						frappe.call({
+							method: "chamber.chamber.doctype.legal_matter.legal_matter.update_portal_status",
+							args: { doc: frm.doc, status: values.status, status_date: values.status_date, notes: values.notes },
+							callback: () => {
+								d.hide();
+								frm.reload_doc();
+							},
+						});
+					},
+				});
+				d.show();
+			});
 			frm.add_custom_button(__("AI Bulk Upload"), () => {
 				const d = new frappe.ui.Dialog({
 					title: __("AI Bulk Read — Extract Case Fields"),

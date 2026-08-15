@@ -182,6 +182,18 @@ doc_links = {
 			"fieldname": "legal_matter",
 			"label": "Intake Submissions",
 		},
+		{
+			"fieldname": "legal_matter",
+			"label": "Notices",
+		},
+		{
+			"fieldname": "legal_matter",
+			"label": "Mediation Sessions",
+		},
+		{
+			"fieldname": "legal_matter",
+			"label": "Signature Requests",
+		},
 	],
 	"Chamber Application": [
 		{

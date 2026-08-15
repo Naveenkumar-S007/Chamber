@@ -107,19 +107,48 @@ def draft_content(matter, template_body, instructions="", vertical=None):
 	return chat(system, user)
 
 
+DEFAULT_KEYS = [
+	"fir_number", "police_station", "fir_date", "sections_charged", "bail_status", "custody_status",
+	"investigating_officer", "cheque_number", "cheque_date", "cheque_amount", "drawee_bank", "dishonour_reason",
+	"demand_notice_date", "parties", "claim_amount", "cause_of_action_date",
+	"marriage_date", "personal_law", "court", "case_number", "filing_date", "renewal_due_date",
+	"application_number", "project_registration_number", "other",
+]
+
+
+def get_extraction_map(vertical):
+	"""Admin-configurable per-vertical extraction field map (AI Extraction Field child)."""
+	if not vertical:
+		return None
+	vertical_doc = frappe.get_doc("Legal Vertical", vertical)
+	if not vertical_doc.get("ai_extraction_fields"):
+		return None
+	return [
+		{
+			"source_key": f.source_key,
+			"target_doctype": f.target_doctype,
+			"target_field": f.target_field,
+			"required": f.required,
+		}
+		for f in vertical_doc.ai_extraction_fields
+	]
+
+
 def extract_fields(matter, text, field_hint=""):
-	"""Bulk-read: extract vertical-specific fields from an uploaded case file."""
+	"""Bulk-read: extract vertical-specific fields from an uploaded case file.
+
+	Keys are driven by the vertical's AI Extraction Field map when configured;
+	otherwise a sensible default key set is used."""
 	_ensure_enabled()
 	vertical = frappe.db.get_value("Legal Vertical", matter.vertical, "vertical_name") if matter.vertical else "General"
+	field_map = get_extraction_map(matter.vertical)
+	keys = [f["source_key"] for f in field_map] if field_map else DEFAULT_KEYS
 	system = (
 		"You extract structured case data from legal documents for an Indian law firm. "
 		f"Practice area: {vertical}. Return ONLY a JSON object of extracted fields. "
 		"Use exactly these keys when found: "
-		"fir_number, police_station, fir_date, sections_charged, bail_status, custody_status, "
-		"investigating_officer, cheque_number, cheque_date, cheque_amount, drawee_bank, dishonour_reason, "
-		"demand_notice_date, parties, claim_amount, cause_of_action_date, "
-		"marriage_date, personal_law, court, case_number, filing_date, renewal_due_date, "
-		"application_number, project_registration_number, other. "
+		+ ", ".join(keys)
+		+ ". "
 		"Do not guess — omit keys you cannot find."
 	)
 	user = (

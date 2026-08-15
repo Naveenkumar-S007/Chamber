@@ -1,0 +1,63 @@
+{
+ "actions": [],
+ "creation": "2026-08-15 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "source_key",
+  "target_doctype",
+  "target_field",
+  "description",
+  "required"
+ ],
+ "fields": [
+  {
+   "fieldname": "source_key",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Extraction Key",
+   "reqd": 1,
+   "description": "Field name the AI should extract (e.g. fir_number, cheque_amount)."
+  },
+  {
+   "fieldname": "target_doctype",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Target",
+   "options": "\nLegal Matter\nIntake Response",
+   "reqd": 1
+  },
+  {
+   "fieldname": "target_field",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Target Field",
+   "reqd": 1,
+   "description": "Legal Matter fieldname, or the intake response fieldname to write into."
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description",
+   "description": "Hint text included in the AI prompt to guide extraction."
+  },
+  {
+   "default": "0",
+   "fieldname": "required",
+   "fieldtype": "Check",
+   "label": "Required"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2026-08-15 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Chamber",
+ "name": "AI Extraction Field",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "idx",
+ "sort_order": "ASC",
+ "states": []
+}

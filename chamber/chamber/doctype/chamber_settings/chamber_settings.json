@@ -10,6 +10,8 @@
   "ecourts_api_url",
   "ecourts_app_code",
   "ecourts_ordersheet_url",
+  "ecourts_causelist_url",
+  "ecourts_judgments_url",
   "enable_portal_sync",
   "section_break_reminders",
   "enable_hearing_reminders",
@@ -61,6 +63,18 @@
    "fieldtype": "Data",
    "label": "eCourts Order Sheet URL",
    "description": "Optional endpoint for order-sheet history. When set, sync also fetches order sheet entries and posts them to the timeline."
+  },
+  {
+   "fieldname": "ecourts_causelist_url",
+   "fieldtype": "Data",
+   "label": "eCourts Cause List URL",
+   "description": "Optional endpoint returning upcoming cause-list listings ({cnr_number}, {app_code}). Listings are posted to the timeline as Hearing events."
+  },
+  {
+   "fieldname": "ecourts_judgments_url",
+   "fieldtype": "Data",
+   "label": "eCourts Judgments / Orders URL",
+   "description": "Optional endpoint returning digitized judgment/order PDF URLs. Copies are downloaded and attached to the matter."
   },
   {
    "default": "0",

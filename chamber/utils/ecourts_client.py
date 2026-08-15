@@ -98,6 +98,9 @@ def sync_matter(legal_matter, commit=True):
 		upsert_hearing(matter, next_hearing, status)
 	create_timeline_entries(matter, status, changed)
 	fetch_ordersheet_entries(matter)
+	fetch_causelist_entries(matter)
+	fetch_judgment_copies(matter)
+	sync_appellate_chain(matter)
 
 	write_log(matter, "Success", response=status, auto=False)
 	matter.last_sync = now_datetime()
@@ -228,6 +231,149 @@ def fetch_ordersheet_entries(matter):
 			}
 		).insert(ignore_permissions=True)
 
+
+
+def fetch_causelist_entries(matter):
+	"""Best-effort cause-list fetch — posts upcoming listing dates to the timeline."""
+	settings = get_settings()
+	url = settings.ecourts_causelist_url
+	if not url or not matter.cnr_number:
+		return
+	try:
+		resp = requests.get(
+			url,
+			params={"cnr_number": matter.cnr_number, "app_code": settings.ecourts_app_code or ""},
+			timeout=30,
+		)
+		resp.raise_for_status()
+		payload = resp.json()
+	except Exception:
+		frappe.log_error(frappe.get_traceback(), "Chamber cause-list fetch")
+		return
+	entries = payload.get("cause_list") or payload.get("data") or payload.get("entries") or []
+	if isinstance(entries, dict):
+		entries = [entries]
+	for entry in entries:
+		if not isinstance(entry, dict):
+			continue
+		listing_date = parse_hearing_date(entry.get("listing_date") or entry.get("hearing_date") or entry.get("date"))
+		if not listing_date:
+			continue
+		if frappe.db.exists("Timeline Entry", {"legal_matter": matter.name, "entry_date": listing_date, "event_type": "Hearing", "source": "eCourts"}):
+			continue
+		frappe.get_doc(
+			{
+				"doctype": "Timeline Entry",
+				"legal_matter": matter.name,
+				"entry_date": listing_date,
+				"event_type": "Hearing",
+				"title": f"Cause list listing — {listing_date}",
+				"description": str(entry.get("purpose") or entry.get("case_type") or "Listed"),
+				"source": "eCourts",
+			}
+		).insert(ignore_permissions=True)
+
+
+def fetch_judgment_copies(matter):
+	"""Best-effort download of digitized judgment/order copies from a configured endpoint."""
+	settings = get_settings()
+	url = settings.ecourts_judgments_url
+	if not url or not matter.cnr_number:
+		return
+	try:
+		resp = requests.get(
+			url,
+			params={"cnr_number": matter.cnr_number, "app_code": settings.ecourts_app_code or ""},
+			timeout=60,
+		)
+		resp.raise_for_status()
+		payload = resp.json()
+	except Exception:
+		frappe.log_error(frappe.get_traceback(), "Chamber judgment fetch")
+		return
+	judgments = payload.get("judgments") or payload.get("orders") or payload.get("data") or []
+	if isinstance(judgments, dict):
+		judgments = [judgments]
+	for item in judgments:
+		if not isinstance(item, dict):
+			continue
+		doc_url = item.get("pdf_url") or item.get("url") or item.get("download_url")
+		title = item.get("title") or item.get("judgment_title") or "Judgment/Order copy"
+		if not doc_url:
+			continue
+		if frappe.db.exists(
+			"Timeline Entry",
+			{"legal_matter": matter.name, "title": ["like", f"%{title[:50]}%"]},
+		):
+			continue
+		try:
+			fresp = requests.get(doc_url, timeout=120)
+			fresp.raise_for_status()
+			file_doc = frappe.get_doc(
+				{
+					"doctype": "File",
+					"file_name": frappe.scrub(title) + ".pdf",
+					"content": fresp.content,
+					"attached_to_doctype": "Legal Matter",
+					"attached_to_name": matter.name,
+					"is_private": 1,
+				}
+			)
+			file_doc.save(ignore_permissions=True)
+			frappe.get_doc(
+				{
+					"doctype": "Timeline Entry",
+					"legal_matter": matter.name,
+					"entry_date": getdate(),
+					"event_type": "Order",
+					"title": f"Judgment/order copy downloaded — {title[:60]}",
+					"description": f"Attached: {file_doc.file_url}",
+					"source": "eCourts",
+				}
+			).insert(ignore_permissions=True)
+		except Exception:
+			frappe.log_error(frappe.get_traceback(), "Chamber judgment download")
+
+
+def sync_appellate_chain(matter):
+	"""Keep the appeal ↔ trial-court (parent-child CNR) relationship visible.
+
+	When a matter has a parent_matter, note the linkage on the timeline; when
+	it is itself a parent, surface any child (appeal/revision) matters."""
+	if matter.parent_matter:
+		if not frappe.db.exists(
+			"Timeline Entry",
+			{"legal_matter": matter.name, "title": ["like", "%Appeal linked%"]},
+		):
+			frappe.get_doc(
+				{
+					"doctype": "Timeline Entry",
+					"legal_matter": matter.name,
+					"entry_date": getdate(),
+					"event_type": "Milestone",
+					"title": "Appeal linked to trial matter",
+					"description": f"Parent matter: {matter.parent_matter}",
+					"source": "Automated",
+				}
+			).insert(ignore_permissions=True)
+	children = frappe.db.get_all(
+		"Legal Matter", filters={"parent_matter": matter.name}, fields=["name"], limit=5
+	)
+	if children and not frappe.db.exists(
+		"Timeline Entry",
+		{"legal_matter": matter.name, "title": ["like", "%Appeal filed%"]},
+	):
+		frappe.get_doc(
+			{
+				"doctype": "Timeline Entry",
+				"legal_matter": matter.name,
+				"entry_date": getdate(),
+				"event_type": "Milestone",
+				"title": "Appeal filed against this matter",
+				"description": "Child matter(s): " + ", ".join(c["name"] for c in children),
+				"source": "Automated",
+			}
+		).insert(ignore_permissions=True)
 
 
 def write_log(matter, status, response=None, error=None, auto=False):

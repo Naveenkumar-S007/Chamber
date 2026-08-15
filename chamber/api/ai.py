@@ -45,19 +45,46 @@ def apply_extraction(legal_matter, file_url=None, text=None, field_hint=None):
 		frappe.throw(_("No readable text found."))
 	result = ai_client.extract_fields(matter, content, field_hint=field_hint)
 
+	# Route extracted values via the vertical's admin-configurable field map
+	# (targets: Legal Matter fields or Intake Response fieldnames).
+	field_map = ai_client.get_extraction_map(matter.vertical)
 	meta = frappe.get_meta("Legal Matter")
 	applied, skipped = [], []
-	for key, value in (result or {}).items():
-		if not isinstance(value, str) or not value.strip():
-			continue
-		if meta.has_field(key) and value.lower() not in ("null", "none"):
-			setattr(matter, key, value)
-			applied.append(key)
-		else:
-			skipped.append(key)
+	intake_updates = []
+	if field_map:
+		for mapping in field_map:
+			value = (result or {}).get(mapping["source_key"])
+			if not isinstance(value, str) or not value.strip() or value.lower() in ("null", "none"):
+				continue
+			if mapping["target_doctype"] == "Legal Matter" and meta.has_field(mapping["target_field"]):
+				setattr(matter, mapping["target_field"], value)
+				applied.append(f"matter.{mapping['target_field']}")
+			elif mapping["target_doctype"] == "Intake Response":
+				intake_updates.append((mapping["target_field"], mapping["source_key"], value))
+			else:
+				skipped.append(mapping["source_key"])
+	else:
+		# No map configured: apply to matter fields that share the same name.
+		for key, value in (result or {}).items():
+			if not isinstance(value, str) or not value.strip():
+				continue
+			if meta.has_field(key) and value.lower() not in ("null", "none"):
+				setattr(matter, key, value)
+				applied.append(key)
+			else:
+				skipped.append(key)
+
 	if applied:
 		matter.flags.ignore_permissions = True
 		matter.save(ignore_permissions=True)
+
+	# Write intake-targeted extractions into an Intake Submission (draft) so
+	# they flow into the timeline/deadline engines (e.g. IP renewal_due_date).
+	if intake_updates:
+		write_intake_responses(legal_matter, intake_updates)
+		applied += [f"intake.{field}" for field, _, _ in intake_updates]
+
+	if applied:
 		frappe.get_doc(
 			{
 				"doctype": "Timeline Entry",
@@ -70,6 +97,57 @@ def apply_extraction(legal_matter, file_url=None, text=None, field_hint=None):
 			}
 		).insert(ignore_permissions=True)
 	return {"extracted": result, "applied": applied, "skipped": skipped}
+
+
+def write_intake_responses(legal_matter, updates):
+	"""Append AI-extracted values to the latest Intake Submission (draft)."""
+	matter = frappe.get_doc("Legal Matter", legal_matter)
+	submission = None
+	names = frappe.db.get_all(
+		"Intake Submission",
+		filters={"legal_matter": legal_matter, "status": "Draft"},
+		fields=["name"],
+		order_by="modified desc",
+	)
+	if names:
+		submission = frappe.get_doc("Intake Submission", names[0].name)
+	else:
+		# fall back to a submitted one, else create a new draft
+		submitted = frappe.db.get_all(
+			"Intake Submission", filters={"legal_matter": legal_matter}, fields=["name"], limit=1
+		)
+		if submitted:
+			submission = frappe.get_doc("Intake Submission", submitted[0].name)
+	if submission is None:
+		submission = frappe.new_doc("Intake Submission")
+		submission.update(
+			{
+				"legal_matter": legal_matter,
+				"vertical": matter.vertical,
+				"submission_date": frappe.utils.today(),
+				"status": "Draft",
+			}
+		)
+		# use the matter's vertical intake template if one exists
+		template = frappe.db.get_value(
+			"Intake Form Template",
+			{"vertical": matter.vertical, "status": "Published", "active": 1},
+			"name",
+		)
+		if template:
+			submission.intake_form_template = template
+	for fieldname, source_key, value in updates:
+		if any(r.fieldname == fieldname for r in submission.responses):
+			for r in submission.responses:
+				if r.fieldname == fieldname:
+					r.value = value
+		else:
+			submission.append(
+				"responses",
+				{"fieldname": fieldname, "label": source_key.replace("_", " ").title(), "value": value},
+			)
+	submission.flags.ignore_permissions = True
+	submission.save(ignore_permissions=True)
 
 
 @frappe.whitelist()

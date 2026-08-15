@@ -14,7 +14,13 @@
 | **Self-serve template import** | Firms upload their own `.docx`/`.txt`/`.pdf` templates, extract text + merge tags, and map tags to matter/intake fields — no engineering release. | `Document Template.import_from_file` |
 | **Deadline tracker** | Separate Corporate/IP-style view: statutory deadlines, limitation expiry, IP renewals and caveat expiry in one filterable countdown feed. | page `deadline-tracker`, `chamber/api/deadlines.py` |
 | **Caveat tracking** | Caveat filing with 90-day validity (Sec. 148A CPC), expiry band on the timeline, daily expiry job. | `Caveat` |
-| **Portal sync (IP India / NCLT / RERA)** | Portal-aware sync — configurable endpoint per portal with honest manual-entry fallback where no API exists; separate from eCourts per the spec. | `utils/portal_client.py`, `eCourts Sync Log.portal` |
+| **Portal sync (IP India / NCLT / RERA)** | Portal-aware sync — configurable endpoint per portal, manual status recording (with on-form coverage transparency) where no API exists; separate from eCourts per the spec. | `utils/portal_client.py`, `Legal Matter.portal_status` |
+| **Cause list / judgment copies** | Optional eCourts endpoints fetch upcoming cause-list listings (timeline Hearing events) and download digitized judgment/order PDFs (attached to the matter). | `ecourts_client.fetch_causelist_entries` / `fetch_judgment_copies` |
+| **Appeal parent-child chain** | `parent_matter` link on Legal Matter keeps appeal ↔ trial-court CNR relationships visible on both timelines automatically. | `ecourts_client.sync_appellate_chain` |
+| **Mediation sessions & notices** | Dedicated `Mediation Session` (each session a distinct timeline marker) and `Notice` doctypes feeding the timeline. | `Mediation Session`, `Notice` |
+| **Universal base intake** | Every intake form starts with the Client Details section (name/phone/email/address), auto-creating/updating the client Legal Party. | `chamber/api/intake.py` |
+| **Per-vertical AI field map** | Admin-configurable `AI Extraction Field` table on each Legal Vertical routes extracted keys to Legal Matter fields or Intake Responses. | `Legal Vertical.ai_extraction_fields` |
+| **Custody-change markers** | One-click custody status logging creates a `Custody Change` timeline marker. | `Legal Matter.log_custody_change` |
 
 ## Vertical coverage
 

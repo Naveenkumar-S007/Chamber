@@ -97,6 +97,7 @@ def sync_matter(legal_matter, commit=True):
 	if next_hearing:
 		upsert_hearing(matter, next_hearing, status)
 	create_timeline_entries(matter, status, changed)
+	fetch_ordersheet_entries(matter)
 
 	write_log(matter, "Success", response=status, auto=False)
 	matter.last_sync = now_datetime()
@@ -175,6 +176,58 @@ def create_timeline_entries(matter, status, changed):
 				"source": "eCourts",
 			}
 		).insert(ignore_permissions=True)
+
+
+def fetch_ordersheet_entries(matter):
+	"""Best-effort order-sheet history fetch (configurable endpoint).
+
+	Order sheets are not part of the core case-status bundle; where the
+	configured endpoint returns entries they are posted to the timeline as
+	Order events and deduplicated by the entry text.
+	"""
+	settings = get_settings()
+	url = settings.ecourts_ordersheet_url
+	if not url or not matter.cnr_number:
+		return
+	try:
+		resp = requests.get(
+			url,
+			params={"cnr_number": matter.cnr_number, "app_code": settings.ecourts_app_code or ""},
+			timeout=30,
+		)
+		resp.raise_for_status()
+		payload = resp.json()
+	except Exception:
+		frappe.log_error(frappe.get_traceback(), "Chamber order-sheet fetch")
+		return
+
+	entries = payload.get("order_sheets") or payload.get("data") or []
+	if isinstance(entries, dict):
+		entries = [entries]
+	for entry in entries:
+		if not isinstance(entry, dict):
+			continue
+		entry_date = parse_hearing_date(entry.get("order_date") or entry.get("date"))
+		text = str(entry.get("order_text") or entry.get("order") or "").strip()
+		if not text:
+			continue
+		if frappe.db.exists(
+			"Timeline Entry",
+			{"legal_matter": matter.name, "title": ["like", f"%{text[:60]}%"], "event_type": "Order"},
+		):
+			continue
+		frappe.get_doc(
+			{
+				"doctype": "Timeline Entry",
+				"legal_matter": matter.name,
+				"entry_date": entry_date or getdate(),
+				"event_type": "Order",
+				"title": "Order sheet entry — " + text[:80],
+				"description": text[:2000],
+				"source": "eCourts",
+			}
+		).insert(ignore_permissions=True)
+
 
 
 def write_log(matter, status, response=None, error=None, auto=False):

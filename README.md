@@ -10,6 +10,11 @@
 | **4. eCourts Data Fetch (CNR sync)** | Pulls the full case-status bundle (next hearing, case stage, judge, order-sheet) via CNR from the eCourts NJDG public API. Hourly auto-poll for high-volume verticals (Cheque Bounce, etc.), manual fallback + state-coverage transparency. | `utils/ecourts_client.py`, `eCourts Sync Log` |
 | **5. Neethi AI** | Vertical-aware AI drafting, bulk-read extraction and summarization via any OpenAI-compatible endpoint. Sensitive matters (DV / 498A / adoption) are **flagged for mandatory lawyer review**. | `utils/ai_client.py`, `chamber/api/ai.py` |
 | **Chamber Work module** | Chamber applications (discovery, interim injunction, bail, etc.) with full data model — court/judge details, hearing history log, status/urgency, court fees, automated hearing reminders. | `Chamber Application`, `Chamber Application Hearing` |
+| **E-signature flow** | Provider-agnostic signing: send a generated document, get an embeddable signing link, track Signed/Declined/Viewed via webhooks. Works with DocuSign, Dropbox Sign, SignDesk, eMudhra or any REST signing API. | `Signature Request`, `chamber/api/esign.py`, `utils/esign_client.py` |
+| **Self-serve template import** | Firms upload their own `.docx`/`.txt`/`.pdf` templates, extract text + merge tags, and map tags to matter/intake fields — no engineering release. | `Document Template.import_from_file` |
+| **Deadline tracker** | Separate Corporate/IP-style view: statutory deadlines, limitation expiry, IP renewals and caveat expiry in one filterable countdown feed. | page `deadline-tracker`, `chamber/api/deadlines.py` |
+| **Caveat tracking** | Caveat filing with 90-day validity (Sec. 148A CPC), expiry band on the timeline, daily expiry job. | `Caveat` |
+| **Portal sync (IP India / NCLT / RERA)** | Portal-aware sync — configurable endpoint per portal with honest manual-entry fallback where no API exists; separate from eCourts per the spec. | `utils/portal_client.py`, `eCourts Sync Log.portal` |
 
 ## Vertical coverage
 
@@ -42,18 +47,24 @@ The app runs **standalone on Frappe v15** and **couples with ERPNext v15**:
 
 1. **Roles** — `Chamber Manager`, `Advocate`, `Filing Clerk` are created on install; assign users in Desk.
 2. **Chamber Settings** (`Chamber > Chamber Settings`):
-   - **eCourts**: toggle sync, set the eCourts **App Code** (obtainable from [services.ecourts.gov.in](https://services.ecourts.gov.in)). Without an app code the sync fails gracefully and matters fall back to manual entry.
+   - **eCourts**: toggle sync, set the eCourts **App Code** (obtainable from [services.ecourts.gov.in](https://services.ecourts.gov.in)). Without an app code the sync fails gracefully and matters fall back to manual entry. Optional order-sheet URL posts order entries to the timeline.
+   - **E-signature**: toggle, pick provider, set API URL / key / callback secret. Webhook receiver: `POST {site}/api/method/chamber.api.esign.receive_webhook` (payload `{request_id, status}`).
    - **AI**: enable and set API URL / key / model (OpenAI-compatible — works with OpenAI, DeepSeek, Ollama, vLLM…).
+   - **Portal sync**: toggle for IP India / NCLT / RERA polls.
 3. **eCourts auto-sync** — tick `Auto-Sync from eCourts` on a matter; the hourly job refreshes its CNR.
-4. **Hearing reminders** — daily job emails the assigned advocate before upcoming chamber hearings.
+4. **Portal auto-sync** — set `Portal` (IP India / NCLT / RERA) + `Auto-Sync from Portal` on the matter.
+5. **Hearing reminders** — daily job emails the assigned advocate before upcoming chamber hearings.
 
 ## Typical flow
 
 1. Create a **Legal Matter** (vertical + matter type).
 2. Open **Intake Form** from the matter → dynamic vertical field set → submit. Responses auto-fill matter fields.
 3. **Generate Document** from the matter → pick a template (e.g. *Section 138 Legal Demand Notice*) → merge + (optional) AI fill → PDF → route for review.
-4. Watch the **Matter Timeline** — hearings, filings and documents appear in order, with deadline countdown bands.
+4. Watch the **Matter Timeline** — hearings, filings, caveats and documents appear in order, with deadline countdown bands and the property document-collection track.
 5. Mark the matter for **eCourts auto-sync** to keep case stage and hearing dates live.
+6. **AI Bulk Upload** from the matter → extract FIR/sections/cheque/party data from an uploaded file and auto-fill fields.
+7. **Send for Signature** from a Generated Document → signing link → webhook updates status → timeline entry.
+8. Corporate/IP matters → open **Deadline Tracker** to watch statutory deadlines, limitation expiry, IP renewals and caveat expiry.
 
 ## Development notes
 

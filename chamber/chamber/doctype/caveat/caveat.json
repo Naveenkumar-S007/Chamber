@@ -1,21 +1,28 @@
 {
  "actions": [],
- "autoname": "format:ESYNC-{YYYY}-{######}",
+ "autoname": "format:CAV-{YYYY}-{######}",
  "creation": "2026-08-15 00:00:00.000000",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "caveat_number",
   "legal_matter",
-  "cnr_number",
-  "portal",
-  "sync_date",
+  "client",
+  "court",
+  "filed_date",
+  "valid_until",
   "status",
-  "auto",
-  "response",
-  "error"
+  "remarks"
  ],
  "fields": [
+  {
+   "fieldname": "caveat_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Caveat Number",
+   "reqd": 1
+  },
   {
    "fieldname": "legal_matter",
    "fieldtype": "Link",
@@ -23,62 +30,53 @@
    "in_standard_filter": 1,
    "label": "Legal Matter",
    "options": "Legal Matter",
+   "description": "Optional — caveats may be filed in anticipation of a matter."
+  },
+  {
+   "fieldname": "client",
+   "fieldtype": "Link",
+   "label": "Client",
+   "options": "Legal Party"
+  },
+  {
+   "fieldname": "court",
+   "fieldtype": "Link",
+   "label": "Court",
+   "options": "Court"
+  },
+  {
+   "fieldname": "filed_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Filed Date",
    "reqd": 1
   },
   {
-   "fieldname": "cnr_number",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "CNR Number"
+   "fieldname": "valid_until",
+   "fieldtype": "Date",
+   "label": "Valid Until",
+   "description": "Auto-set to filed date + 90 days (Section 148A CPC). Extendable."
   },
   {
-   "default": "eCourts",
-   "fieldname": "portal",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "Portal",
-   "options": "\neCourts\nIP India\nNCLT / NCLAT\nState RERA"
-  },
-  {
-   "fieldname": "sync_date",
-   "fieldtype": "Datetime",
-   "in_list_view": 1,
-   "label": "Sync Date",
-   "reqd": 1
-  },
-  {
+   "default": "Active",
    "fieldname": "status",
    "fieldtype": "Select",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Status",
-   "options": "\nSuccess\nFailed\nNo Data",
-   "reqd": 1
+   "options": "\nActive\nExpired\nWithdrawn"
   },
   {
-   "default": "0",
-   "fieldname": "auto",
-   "fieldtype": "Check",
-   "label": "Automatic Sync"
-  },
-  {
-   "fieldname": "response",
-   "fieldtype": "Code",
-   "label": "Response Payload",
-   "options": "JSON"
-  },
-  {
-   "fieldname": "error",
+   "fieldname": "remarks",
    "fieldtype": "Small Text",
-   "label": "Error"
+   "label": "Remarks"
   }
  ],
  "links": [],
  "modified": "2026-08-15 00:00:00.000000",
  "modified_by": "Administrator",
  "module": "Chamber",
- "name": "eCourts Sync Log",
+ "name": "Caveat",
  "owner": "Administrator",
  "permissions": [
   {
@@ -95,34 +93,41 @@
   },
   {
    "create": 1,
+   "delete": 1,
    "email": 1,
    "export": 1,
    "print": 1,
    "read": 1,
    "report": 1,
    "role": "Chamber Manager",
+   "share": 1,
    "write": 1
   },
   {
+   "create": 1,
    "email": 1,
    "export": 1,
    "print": 1,
    "read": 1,
    "report": 1,
-   "role": "Advocate"
+   "role": "Advocate",
+   "share": 1,
+   "write": 1
   },
   {
+   "create": 1,
    "email": 1,
    "export": 1,
    "print": 1,
    "read": 1,
    "report": 1,
-   "role": "Filing Clerk"
+   "role": "Filing Clerk",
+   "write": 1
   }
  ],
- "sort_field": "sync_date",
+ "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
- "title_field": "cnr_number",
+ "title_field": "caveat_number",
  "track_changes": 1
 }

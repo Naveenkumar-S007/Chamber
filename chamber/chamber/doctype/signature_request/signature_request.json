@@ -1,0 +1,152 @@
+{
+ "actions": [],
+ "allow_events_in_timeline": 1,
+ "autoname": "format:SIGN-{YYYY}-{######}",
+ "creation": "2026-08-15 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "legal_matter",
+  "generated_document",
+  "signer_name",
+  "signer_email",
+  "status",
+  "provider",
+  "provider_request_id",
+  "signing_url",
+  "sent_date",
+  "signed_date",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "legal_matter",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Legal Matter",
+   "options": "Legal Matter"
+  },
+  {
+   "fieldname": "generated_document",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Generated Document",
+   "options": "Generated Document",
+   "reqd": 1
+  },
+  {
+   "fieldname": "signer_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Signer Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "signer_email",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Signer Email",
+   "options": "Email",
+   "reqd": 1
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "\nDraft\nPending\nSent\nViewed\nSigned\nDeclined\nExpired\nFailed"
+  },
+  {
+   "fieldname": "provider",
+   "fieldtype": "Select",
+   "label": "Provider",
+   "options": "\nDocuSign\nDropbox Sign\nSignDesk\neMudhra\nGeneric REST\nManual"
+  },
+  {
+   "fieldname": "provider_request_id",
+   "fieldtype": "Data",
+   "label": "Provider Request ID"
+  },
+  {
+   "fieldname": "signing_url",
+   "fieldtype": "Data",
+   "label": "Signing URL",
+   "description": "Embeddable signing link issued by the e-signature provider."
+  },
+  {
+   "fieldname": "sent_date",
+   "fieldtype": "Datetime",
+   "label": "Sent Date"
+  },
+  {
+   "fieldname": "signed_date",
+   "fieldtype": "Datetime",
+   "label": "Signed Date"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "links": [],
+ "modified": "2026-08-15 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Chamber",
+ "name": "Signature Request",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Chamber Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Advocate",
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Filing Clerk"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "signer_name",
+ "track_changes": 1
+}

@@ -389,6 +389,9 @@ INTAKE_FORMS = [
 			_f("interim_maintenance_requested", "Interim Maintenance Requested", "Currency", "", 0, "matter_type=Maintenance", "Maintenance"),
 			_f("adoption_type", "Adoption Type", "Select",
 				"Hindu Adoption\nJJ Act (CARA)", 0, "matter_type=Adoption", "Adoption"),
+			_f("first_motion_date", "First Motion Date", "Date", "", 0, "matter_type=Divorce (Mutual Consent)", "Cooling-Off",
+				"Second motion becomes available 6 months after the first motion (Sec. 13B HMA)."),
+			_f("second_motion_date", "Second Motion Date", "Date", "", 0, "matter_type=Divorce (Mutual Consent)", "Cooling-Off"),
 			_f("deceased_date", "Deceased's Date of Death", "Date", "", 0, "matter_type=Succession / Inheritance", "Succession"),
 			_f("will_exists", "Will Exists", "Check", "", 0, "matter_type=Succession / Inheritance", "Succession"),
 			_f("assets_in_dispute", "Assets in Dispute", "Small Text", "", 0, "matter_type=Succession / Inheritance", "Succession"),
@@ -727,6 +730,428 @@ TAKE NOTICE that in default, appropriate proceedings for eviction shall be initi
 
 Yours faithfully,
 {{ client_name or "[Landlord]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Quashing Petition (Sec. 482 CrPC)",
+		"vertical": "Criminal Defense",
+		"drafting_type": "Litigation",
+		"description": "Petition to quash FIR / proceedings under Section 482 CrPC (BNSS 528).",
+		"template_body": """PETITION UNDER SECTION 482 CrPC FOR QUASHING OF FIR / PROCEEDINGS
+
+IN THE HIGH COURT OF {{ court or "[High Court]" }}
+Criminal Petition No. {{ case_number or "[_____]" }}
+
+{{ party_petitioner or "[Petitioner]" }}
+Versus
+State of {{ jurisdiction or "[State]" }} & Anr.
+
+PETITION UNDER SECTION 482 CrPC READ WITH SECTION 528 BNSS
+
+1. The petitioner is the accused in FIR No. {{ fir_number or "[FIR No.]" }} dated {{ fir_date or "[date]" }} registered at {{ police_station or "[Police Station]" }} for offences under {{ sections_charged or "[sections]" }}.
+
+2. The FIR does not disclose the commission of any offence and the allegations are wholly frivolous and an abuse of the process of court.
+
+3. Continuation of the proceedings would cause grave injustice and unnecessary harassment to the petitioner.
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Court may be pleased to quash the aforesaid FIR and all consequential proceedings, in the interest of justice.
+
+{{ client_name or "[Petitioner]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Vakalatnama (Criminal)",
+		"vertical": "Criminal Defense",
+		"drafting_type": "Litigation",
+		"description": "Authority to appear for the accused in criminal proceedings.",
+		"template_body": """VAKALATNAMA
+
+IN THE COURT OF {{ court or "[Court Name]" }}
+{{ case_number or "Case No. [_____]" }}
+
+I, {{ client_name or "[Client]" }}, son/daughter of ________________, residing at {{ client_address or "[address]" }}, do hereby appoint and authorize Shri/Smt. {{ assigned_advocate or "[Advocate Name]" }}, Advocate, to appear and act for me in the above case, and to conduct, prosecute or defend the same on my behalf, to file and withdraw applications, and to do all acts necessary in connection therewith.
+
+I agree to pay the professional fees as agreed and confirm that I have understood the scope of the engagement.
+
+Dated: {{ today }}
+
+Signature of Client
+{{ client_name or "[Client]" }}
+
+Accepted:
+{{ assigned_advocate or "[Advocate]" }}
+Advocate, {{ court or "[Court]" }}""",
+	},
+	{
+		"template_name": "Complaint under Sec. 138 / 200 CrPC",
+		"vertical": "Cheque Bounce / NI Act 138",
+		"drafting_type": "Litigation",
+		"description": "Criminal complaint for cheque dishonour under Section 138 NI Act read with 200 CrPC.",
+		"template_body": """COMPLAINT UNDER SECTION 138 OF THE NEGOTIABLE INSTRUMENTS ACT, 1881 READ WITH SECTION 200 CrPC
+
+IN THE COURT OF {{ court or "[Court Name]" }}
+C.C. No. {{ case_number or "[_____]" }}
+
+{{ party_complainant or "[Complainant]" }}
+Versus
+{{ party_accused or "[Accused]" }}
+
+COMPLAINT
+
+The complainant submits:
+
+1. That the accused issued a cheque bearing No. {{ intake_cheque_number or "[cheque no.]" }} dated {{ intake_cheque_date or "[date]" }} for Rs. {{ intake_cheque_amount or "[amount]" }} drawn on {{ intake_drawee_bank or "[bank]" }} in favour of the complainant towards discharge of a legally enforceable liability.
+
+2. That the said cheque, on presentation, was dishonoured on {{ intake_dishonour_date or "[date]" }} with the remark \"{{ intake_dishonour_reason or "[reason]" }}\".
+
+3. That a statutory demand notice was issued on {{ intake_demand_notice_date or "[notice date]" }} demanding payment within 15 days of receipt.
+
+4. That the accused failed to make payment within the statutory period, thereby committing an offence under Section 138 of the Negotiable Instruments Act, 1881.
+
+5. That the complaint is filed within the period of limitation prescribed under Section 142 of the Act.
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Court may be pleased to take cognizance of the offence, summon the accused, and proceed in accordance with law.
+
+{{ client_name or "[Complainant]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Written Statement",
+		"vertical": "Civil Litigation",
+		"drafting_type": "Litigation",
+		"description": "Written statement / defence to a civil suit.",
+		"template_body": """WRITTEN STATEMENT
+
+IN THE COURT OF {{ court or "[Court Name]" }}
+Suit No. {{ case_number or "[_____]" }}
+
+{{ party_plaintiff or "[Plaintiff]" }}
+Versus
+{{ party_defendant or "[Defendant]" }}
+
+WRITTEN STATEMENT ON BEHALF OF THE DEFENDANT
+
+The defendant most respectfully submits:
+
+1. PRELIMINARY OBJECTIONS: The suit is not maintainable in law and is barred by limitation; this Hon'ble Court lacks jurisdiction to entertain the suit.
+
+2. ON MERITS: The averments in the plaint are denied. The defendant states that there is no subsisting cause of action against him/her, and the claim of Rs. {{ claim_amount or "[amount]" }} is baseless and denied in its entirety.
+
+3. The defendant denies every allegation not expressly admitted herein, and prays that the suit may be dismissed with costs.
+
+{{ client_name or "[Defendant]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Consumer Complaint (District Forum)",
+		"vertical": "Civil Litigation",
+		"drafting_type": "Litigation",
+		"description": "Complaint before the District Consumer Disputes Redressal Commission.",
+		"template_body": """CONSUMER COMPLAINT
+
+BEFORE THE DISTRICT CONSUMER DISPUTES REDRESSAL COMMISSION, {{ jurisdiction or "[District]" }}
+Consumer Complaint No. {{ case_number or "[_____]" }}
+
+{{ party_complainant or "[Complainant]" }}
+Versus
+{{ party_respondent or "[Opposite Party]" }}
+
+COMPLAINT UNDER SECTION 35 OF THE CONSUMER PROTECTION ACT, 2019
+
+The complainant states:
+
+1. That the complainant purchased {{ intake_product_service or "[product/service]" }} from the opposite party for consideration.
+
+2. That the opposite party is deficient in service on account of {{ intake_deficiency_claimed or "[deficiency]" }}.
+
+3. That despite notice, the opposite party has failed to redress the grievance.
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Commission may be pleased to direct the opposite party to rectify the deficiency, refund the amount with interest, and award compensation for mental agony and costs.
+
+{{ client_name or "[Complainant]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "MACT Claim Petition",
+		"vertical": "Civil Litigation",
+		"drafting_type": "Litigation",
+		"description": "Motor Accident Claims Tribunal petition for compensation.",
+		"template_body": """CLAIM PETITION BEFORE MOTOR ACCIDENT CLAIMS TRIBUNAL
+
+IN THE COURT OF {{ court or "[MACT, District]" }}
+M.V.C. No. {{ case_number or "[_____]" }}
+
+{{ party_petitioner or "[Claimant]" }}
+Versus
+{{ party_respondent or "[Insurer / Owner / Driver]" }}
+
+CLAIM PETITION UNDER SECTION 166 OF THE MOTOR VEHICLES ACT, 1988
+
+The petitioner submits:
+
+1. That on {{ intake_accident_date or "[accident date]" }} the petitioner was involved in a motor vehicle accident resulting in injuries/damage.
+
+2. That the accident occurred due to the rash and negligent driving of the vehicle insured with {{ intake_insurance_company or "[insurance company]" }}.
+
+3. That the petitioner claims compensation as detailed below.
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Tribunal may be pleased to award compensation of Rs. {{ claim_amount or "[amount]" }} with interest from the date of the petition, and costs.
+
+{{ client_name or "[Petitioner]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Maintenance Application (Sec. 125 CrPC)",
+		"vertical": "Family Law",
+		"drafting_type": "Litigation",
+		"sensitive": 1,
+		"description": "Application for maintenance under Section 125 CrPC / BNSS 144 — sensitive, lawyer review required.",
+		"template_body": """APPLICATION FOR MAINTENANCE UNDER SECTION 125 CrPC / 144 BNSS
+
+IN THE COURT OF {{ court or "[Court Name]" }}
+Application No. {{ case_number or "[_____]" }}
+
+{{ party_petitioner or "[Applicant]" }}
+Versus
+{{ party_respondent or "[Respondent]" }}
+
+APPLICATION FOR MAINTENANCE
+
+The applicant submits:
+
+1. That the applicant is the wife/legally wedded spouse of the respondent, married on {{ intake_marriage_date or "[marriage date]" }}.
+
+2. That the respondent has neglected and refused to maintain the applicant, who is unable to maintain herself.
+
+3. That the respondent is earning and capable of maintaining the applicant.
+
+[LAWYER REVIEW REQUIRED: verify grounds, income proof and quantum of interim maintenance]
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Court may be pleased to order the respondent to pay maintenance of Rs. {{ intake_interim_maintenance_requested or "[amount]" }} per month to the applicant.
+
+{{ client_name or "[Applicant]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Custody Petition",
+		"vertical": "Family Law",
+		"drafting_type": "Litigation",
+		"sensitive": 1,
+		"description": "Petition for custody/guardianship of minor children — sensitive, lawyer review required.",
+		"template_body": """PETITION FOR CUSTODY / GUARDIANSHIP
+
+IN THE COURT OF {{ court or "[Court Name]" }}
+Petition No. {{ case_number or "[_____]" }}
+
+{{ party_petitioner or "[Petitioner]" }}
+Versus
+{{ party_respondent or "[Respondent]" }}
+
+PETITION FOR CUSTODY OF MINOR CHILDREN
+
+The petitioner submits:
+
+1. That the petitioner is the father/mother of the minor child(ren) born of the marriage solemnized on {{ intake_marriage_date or "[marriage date]" }}.
+
+2. That the minor child(ren) are presently in the custody of the respondent and the petitioner is entitled to custody in the welfare of the child(ren).
+
+3. That the petitioner is capable of providing proper care, education and upbringing.
+
+[LAWYER REVIEW REQUIRED: welfare assessment, current custody arrangement and interim custody terms]
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Court may be pleased to grant custody of the minor child(ren) to the petitioner and pass such interim orders as are in the welfare of the child(ren).
+
+{{ client_name or "[Petitioner]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Section 498A Complaint Draft",
+		"vertical": "Family Law",
+		"drafting_type": "Litigation",
+		"sensitive": 1,
+		"description": "Complaint draft for cruelty / dowry harassment under Section 498A IPC — sensitive, lawyer review mandatory.",
+		"template_body": """COMPLAINT UNDER SECTION 498A IPC / 85 BNSS (DOWRY HARASSMENT)
+
+IN THE COURT OF {{ court or "[Court Name]" }}
+Complaint No. {{ case_number or "[_____]" }}
+
+{{ party_complainant or "[Complainant]" }}
+Versus
+{{ party_accused or "[Accused]" }}
+
+COMPLAINT FOR CRUELTY AND DOWRY HARASSMENT
+
+The complainant submits:
+
+1. That the complainant was married to the accused on {{ intake_marriage_date or "[marriage date]" }} and was subjected to cruelty and harassment in connection with dowry.
+
+2. That the complainant was driven out of the matrimonial home and the accused persons have demanded additional dowry.
+
+3. That the complainant has approached the jurisdictional police and this complaint is filed for appropriate action.
+
+[LAWYER REVIEW REQUIRED: high-sensitivity matter — verify FIR status, evidence and witness details before any filing]
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Court may be pleased to take cognizance and issue process against the accused.
+
+{{ client_name or "[Complainant]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Partition Suit Draft",
+		"vertical": "Property / Real Estate Disputes",
+		"drafting_type": "Litigation",
+		"description": "Suit for partition and separate possession of ancestral property.",
+		"template_body": """SUIT FOR PARTITION AND SEPARATE POSSESSION
+
+IN THE COURT OF {{ court or "[Court Name]" }}
+Suit No. {{ case_number or "[_____]" }}
+
+{{ party_plaintiff or "[Plaintiff]" }}
+Versus
+{{ party_defendant or "[Defendants]" }}
+
+PLAINT FOR PARTITION
+
+1. The plaintiff submits that the suit property situated at {{ client_address or "[property description]" }} bearing survey No. {{ intake_survey_number or "[survey no.]" }} is {{ intake_ancestral_property or "ancestral" }} joint family property.
+
+2. The plaintiff and the defendants are co-owners entitled to their respective shares.
+
+3. The plaintiff is entitled to partition and separate possession of his/her share, and the suit is within limitation.
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Court may be pleased to decree partition and separate possession of the plaintiff's share, appoint a Commissioner for division if necessary, and award costs.
+
+{{ client_name or "[Plaintiff]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "RERA Complaint Draft",
+		"vertical": "Property / Real Estate Disputes",
+		"drafting_type": "Litigation",
+		"description": "Complaint before the State RERA authority for builder delay / defect.",
+		"template_body": """COMPLAINT BEFORE THE RERA AUTHORITY
+
+BEFORE THE {{ jurisdiction or "[State]" }} REAL ESTATE REGULATORY AUTHORITY
+
+Complaint No. {{ case_number or "[_____]" }}
+
+{{ party_complainant or "[Allottee]" }}
+Versus
+{{ party_respondent or "[Builder/Promoter]" }}
+
+COMPLAINT UNDER SECTION 31 OF THE RERA ACT, 2016
+
+The complainant submits:
+
+1. That the complainant booked a unit in the project registered as {{ intake_rera_project_number or "[RERA registration no.]" }} of {{ intake_builder_name or "[promoter]" }}.
+
+2. That the promoter has delayed possession by {{ intake_possession_delay or "[delay period]" }} and/or has delivered defective construction.
+
+3. That despite representations, the promoter has failed to remedy the same.
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Authority may be pleased to direct the promoter to complete/rectify the project, refund the amount with interest, and award compensation and costs.
+
+{{ client_name or "[Complainant]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Trademark Objection Reply",
+		"vertical": "IP Law",
+		"drafting_type": "Litigation",
+		"description": "Reply to an examination/objection report on a trademark application.",
+		"template_body": """REPLY TO EXAMINATION REPORT / OBJECTION
+
+BEFORE THE REGISTRAR OF TRADEMARKS, {{ jurisdiction or "[Office]" }}
+Application No. {{ intake_application_number or "[application no.]" }}
+
+In the matter of: {{ client_name or "[Applicant]" }}
+
+REPLY TO OBJECTION
+
+The applicant submits the following reply to the examination report dated {{ intake_filing_date or "[date]" }}:
+
+1. The mark applied for is distinctive and capable of distinguishing the applicant's goods/services.
+
+2. The mark is not deceptively similar to any prior mark and there is no likelihood of confusion.
+
+3. The applicant has bona fide and continuous use of the mark since prior to the application date.
+
+PRAYER
+
+It is respectfully prayed that the objection be withdrawn and the application be proceeded to registration.
+
+For {{ client_name or "[Applicant]" }}
+Through Advocate""",
+	},
+	{
+		"template_name": "Renewal Reminder Letter (IP)",
+		"vertical": "IP Law",
+		"drafting_type": "Transactional",
+		"description": "Internal reminder letter for an upcoming IP renewal deadline.",
+		"template_body": """RENEWAL REMINDER
+
+TO,
+{{ client_name or "[Rights Holder]" }}
+{{ client_address or "[address]" }}
+
+FROM,
+{{ assigned_advocate or "[Firm Name]" }}
+
+DATED: {{ today }}
+
+Subject: Renewal of {{ intake_ip_type or "[IP right]" }} {{ intake_application_number or "[registration no.]" }}
+
+Dear Sir/Madam,
+
+Please note that the renewal of the above {{ intake_ip_type or "[IP right]" }} falls due on {{ intake_renewal_due_date or "[renewal date]" }}. Kindly provide instructions and the prescribed fee at the earliest so that the renewal can be filed within time and the registration is not allowed to lapse.
+
+Yours faithfully,
+{{ assigned_advocate or "[Firm Name]" }}""",
+	},
+	{
+		"template_name": "Infringement Suit Draft",
+		"vertical": "IP Law",
+		"drafting_type": "Litigation",
+		"description": "Suit for infringement of trademark/copyright with interim injunction.",
+		"template_body": """SUIT FOR INFRINGEMENT OF {{ intake_ip_type or "[IP right]" }}
+
+IN THE COURT OF {{ court or "[Court Name]" }}
+C.S. No. {{ case_number or "[_____]" }}
+
+{{ party_plaintiff or "[Plaintiff]" }}
+Versus
+{{ party_defendant or "[Defendant]" }}
+
+PLAINT FOR INFRINGEMENT
+
+1. The plaintiff is the proprietor of {{ intake_ip_type or "[IP right]" }} {{ intake_application_number or "[registration no.]" }} filed on {{ intake_filing_date or "[filing date]" }}.
+
+2. The defendant has, without authorization, used a mark/work identical/deceptively similar to the plaintiff's {{ intake_ip_type or "[IP right]" }}, causing confusion and injury.
+
+3. A cease-and-desist notice was served {{ intake_cease_desist_date or "[date]" }}, but the defendant has continued the infringing activity.
+
+PRAYER
+
+It is most respectfully prayed that this Hon'ble Court may be pleased to grant a decree of permanent injunction restraining infringement, damages, rendition of accounts, and costs, with interim relief in the meantime.
+
+{{ client_name or "[Plaintiff]" }}
 Through Advocate""",
 	},
 	{

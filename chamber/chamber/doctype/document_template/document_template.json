@@ -15,6 +15,8 @@
   "version",
   "sensitive",
   "description",
+  "section_break_import",
+  "source_file",
   "section_break_body",
   "template_body",
   "section_break_tags",
@@ -82,6 +84,17 @@
    "label": "Description"
   },
   {
+   "fieldname": "section_break_import",
+   "fieldtype": "Section Break",
+   "label": "Self-Serve Import"
+  },
+  {
+   "fieldname": "source_file",
+   "fieldtype": "Attach",
+   "label": "Uploaded Template File",
+   "description": "Upload a .docx / .txt / .md (or .pdf) template. Click 'Import from File' to extract the text and merge tags into the template body."
+  },
+  {
    "fieldname": "section_break_body",
    "fieldtype": "Section Break",
    "label": "Template Body"
@@ -105,7 +118,7 @@
    "fieldtype": "Table",
    "label": "Merge Tags",
    "options": "Document Merge Tag",
-   "read_only": 1
+   "description": "Auto-discovered from the template body. Use 'Mapped To' to map each tag to the matter/intake field that supplies it."
   },
   {
    "fieldname": "section_break_usage",

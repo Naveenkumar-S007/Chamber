@@ -45,6 +45,10 @@
   "opposing_counsel",
   "section_break_parties",
   "parties",
+  "section_break_linked",
+  "parent_matter",
+  "column_break_linked",
+  "document_collection",
   "section_break_court",
   "court",
   "court_bench",
@@ -72,6 +76,8 @@
   "prior_case_history",
   "section_break_ecourts",
   "ecourts_auto_sync",
+  "portal",
+  "portal_sync_enabled",
   "last_sync",
   "last_sync_status",
   "section_break_notes",
@@ -176,6 +182,29 @@
    "fieldtype": "Table",
    "label": "Parties",
    "options": "Legal Matter Party"
+  },
+  {
+   "fieldname": "section_break_linked",
+   "fieldtype": "Section Break",
+   "label": "Linked Matters & Documents"
+  },
+  {
+   "fieldname": "parent_matter",
+   "fieldtype": "Link",
+   "label": "Parent / Original Matter",
+   "options": "Legal Matter",
+   "description": "For appeals/revisions: the original trial-court matter this matter is linked to (parent-child CNR relationship)."
+  },
+  {
+   "fieldname": "column_break_linked",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "document_collection",
+   "fieldtype": "Table",
+   "label": "Document Collection Track",
+   "options": "Document Collection",
+   "description": "Document-status track shown alongside the hearing timeline (property matters are often document-blocked)."
   },
   {
    "fieldname": "section_break_court",
@@ -324,6 +353,20 @@
    "fieldtype": "Check",
    "label": "Auto-Sync from eCourts",
    "description": "Poll this matter's CNR on the scheduled eCourts refresh."
+  },
+  {
+   "fieldname": "portal",
+   "fieldtype": "Select",
+   "label": "Portal",
+   "options": "\neCourts\nIP India\nNCLT / NCLAT\nState RERA",
+   "description": "Primary status portal for this matter. IP/NCLT/RERA are separate integrations from eCourts (spec §5)."
+  },
+  {
+   "default": "0",
+   "fieldname": "portal_sync_enabled",
+   "fieldtype": "Check",
+   "label": "Auto-Sync from Portal",
+   "description": "Poll the selected portal on the scheduled refresh (manual-entry fallback where no API is configured)."
   },
   {
    "fieldname": "last_sync",

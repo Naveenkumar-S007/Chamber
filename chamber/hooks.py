@@ -136,9 +136,11 @@ if "erpnext" in _installed_apps:
 scheduler_events = {
 	"daily": [
 		"chamber.chamber.doctype.chamber_application.chamber_application.send_hearing_reminders",
+		"chamber.chamber.doctype.caveat.caveat.expire_overdue_caveats",
 	],
 	"hourly": [
 		"chamber.utils.ecourts_client.poll_auto_sync_matters",
+		"chamber.utils.portal_client.poll_portal_matters",
 	],
 }
 

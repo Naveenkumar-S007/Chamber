@@ -25,6 +25,45 @@ frappe.ui.form.on("Legal Matter", {
 					callback: (r) => frm.refresh(),
 				});
 			});
+			frm.add_custom_button(__("AI Bulk Upload"), () => {
+				const d = new frappe.ui.Dialog({
+					title: __("AI Bulk Read — Extract Case Fields"),
+					fields: [
+						{ fieldname: "file", fieldtype: "Attach", label: __("Case File (PDF / text / docx)"), reqd: 1 },
+						{ fieldname: "field_hint", fieldtype: "Data", label: __("Expected Fields (optional)"), placeholder: "e.g. fir_number, sections_charged, bail_status" },
+					],
+					primary_action_label: __("Extract & Apply"),
+					primary_action(values) {
+						if (!values.file) {
+							frappe.msgprint(__("Attach a file first."));
+							return;
+						}
+						d.get_primary_btn().prop("disabled", true).text(__("Extracting…"));
+						frappe.call({
+							method: "chamber.api.ai.apply_extraction",
+							args: {
+								legal_matter: frm.doc.name,
+								file_url: values.file,
+								field_hint: values.field_hint,
+							},
+							callback: (r) => {
+								d.get_primary_btn().prop("disabled", false).text(__("Extract & Apply"));
+								const msg = r.message || {};
+								const applied = (msg.applied || []).length ? msg.applied.join(", ") : __("none");
+								const skipped = (msg.skipped || []).length ? msg.skipped.join(", ") : __("none");
+								frappe.msgprint({
+									title: __("Extraction complete"),
+									message: __("Applied to matter: {0}<br>Skipped (no matching field): {1}", [applied, skipped]),
+									indicator: "green",
+								});
+								frm.reload_doc();
+							},
+							error: () => d.get_primary_btn().prop("disabled", false).text(__("Extract & Apply")),
+						});
+					},
+				});
+				d.show();
+			});
 		}
 	},
 });

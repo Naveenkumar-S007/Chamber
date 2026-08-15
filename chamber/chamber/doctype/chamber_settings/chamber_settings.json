@@ -9,10 +9,19 @@
   "enable_ecourts_sync",
   "ecourts_api_url",
   "ecourts_app_code",
+  "ecourts_ordersheet_url",
+  "enable_portal_sync",
   "section_break_reminders",
   "enable_hearing_reminders",
   "default_reminder_days",
   "reminder_recipient_role",
+  "section_break_esign",
+  "enable_esign",
+  "esign_provider",
+  "esign_api_url",
+  "esign_api_key",
+  "esign_callback_url",
+  "esign_callback_secret",
   "section_break_ai",
   "enable_ai",
   "ai_provider",
@@ -48,6 +57,19 @@
    "description": "App code issued by the eCourts portal (services.ecourts.gov.in) for CNR status lookups."
   },
   {
+   "fieldname": "ecourts_ordersheet_url",
+   "fieldtype": "Data",
+   "label": "eCourts Order Sheet URL",
+   "description": "Optional endpoint for order-sheet history. When set, sync also fetches order sheet entries and posts them to the timeline."
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_portal_sync",
+   "fieldtype": "Check",
+   "label": "Enable Portal Sync (IP India / NCLT / RERA)",
+   "description": "Runs the hourly poll for matters marked with a non-eCourts portal. Portals without a machine API fall back to manual entry with coverage notes."
+  },
+  {
    "fieldname": "section_break_reminders",
    "fieldtype": "Section Break",
    "label": "Hearing Reminders"
@@ -71,6 +93,47 @@
    "label": "Reminder Recipient Role",
    "options": "Role",
    "description": "All users with this role receive hearing reminders (in addition to the assigned advocate)."
+  },
+  {
+   "fieldname": "section_break_esign",
+   "fieldtype": "Section Break",
+   "label": "E-Signature"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_esign",
+   "fieldtype": "Check",
+   "label": "Enable E-Signature Flow",
+   "description": "Sends generated documents for signature and tracks status via webhooks."
+  },
+  {
+   "fieldname": "esign_provider",
+   "fieldtype": "Select",
+   "label": "Provider",
+   "options": "\nDocuSign\nDropbox Sign\nSignDesk\neMudhra\nGeneric REST\nManual"
+  },
+  {
+   "fieldname": "esign_api_url",
+   "fieldtype": "Data",
+   "label": "API URL",
+   "description": "POST endpoint that creates the signing envelope. See README for the expected request/response contract."
+  },
+  {
+   "fieldname": "esign_api_key",
+   "fieldtype": "Password",
+   "label": "API Key"
+  },
+  {
+   "fieldname": "esign_callback_url",
+   "fieldtype": "Data",
+   "label": "Callback URL (webhook)",
+   "description": "Defaults to /api/method/chamber.api.esign.receive_webhook on this site."
+  },
+  {
+   "fieldname": "esign_callback_secret",
+   "fieldtype": "Password",
+   "label": "Callback Secret",
+   "description": "Optional shared secret the provider must send back for webhook verification."
   },
   {
    "fieldname": "section_break_ai",

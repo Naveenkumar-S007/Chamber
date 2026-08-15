@@ -61,6 +61,42 @@ class MatterTimeline {
 		const $body = $(this.page.body).empty();
 		const $card = $(`<div class="frappe-card p-4"></div>`).appendTo($body);
 		chamber.timeline.render({ container: $card, data });
+		this.render_document_track(data.document_track || []);
+	}
+
+	render_document_track(track) {
+		if (!track.length) return;
+		const $body = $(this.page.body);
+		const $card = $(`<div class="frappe-card p-4 mt-4"></div>`).appendTo($body);
+		$card.append(`<h6>Document Collection Track</h6>`);
+		if (!track.length) {
+			$card.append(`<div class="text-muted">No documents tracked yet.</div>`);
+			return;
+		}
+		const status_color = {
+			"Not Started": "grey",
+			"Requested": "orange",
+			"Collected": "blue",
+			"Verified": "green",
+		};
+		const rows = track
+			.map(
+				(d) => `
+				<tr>
+					<td>${frappe.utils.escape_html(d.document)}</td>
+					<td>${frappe.utils.escape_html(d.category || "")}</td>
+					<td><span class="label label-${status_color[d.status] || "grey"}">${frappe.utils.escape_html(d.status)}</span></td>
+					<td>${frappe.utils.escape_html(d.requested_date || "")}</td>
+					<td>${frappe.utils.escape_html(d.received_date || "")}</td>
+					<td>${frappe.utils.escape_html(d.remarks || "")}</td>
+				</tr>`
+			)
+			.join("");
+		$card.append(`
+			<table class="table table-sm">
+				<thead><tr><th>Document</th><th>Category</th><th>Status</th><th>Requested</th><th>Received</th><th>Remarks</th></tr></thead>
+				<tbody>${rows}</tbody>
+			</table>`);
 	}
 
 	add_event_dialog() {

@@ -222,6 +222,36 @@
   {
    "hidden": 0,
    "is_query_report": 0,
+   "label": "Caveat",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "link_to": "Caveat"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Signature Request",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "link_to": "Signature Request"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Deadline Tracker (Page)",
+   "link_count": 0,
+   "link_type": "Page",
+   "onboard": 0,
+   "type": "Link",
+   "link_to": "deadline-tracker"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
    "label": "Chamber Settings",
    "link_count": 0,
    "link_type": "DocType",

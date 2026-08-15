@@ -7,6 +7,7 @@
  "field_order": [
   "tag",
   "source",
+  "mapped_field",
   "description"
  ],
  "fields": [
@@ -15,13 +16,22 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Merge Tag",
-   "reqd": 1
+   "reqd": 1,
+   "read_only": 1
   },
   {
    "fieldname": "source",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Source"
+   "label": "Source",
+   "read_only": 1
+  },
+  {
+   "fieldname": "mapped_field",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Mapped To",
+   "description": "Matter/intake field that supplies this tag (e.g. fir_number, intake_cheque_number, party_respondent). Editable by the firm."
   },
   {
    "fieldname": "description",

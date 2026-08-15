@@ -88,9 +88,19 @@ def draft_content(matter, template_body, instructions="", vertical=None):
 			"Mark any place needing lawyer input as [LAWYER REVIEW REQUIRED]."
 		)
 	)
+	deadline_context = ""
+	if matter.statutory_deadline_date:
+		deadline_context = (
+			"\nDEADLINE AWARENESS: this matter has a statutory deadline of "
+			+ str(matter.statutory_deadline_date)
+			+ (f" ({matter.statutory_deadline_note})." if matter.statutory_deadline_note else ".")
+			+ " If the draft concerns filing or notice, keep the timeline in mind and flag any window that may be closing."
+		)
 	user = (
 		"Using the structured data already merged into the template below, produce the final legal document text. "
-		"Do not add invented facts, case citations or legal arguments beyond what the data supports.\n\n"
+		"Do not add invented facts, case citations or legal arguments beyond what the data supports."
+		+ deadline_context
+		+ "\n\n"
 		+ ("Additional instructions: " + instructions + "\n\n" if instructions else "")
 		+ "TEMPLATE:\n" + template_body
 	)

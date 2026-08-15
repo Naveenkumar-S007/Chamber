@@ -34,6 +34,45 @@ def extract(legal_matter, file_url=None, text=None, field_hint=None):
 
 
 @frappe.whitelist()
+def apply_extraction(legal_matter, file_url=None, text=None, field_hint=None):
+	"""Bulk-read auto-fill: extract vertical-specific fields from an uploaded
+	case file and apply them onto the Legal Matter / intake responses."""
+	matter = frappe.get_doc("Legal Matter", legal_matter)
+	content = text or ""
+	if file_url and not content:
+		content = read_attached_text(file_url)
+	if not content.strip():
+		frappe.throw(_("No readable text found."))
+	result = ai_client.extract_fields(matter, content, field_hint=field_hint)
+
+	meta = frappe.get_meta("Legal Matter")
+	applied, skipped = [], []
+	for key, value in (result or {}).items():
+		if not isinstance(value, str) or not value.strip():
+			continue
+		if meta.has_field(key) and value.lower() not in ("null", "none"):
+			setattr(matter, key, value)
+			applied.append(key)
+		else:
+			skipped.append(key)
+	if applied:
+		matter.flags.ignore_permissions = True
+		matter.save(ignore_permissions=True)
+		frappe.get_doc(
+			{
+				"doctype": "Timeline Entry",
+				"legal_matter": legal_matter,
+				"entry_date": frappe.utils.today(),
+				"event_type": "Task",
+				"title": "AI bulk-read applied",
+				"description": "Extracted fields applied: " + ", ".join(applied),
+				"source": "AI",
+			}
+		).insert(ignore_permissions=True)
+	return {"extracted": result, "applied": applied, "skipped": skipped}
+
+
+@frappe.whitelist()
 def summarize(legal_matter, file_url=None, text=None, focus=None):
 	matter = frappe.get_doc("Legal Matter", legal_matter)
 	content = text or ""

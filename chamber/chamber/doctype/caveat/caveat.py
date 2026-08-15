@@ -93,6 +93,13 @@ def send_expiry_reminder(caveat, expired=False, settings=None, days_left=0):
 		message = frappe._(
 			"Caveat {0} expires on {1} ({2} day(s) left). Renew before it lapses."
 		).format(caveat.caveat_number, caveat.valid_until, days_left)
+	try:
+		from chamber.notifications import notify_users
+
+		notify_users(recipients, subject, message, doctype="Caveat", docname=caveat.name)
+	except Exception:
+		frappe.log_error(frappe.get_traceback(), "Caveat in-desk notification")
+
 	for recipient in recipients:
 		try:
 			frappe.sendmail(recipients=recipient, subject=subject, message=message)

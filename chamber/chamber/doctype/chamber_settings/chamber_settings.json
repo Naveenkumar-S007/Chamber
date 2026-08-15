@@ -16,6 +16,8 @@
   "portal_endpoint_ip_india",
   "portal_endpoint_nclt_nclat",
   "portal_endpoint_state_rera",
+  "section_break_permissions",
+  "enforce_matter_level_permissions",
   "section_break_reminders",
   "enable_hearing_reminders",
   "default_reminder_days",
@@ -103,6 +105,24 @@
    "fieldtype": "Data",
    "label": "State RERA Endpoint",
    "description": "Override for the state RERA project-status endpoint (each state runs its own portal)."
+  },
+  {
+   "fieldname": "section_break_permissions",
+   "fieldtype": "Section Break",
+   "label": "Permissions & Security"
+  },
+  {
+   "default": "0",
+   "fieldname": "enforce_matter_level_permissions",
+   "fieldtype": "Check",
+   "label": "Enforce Matter-Level Permissions",
+   "description": "Advocates see and edit only matters where they are the assigned advocate (or that are shared with them). Chamber Manager and System Manager always see everything. Legal Matters, Chamber Applications, Hearings and Generated Documents are scoped."
+  },
+  {
+   "fieldname": "webhook_secret",
+   "fieldtype": "Password",
+   "label": "Push Webhook Secret",
+   "description": "Shared secret verified on the court/portal push webhook (POST /api/method/chamber.api.webhooks.receive_update). Send it in the X-Chamber-Secret header."
   },
   {
    "fieldname": "section_break_reminders",

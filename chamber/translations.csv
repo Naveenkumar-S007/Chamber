@@ -209,3 +209,185 @@ es,Matter Status,Estado del asunto
 es,Deadline Watch,Vigilancia de plazos
 es,eCourts Sync Log,Registro de sincronización eCourts
 es,Chamber,Despacho
+hi,Intake Pending,इंटेक लंबित
+hi,Active,सक्रिय
+hi,On Hold,रोके गए
+hi,Disposed,निस्तारित
+hi,Withdrawn,वापस लिया गया
+hi,Closed,बंद
+hi,Open Intake Form,इंटेक फॉर्म खोलें
+hi,View Timeline,समयरेखा देखें
+hi,Test Connections,कनेक्शन जांचें
+hi,Import from File,फ़ाइल से आयात करें
+hi,Download PDF,पीडीएफ डाउनलोड करें
+hi,Next Hearing Date,अगली सुनवाई तिथि
+hi,Statutory Deadline,वैधानिक समय-सीमा
+hi,CNR Number,सीएनआर नंबर
+hi,Court Fees,कोर्ट फीस
+hi,Assigned Advocate,नियुक्त अधिवक्ता
+hi,Opposing Counsel,प्रतिपक्षी अधिवक्ता
+hi,Archive Matter,मामला संग्रहीत करें
+hi,Unarchive,संग्रह से हटाएं
+hi,Save,सहेजें
+hi,Cancel,रद्द करें
+hi,Add,जोड़ें
+hi,Status,स्थिति
+hi,Priority,प्राथमिकता
+hi,Chamber Dashboard,चैम्बर डैशबोर्ड
+hi,Client Portal,क्लाइंट पोर्टल
+ta,Intake Pending,உள்ளீடு நிலுவையில்
+ta,Active,செயலில்
+ta,On Hold,நிறுத்தி வைக்கப்பட்டது
+ta,Disposed,முடிவு செய்யப்பட்டது
+ta,Withdrawn,திரும்பப் பெறப்பட்டது
+ta,Closed,மூடப்பட்டது
+ta,Open Intake Form,உள்ளீட்டு படிவத்தை திற
+ta,View Timeline,காலவரிசையை காண்க
+ta,Test Connections,இணைப்புகளை சோதிக்கவும்
+ta,Import from File,கோப்பிலிருந்து இறக்குமதி
+ta,Download PDF,PDF பதிவிறக்கு
+ta,Next Hearing Date,அடுத்த விசாரணை தேதி
+ta,Statutory Deadline,சட்டரீதியான காலக்கெடு
+ta,CNR Number,CNR எண்
+ta,Court Fees,நீதிமன்ற கட்டணம்
+ta,Assigned Advocate,நியமிக்கப்பட்ட வழக்கறிஞர்
+ta,Opposing Counsel,எதிர் வழக்கறிஞர்
+ta,Archive Matter,வழக்கை காப்பகப்படுத்து
+ta,Unarchive,காப்பகத்திலிருந்து நீக்கு
+ta,Save,சேமி
+ta,Cancel,ரத்து
+ta,Add,சேர்
+ta,Status,நிலை
+ta,Priority,முன்னுரிமை
+ta,Chamber Dashboard,சேம்பர் டாஷ்போர்டு
+ta,Client Portal,வாடிக்கையாளர் போர்டல்
+kn,Intake Pending,ಇನ್‌ಟೇಕ್ ಬಾಕಿ
+kn,Active,ಸಕ್ರಿಯ
+kn,On Hold,ತಡೆಹಿಡಿಯಲಾಗಿದೆ
+kn,Disposed,ಇತ್ಯರ್ಥವಾಗಿದೆ
+kn,Withdrawn,ಹಿಂಪಡೆಯಲಾಗಿದೆ
+kn,Closed,ಮುಚ್ಚಲಾಗಿದೆ
+kn,Open Intake Form,ಇನ್‌ಟೇಕ್ ಫಾರ್ಮ್ ತೆರೆಯಿರಿ
+kn,View Timeline,ಟೈಮ್‌ಲೈನ್ ವೀಕ್ಷಿಸಿ
+kn,Test Connections,ಸಂಪರ್ಕಗಳನ್ನು ಪರೀಕ್ಷಿಸಿ
+kn,Import from File,ಫೈಲ್‌ನಿಂದ ಆಮದು
+kn,Download PDF,PDF ಡೌನ್‌ಲೋಡ್
+kn,Next Hearing Date,ಮುಂದಿನ ವಿಚಾರಣೆ ದಿನಾಂಕ
+kn,Statutory Deadline,ವೈಧಾನಿಕ ಗಡುವು
+kn,CNR Number,CNR ಸಂಖ್ಯೆ
+kn,Court Fees,ನ್ಯಾಯಾಲಯ ಶುಲ್ಕ
+kn,Assigned Advocate,ನಿಯೋಜಿತ ವಕೀಲರು
+kn,Opposing Counsel,ಎದುರು ವಕೀಲರು
+kn,Archive Matter,ಪ್ರಕರಣ ಆರ್ಕೈವ್ ಮಾಡಿ
+kn,Unarchive,ಆರ್ಕೈವ್ ರದ್ದು
+kn,Save,ಉಳಿಸಿ
+kn,Cancel,ರದ್ದುಮಾಡಿ
+kn,Add,ಸೇರಿಸಿ
+kn,Status,ಸ್ಥಿತಿ
+kn,Priority,ಆದ್ಯತೆ
+kn,Chamber Dashboard,ಚೇಂಬರ್ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್
+kn,Client Portal,ಕ್ಲೈಂಟ್ ಪೋರ್ಟಲ್
+te,Intake Pending,ఇంటేక్ పెండింగ్
+te,Active,క్రియాశీలం
+te,On Hold,నిలిపివేయబడింది
+te,Disposed,పరిష్కరించబడింది
+te,Withdrawn,ఉపసంహరించబడింది
+te,Closed,మూసివేయబడింది
+te,Open Intake Form,ఇంటేక్ ఫారం తెరవండి
+te,View Timeline,టైమ్‌లైన్ చూడండి
+te,Test Connections,కనెక్షన్లను పరీక్షించండి
+te,Import from File,ఫైల్ నుండి దిగుమతి
+te,Download PDF,PDF డౌన్‌లోడ్
+te,Next Hearing Date,తదుపరి విచారణ తేదీ
+te,Statutory Deadline,చట్టపరమైన గడువు
+te,CNR Number,CNR సంఖ్య
+te,Court Fees,కోర్టు రుసుము
+te,Assigned Advocate,నియమించిన న్యాయవాది
+te,Opposing Counsel,ఎదురు న్యాయవాది
+te,Archive Matter,వ్యాజ్యాన్ని ఆర్కైవ్ చేయండి
+te,Unarchive,ఆర్కైవ్ నుండి తీసివేయండి
+te,Save,సేవ్
+te,Cancel,రద్దు
+te,Add,జోడించండి
+te,Status,స్థితి
+te,Priority,ప్రాధాన్యత
+te,Chamber Dashboard,ఛాంబర్ డాష్‌బోర్డ్
+te,Client Portal,క్లయింట్ పోర్టల్
+fr,Intake Pending,Admission en attente
+fr,Active,Actif
+fr,On Hold,En attente
+fr,Disposed,Réglé
+fr,Withdrawn,Retiré
+fr,Closed,Clos
+fr,Open Intake Form,Ouvrir le formulaire d'admission
+fr,View Timeline,Voir la chronologie
+fr,Test Connections,Tester les connexions
+fr,Import from File,Importer depuis un fichier
+fr,Download PDF,Télécharger le PDF
+fr,Next Hearing Date,Prochaine date d'audience
+fr,Statutory Deadline,Délai légal
+fr,CNR Number,Numéro CNR
+fr,Court Fees,Frais de justice
+fr,Assigned Advocate,Avocat assigné
+fr,Opposing Counsel,Conseil adverse
+fr,Archive Matter,Archiver l'affaire
+fr,Unarchive,Désarchiver
+fr,Save,Enregistrer
+fr,Cancel,Annuler
+fr,Add,Ajouter
+fr,Status,Statut
+fr,Priority,Priorité
+fr,Chamber Dashboard,Tableau de bord du cabinet
+fr,Client Portal,Portail client
+ar,Intake Pending,الإدخال قيد الانتظار
+ar,Active,نشط
+ar,On Hold,معلق
+ar,Disposed,منتهٍ
+ar,Withdrawn,مسحوب
+ar,Closed,مغلق
+ar,Open Intake Form,فتح نموذج الإدخال
+ar,View Timeline,عرض الجدول الزمني
+ar,Test Connections,اختبار الاتصالات
+ar,Import from File,استيراد من ملف
+ar,Download PDF,تنزيل PDF
+ar,Next Hearing Date,موعد الجلسة القادمة
+ar,Statutory Deadline,الموعد القانوني
+ar,CNR Number,رقم CNR
+ar,Court Fees,رسوم المحكمة
+ar,Assigned Advocate,المحامي المعين
+ar,Opposing Counsel,محامي الخصم
+ar,Archive Matter,أرشفة القضية
+ar,Unarchive,إلغاء الأرشفة
+ar,Save,حفظ
+ar,Cancel,إلغاء
+ar,Add,إضافة
+ar,Status,الحالة
+ar,Priority,الأولوية
+ar,Chamber Dashboard,لوحة معلومات المكتب
+ar,Client Portal,بوابة العميل
+es,Intake Pending,Admisión pendiente
+es,Active,Activo
+es,On Hold,En espera
+es,Disposed,Resuelto
+es,Withdrawn,Retirado
+es,Closed,Cerrado
+es,Open Intake Form,Abrir formulario de admisión
+es,View Timeline,Ver cronología
+es,Test Connections,Probar conexiones
+es,Import from File,Importar desde archivo
+es,Download PDF,Descargar PDF
+es,Next Hearing Date,Próxima fecha de audiencia
+es,Statutory Deadline,Plazo legal
+es,CNR Number,Número CNR
+es,Court Fees,Tasas judiciales
+es,Assigned Advocate,Abogado asignado
+es,Opposing Counsel,Abogado de la parte contraria
+es,Archive Matter,Archivar asunto
+es,Unarchive,Desarchivar
+es,Save,Guardar
+es,Cancel,Cancelar
+es,Add,Añadir
+es,Status,Estado
+es,Priority,Prioridad
+es,Chamber Dashboard,Panel del despacho
+es,Client Portal,Portal del cliente

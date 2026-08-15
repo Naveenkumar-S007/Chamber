@@ -8,6 +8,7 @@ def before_install():
 
 def after_install():
 	create_roles()
+	create_role_profiles()
 	seed_master_data()
 	setup_default_settings()
 
@@ -20,6 +21,27 @@ def create_roles():
 			doc.role_name = role
 			doc.desk_access = 1
 			doc.save(ignore_permissions=True)
+
+
+def create_role_profiles():
+	"""Preconfigured Role Profiles so firms can assign a single profile per
+	team member instead of juggling individual roles."""
+	profiles = {
+		"Chamber Manager": ["Chamber Manager", "Advocate", "Filing Clerk"],
+		"Advocate": ["Advocate"],
+		"Filing Clerk": ["Filing Clerk"],
+	}
+	for profile_name, roles in profiles.items():
+		if frappe.db.exists("Role Profile", profile_name):
+			continue
+		doc = frappe.new_doc("Role Profile")
+		doc.role_profile = profile_name
+		for role in roles:
+			doc.append("roles", {"role": role})
+		try:
+			doc.save(ignore_permissions=True)
+		except Exception:
+			frappe.log_error(frappe.get_traceback(), f"Role Profile {profile_name} creation")
 
 
 def seed_master_data():

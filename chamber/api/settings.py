@@ -80,3 +80,65 @@ def ping(url, timeout=5):
 		return {"ok": True, "http": resp.status_code}
 	except Exception as e:
 		return {"ok": False, "error": str(e)[:200]}
+
+
+@frappe.whitelist()
+def dry_run_portal(portal, reference):
+	"""Dry-run a portal connector against a reference number — no writes.
+
+	Runs the connector's HTTP fetch + parse and returns exactly what would
+	be recorded, so firms can validate their endpoint overrides before
+	enabling sync. Nothing is saved to the sync log or the matter.
+	"""
+	from chamber.utils.portal_client import CONNECTORS
+
+	if portal not in CONNECTORS:
+		frappe.throw(_("Unknown portal: {0}").format(portal))
+	settings = frappe.get_single("Chamber Settings")
+	# Minimal fake matter so the connector can resolve its key value
+	class FakeMatter:
+		name = "DRY-RUN"
+		portal = portal
+
+		def get(self, key, default=None):
+			return getattr(self, key, default)
+
+	matter = FakeMatter()
+	key_field = {
+		"IP India": "application_number",
+		"NCLT / NCLAT": "case_number",
+		"State RERA": "rera_project_number",
+	}[portal]
+	setattr(matter, key_field, reference)
+
+	connector = CONNECTORS[portal](matter, settings)
+	try:
+		parsed = connector.fetch()
+		return {"ok": True, "portal": portal, "parsed": parsed, "note": _("Dry-run only — nothing was saved.")}
+	except Exception as e:
+		return {
+			"ok": False,
+			"portal": portal,
+			"error": str(e)[:300],
+			"note": _("Dry-run only — nothing was saved. Check the endpoint override in Chamber Settings."),
+		}
+
+
+@frappe.whitelist()
+def live_ecourts_check(cnr_number):
+	"""Live eCourts status lookup for a CNR (read-only).
+
+	Uses the configured App Code and returns the parsed status bundle so the
+	firm can confirm credentials before enabling auto-sync. Nothing is saved.
+	"""
+	from chamber.utils import ecourts_client
+
+	if not frappe.db.get_single_value("Chamber Settings", "ecourts_app_code"):
+		frappe.throw(_("Set the eCourts App Code in Chamber Settings first."))
+	try:
+		status = ecourts_client.fetch_case_status(cnr_number)
+	except Exception as e:
+		return {"ok": False, "cnr_number": cnr_number, "error": str(e)[:300]}
+	if not status:
+		return {"ok": False, "cnr_number": cnr_number, "error": _("No status returned for this CNR.")}
+	return {"ok": True, "cnr_number": cnr_number, "status": status}

@@ -76,6 +76,20 @@ def sync_matter(legal_matter, commit=True):
 	if not matter.cnr_number:
 		return {"status": "No Data", "message": "Matter has no CNR number"}
 
+	# Sub-type routing (spec §5.2): DV matters target the Magistrate Court,
+	# anticipatory bail/quashing the High Court, etc. Keeps the fetch honest
+	# about which tier the CNR belongs to.
+	tier = matter.routing_tier
+	if tier and matter.court:
+		court_tier = frappe.db.get_value("Court", matter.court, "court_tier")
+		if court_tier and court_tier != tier:
+			matter.last_sync_status = "Failed"
+			matter.last_sync = now_datetime()
+			matter.save(ignore_permissions=True)
+			msg = _("Court tier mismatch: matter routes to {0} but the linked court is a {1}. Fix the court before syncing.").format(tier, court_tier)
+			write_log(matter, "Failed", error=msg, auto=False)
+			return {"status": "Failed", "message": msg}
+
 	try:
 		status = fetch_case_status(matter.cnr_number)
 	except Exception as e:

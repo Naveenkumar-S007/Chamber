@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install test dependencies
+        run: pip install jinja2
+
+      - name: Compile check
+        run: python -m compileall -q chamber
+
+      - name: Run unit tests
+        run: python -m unittest discover -s chamber/tests -t . -v
+
+  json:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Validate JSON
+        run: |
+          python - <<'EOF'
+          import glob, json, sys
+          bad = []
+          for f in glob.glob('chamber/**/*.json', recursive=True):
+              try:
+                  json.load(open(f, encoding='utf-8'))
+              except Exception as e:
+                  bad.append((f, str(e)))
+          if bad:
+              for f, e in bad:
+                  print('BAD:', f, e)
+              sys.exit(1)
+          print('JSON OK')
+          EOF
+
+  jinja:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Validate seed templates
+        run: |
+          pip install jinja2
+          python - <<'EOF'
+          import re, sys, types
+          from jinja2 import Environment
+          frappe = types.ModuleType('frappe')
+          frappe.db = types.SimpleNamespace(exists=lambda *a, **k: False, get_all=lambda *a, **k: [])
+          frappe.new_doc = lambda *a, **k: None
+          frappe.get_doc = lambda *a, **k: None
+          sys.modules['frappe'] = frappe
+          ns = {}
+          exec(compile(open('chamber/setup/seed.py', encoding='utf-8').read(), 'seed.py', 'exec'), ns)
+          env = Environment()
+          bad = []
+          for t in ns['DOC_TEMPLATES']:
+              try:
+                  env.parse(t['template_body'])
+              except Exception as e:
+                  bad.append((t['template_name'], str(e)))
+              if len(re.findall(r'\{\{', t['template_body'])) != len(re.findall(r'\}\}', t['template_body'])):
+                  bad.append((t['template_name'], 'unbalanced merge tags'))
+          if bad:
+              for n, e in bad:
+                  print('BAD:', n, e)
+              sys.exit(1)
+          print('JINJA OK:', len(ns['DOC_TEMPLATES']), 'templates')
+          EOF

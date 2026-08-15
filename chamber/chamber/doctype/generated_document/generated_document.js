@@ -1,3 +1,12 @@
+const WORKFLOW_NEXT = {
+	"": "Draft",
+	"Draft": "Internal Review",
+	"Internal Review": "Client Review",
+	"Client Review": "Finalized",
+	"Finalized": "Executed",
+	"Executed": null,
+};
+
 frappe.ui.form.on("Generated Document", {
 	refresh(frm) {
 		if (frm.doc.legal_matter && !frm.is_new()) {
@@ -14,6 +23,64 @@ frappe.ui.form.on("Generated Document", {
 						}
 					},
 				});
+			});
+		}
+		// ---- approval workflow controls
+		if (!frm.is_new()) {
+			const next = WORKFLOW_NEXT[frm.doc.workflow_state || ""];
+			if (next) {
+				frm.add_custom_button(__("Workflow → " + next), () => {
+					frappe.call({
+						method: "advance_workflow",
+						doc: frm.doc,
+						args: { target: next },
+						callback: () => frm.reload_doc(),
+					});
+				});
+			}
+			frm.add_custom_button(__("Suggest Clauses"), () => {
+				const d = new frappe.ui.Dialog({
+					title: __("Suggested Clauses from Library"),
+					fields: [
+						{
+							fieldname: "clauses",
+							fieldtype: "Table",
+							label: __("Clauses"),
+							cannot_add_rows: true,
+							cannot_delete_rows: false,
+							data: [],
+							fields: [
+								{ fieldname: "name", fieldtype: "Data", label: __("Clause") },
+								{ fieldname: "clause_text", fieldtype: "Text", label: __("Text") },
+							],
+						},
+					],
+					primary_action_label: __("Copy selected into content"),
+					primary_action(values) {
+						const selected = (values.clauses || []).filter((r) => r.name && r.__checked);
+						if (selected.length) {
+							const content = frm.doc.content || "";
+							const append = selected.map((c) => `<p>${c.clause_text}</p>`).join("\n");
+							frm.set_value("content", content + (content ? "\n" : "") + append);
+						}
+						d.hide();
+					},
+				});
+				d.fields_dict.clauses.df.data = [];
+				frappe.call({
+					method: "suggest_clauses",
+					doc: frm.doc,
+					callback: (r) => {
+						const rows = (r.message || []).map((c) => ({
+							name: c.name,
+							clause_text: c.clause_text,
+							__checked: 0,
+						}));
+						d.fields_dict.clauses.df.data = rows;
+						d.fields_dict.clauses.grid.refresh();
+					},
+				});
+				d.show();
 			});
 		}
 		if (!["Approved", "Sent", "Signed"].includes(frm.doc.status) && !frm.is_new()) {

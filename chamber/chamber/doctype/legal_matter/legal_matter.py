@@ -11,6 +11,7 @@ class LegalMatter(Document):
 		self.compute_limitation()
 		self.validate_matter_type_vertical()
 		self.sync_client_from_parties()
+		self.auto_route()
 		self.compute_ecourts_coverage()
 
 	def after_insert(self):
@@ -33,6 +34,36 @@ class LegalMatter(Document):
 						self.matter_type, mt, self.vertical
 					)
 				)
+
+	def auto_route(self):
+		"""Auto-route the sync portal and court tier by matter sub-type (spec §5.2).
+
+		DV (PWDVA) runs through the Magistrate Court; anticipatory bail /
+		quashing through the High Court; consumer/MACT through their forums;
+		IP, IBC and RERA matters map to the matching portal. Only fills empty
+		fields — the firm can always override.
+		"""
+		mt = (self.matter_type or "").lower()
+		vertical = (frappe.db.get_value("Legal Vertical", self.vertical, "vertical_name") or "").lower() if self.vertical else ""
+		if not self.portal:
+			if any(k in mt for k in ("ip", "trademark", "patent", "copyright", "design")) or "ip" in vertical:
+				self.portal = "IP India"
+			elif any(k in mt for k in ("ibc", "insolvency", "nclt", "company petition", "liquidation")) or "corporate" in vertical:
+				self.portal = "NCLT / NCLAT"
+			elif any(k in mt for k in ("rera", "real estate")) or "property" in vertical:
+				self.portal = "State RERA"
+		# Court-tier routing hint for eCourts sync
+		if not self.routing_tier:
+			if "domestic violence" in mt or "dv" in mt:
+				self.routing_tier = "Magistrate Court"
+			elif any(k in mt for k in ("anticipatory bail", "quashing", "appeal")):
+				self.routing_tier = "High Court"
+			elif "consumer" in mt:
+				self.routing_tier = "Consumer Forum"
+			elif "mact" in mt or "motor accident" in mt:
+				self.routing_tier = "MACT Tribunal"
+			elif "family" in vertical or any(k in mt for k in ("divorce", "maintenance", "custody", "guardianship")):
+				self.routing_tier = "Family Court"
 
 	def compute_ecourts_coverage(self):
 		"""State-coverage transparency surfaced on the form: live sync vs manual fallback."""
@@ -234,3 +265,130 @@ def on_update(doc, method=None):
 	"""Keep matter-level derived fields fresh after any child update."""
 	if not doc.flags.in_insert and doc.limitation_years and doc.cause_of_action_date:
 		doc.compute_limitation()
+
+
+# ---------------------------------------------------------------- permissions
+def _enforce_matter_level():
+	"""Opt-in row-level permissions: only when enabled in Chamber Settings."""
+	try:
+		return bool(frappe.db.get_single_value("Chamber Settings", "enforce_matter_level_permissions"))
+	except Exception:
+		return False
+
+
+def _is_manager(user):
+	return "System Manager" in frappe.get_roles(user) or "Chamber Manager" in frappe.get_roles(user)
+
+
+def _visible_matters(user):
+	"""Matters this user may access under row-level permissions.
+
+	Managers see all. Others see matters they are assigned to (advocate) plus
+	everything explicitly shared with them (Frappe shares).
+	"""
+	if _is_manager(user):
+		return None  # no restriction
+	names = [
+		r["name"]
+		for r in frappe.db.get_all("Legal Matter", filters={"assigned_advocate": user}, fields=["name"])
+	]
+	shared = frappe.db.get_all(
+		"DocShare",
+		filters={"user": user, "share_doctype": "Legal Matter", "read": 1},
+		fields=["share_name"],
+	)
+	names += [s["share_name"] for s in shared]
+	return list({n for n in names if n})
+
+
+def get_permission_query_conditions(user=None):
+	"""Scope Legal Matter list/read queries when matter-level permissions are on."""
+	if not _enforce_matter_level():
+		return ""
+	user = user or frappe.session.user
+	if _is_manager(user):
+		return ""
+	names = _visible_matters(user)
+	if not names:
+		return "(1 = 0)"
+	escaped = ", ".join(f"'{frappe.db.escape(n)}'" for n in names)
+	return f"`tabLegal Matter`.name in ({escaped})"
+
+
+def has_permission(doc=None, ptype="read", user=None):
+	"""Row-level has_permission for Legal Matter."""
+	if not _enforce_matter_level():
+		return True
+	user = user or frappe.session.user
+	if _is_manager(user) or not doc:
+		return True
+	return doc.name in _visible_matters(user)
+
+
+# ---------------------------------------------------------------- archive / hold
+@frappe.whitelist()
+def archive_matter(name, reason=None):
+	"""Set archive / legal-hold state on a matter and record it on the timeline."""
+	from frappe.utils import getdate, now_datetime
+
+	doc = frappe.get_doc("Legal Matter", name)
+	doc.is_archived = 1
+	doc.archive_reason = reason or doc.archive_reason
+	doc.archived_on = getdate()
+	doc.archived_by = frappe.session.user
+	doc.flags.ignore_permissions = True
+	doc.save(ignore_permissions=True)
+	frappe.get_doc(
+		{
+			"doctype": "Timeline Entry",
+			"legal_matter": name,
+			"entry_date": getdate(),
+			"event_type": "Milestone",
+			"title": "Matter archived",
+			"description": reason or "",
+			"source": "Manual",
+		}
+	).insert(ignore_permissions=True)
+	return {"is_archived": 1}
+
+
+@frappe.whitelist()
+def unarchive_matter(name):
+	doc = frappe.get_doc("Legal Matter", name)
+	doc.is_archived = 0
+	doc.archive_reason = ""
+	doc.archived_on = None
+	doc.archived_by = ""
+	doc.flags.ignore_permissions = True
+	doc.save(ignore_permissions=True)
+	frappe.get_doc(
+		{
+			"doctype": "Timeline Entry",
+			"legal_matter": name,
+			"entry_date": frappe.utils.getdate(),
+			"event_type": "Milestone",
+			"title": "Matter unarchived",
+			"source": "Manual",
+		}
+	).insert(ignore_permissions=True)
+	return {"is_archived": 0}
+
+
+@frappe.whitelist()
+def set_legal_hold(name, value=1):
+	"""Place or lift a legal hold (freeze document destruction/deletion)."""
+	doc = frappe.get_doc("Legal Matter", name)
+	doc.legal_hold = 1 if value else 0
+	doc.flags.ignore_permissions = True
+	doc.save(ignore_permissions=True)
+	frappe.get_doc(
+		{
+			"doctype": "Timeline Entry",
+			"legal_matter": name,
+			"entry_date": frappe.utils.getdate(),
+			"event_type": "Milestone",
+			"title": f"Legal hold {'placed' if value else 'lifted'}",
+			"source": "Manual",
+		}
+	).insert(ignore_permissions=True)
+	return {"legal_hold": doc.legal_hold}

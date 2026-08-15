@@ -93,6 +93,10 @@ def install():
 		day = min(d.day, calendar.monthrange(y, d.month)[1])
 		return _dt.date(y, d.month, day)
 
+	def cstr(v, encoding="utf-8"):
+		return str(v or "")
+
+	utils.cstr = cstr
 	utils.getdate = getdate
 	utils.today = today
 	utils.now_datetime = now_datetime
@@ -128,6 +132,39 @@ def install():
 		get_single_value=lambda *a, **k: None,
 	)
 	frappe.get_meta = lambda doctype: types.SimpleNamespace(has_field=lambda f: False)
+	frappe.get_doc = lambda *a, **k: None
+	frappe.new_doc = lambda *a, **k: None
+	frappe.session = types.SimpleNamespace(user="tester@example.com")
+	frappe.get_roles = lambda user=None: ["Advocate"]
+
+	# ---- frappe.model.document.Document (minimal) so doctype controllers import
+	model_pkg = types.ModuleType("frappe.model")
+	model_pkg.__path__ = []
+	document_mod = types.ModuleType("frappe.model.document")
+
+	class Document:
+		def __init__(self, *args, **kwargs):
+			self.flags = types.SimpleNamespace()
+			self._previous = None
+			for k, v in kwargs.items():
+				setattr(self, k, v)
+
+		def get_doc_before_save(self):
+			return self._previous
+
+		def save(self, ignore_permissions=False, **kwargs):
+			return self
+
+		def get(self, key, default=None):
+			return getattr(self, key, default)
+
+		def is_new(self):
+			return not hasattr(self, "name") or not self.name
+
+	document_mod.Document = Document
+	model_pkg.document = document_mod
+	sys.modules["frappe.model"] = model_pkg
+	sys.modules["frappe.model.document"] = document_mod
 
 	sys.modules["frappe"] = frappe
 	sys.modules["frappe.utils"] = utils

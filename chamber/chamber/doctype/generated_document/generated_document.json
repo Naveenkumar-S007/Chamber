@@ -10,12 +10,15 @@
   "document_template",
   "title",
   "status",
+  "workflow_state",
   "requires_lawyer_review",
   "reviewed_by",
   "review_date",
   "drafted_by_ai",
   "section_break_content",
   "content",
+  "section_break_defined_terms",
+  "defined_terms",
   "section_break_merge",
   "merge_data",
   "section_break_file",
@@ -57,6 +60,16 @@
    "options": "\nDraft\nReady for Review\nReview Required\nUnder Review\nApproved\nSent\nSigned"
   },
   {
+   "default": "Draft",
+   "fieldname": "workflow_state",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Workflow Stage",
+   "options": "\nDraft\nInternal Review\nClient Review\nFinalized\nExecuted",
+   "description": "Approval workflow: Draft → Internal Review → Client Review → Finalized → Executed."
+  },
+  {
    "default": "0",
    "fieldname": "requires_lawyer_review",
    "fieldtype": "Check",
@@ -91,6 +104,18 @@
    "fieldtype": "Code",
    "label": "Generated Content",
    "options": "HTML"
+  },
+  {
+   "fieldname": "section_break_defined_terms",
+   "fieldtype": "Section Break",
+   "label": "Defined Terms"
+  },
+  {
+   "fieldname": "defined_terms",
+   "fieldtype": "Table",
+   "label": "Defined Terms",
+   "options": "Defined Term",
+   "description": "Term → Definition pairs rendered in the document body and print format."
   },
   {
    "fieldname": "section_break_merge",

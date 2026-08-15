@@ -23,8 +23,17 @@
 | **Custody-change markers** | One-click custody status logging creates a `Custody Change` timeline marker. | `Legal Matter.log_custody_change` |
 | **Portal connectors** | Real connector classes for IP India / NCLT / State RERA: GET-then-POST requests with JSON + HTML-table parsing, endpoint overrides, graceful manual fallback. | `utils/portal_client.py` (`IPIndiaConnector`, `NCLTConnector`, `RERAPortalConnector`) |
 | **Connection tester** | **Test Connections** button on Chamber Settings checks eCourts / e-signature / AI / portal config + reachability. | `chamber/api/settings.py` |
-| **Reports** | Upcoming Hearings, Matter Status (case load by vertical/status), Deadline Watch. | `chamber/chamber/report/*` |
-| **Tests & i18n** | 21 unit tests (merge engine, timeline bands, eCourts parsing, esign status map, portal parsing) runnable without a bench; translations for hi/ta/kn/te/fr/ar/es. | `chamber/tests/`, `chamber/translations.csv` |
+| **Reports** | Upcoming Hearings, Matter Status (case load by vertical/status), Deadline Watch, Court Fees. | `chamber/chamber/report/*` |
+| **Dashboard** | Chamber Dashboard page with charts (matters by vertical/status, hearings in next 30 days) + headline counters (court fees, pending signatures, active caveats, flagged deadlines). | page `chamber-dashboard`, `chamber/api/dashboard.py` |
+| **Print Formats** | Professional Jinja print formats for Legal Matter Summary, Chamber Application and Generated Document (incl. defined terms). | `chamber/chamber/print_format/*` |
+| **Document workflow** | Draft → Internal Review → Client Review → Finalized → Executed approval workflow on Generated Documents (validated transitions; sensitive docs cannot pass Internal Review unreviewed), **Defined Terms** child table, and **clause auto-suggestion** from the Clause Library. | `Generated Document.advance_workflow` / `suggest_clauses` |
+| **Row-level permissions** | Opt-in matter-level security: when enabled, Advocates see/edit only their assigned (or shared) matters, applications and documents. Preconfigured **Role Profiles** (Chamber Manager / Advocate / Filing Clerk) created on install. | `Chamber Settings.enforce_matter_level_permissions`, `setup/install.py` |
+| **In-desk notifications & invites** | Desk notification feed (`notification_config` wired) for hearings/caveats/documents, plus `.ics` calendar invites attached to hearing-reminder emails. | `chamber/notifications.py`, `utils/calendar.py` |
+| **Sub-type routing (spec §5.2)** | Sync logic auto-routes by matter sub-type: DV → Magistrate Court, anticipatory bail/quashing → High Court, consumer → Consumer Forum, MACT → MACT Tribunal, family → Family Court; IP/IBC/RERA matters auto-map to their portal. Court-tier mismatches block eCourts sync with a clear error. | `Legal Matter.auto_route`, `utils/ecourts_client.py` |
+| **Push webhook** | Courts/portals can push updates (secret-verified): case status, next hearing, judge, order summary → matter + Hearing + timeline + sync log. | `chamber/api/webhooks.py`, `Chamber Settings.webhook_secret` |
+| **Archive & legal hold** | Archive/unarchive matters with reason + audit trail; legal-hold flag (red list indicator) freezes deletion/destruction. | `Legal Matter.is_archived` / `legal_hold` |
+| **Live verification** | Beyond config checks: **live eCourts CNR lookup**, **portal dry-run** (fetch + parse, zero writes) and a **Sync Extended** action (order sheets / cause list / judgment copies) — all from Desk. | `chamber/api/settings.py`, `chamber/api/ecourts.py` |
+| **Tests & i18n** | 21 unit tests (merge engine, timeline bands, eCourts parsing, esign status map, portal parsing) runnable without a bench; bench-only integration tests; CI runs tests on every push; translations for hi/ta/kn/te/fr/ar/es. | `chamber/tests/`, `.github/workflows/ci.yml` |
 
 ## Vertical coverage
 
@@ -55,15 +64,50 @@ The app runs **standalone on Frappe v15** and **couples with ERPNext v15**:
 
 ## Configuration
 
-1. **Roles** — `Chamber Manager`, `Advocate`, `Filing Clerk` are created on install; assign users in Desk.
+1. **Roles & profiles** — `Chamber Manager`, `Advocate`, `Filing Clerk` roles **and** matching Role Profiles are created on install; assign a profile to each user in Desk. For matter-level isolation, enable **Enforce Matter-Level Permissions** in Chamber Settings (advocates then see only their assigned/shared matters).
 2. **Chamber Settings** (`Chamber > Chamber Settings`):
-   - **eCourts**: toggle sync, set the eCourts **App Code** (obtainable from [services.ecourts.gov.in](https://services.ecourts.gov.in)). Without an app code the sync fails gracefully and matters fall back to manual entry. Optional order-sheet URL posts order entries to the timeline.
+   - **eCourts**: toggle sync, set the eCourts **App Code** (obtainable from [services.ecourts.gov.in](https://services.ecourts.gov.in)). Without an app code the sync fails gracefully and matters fall back to manual entry. Optional order-sheet / cause-list / judgments URLs enable the extended fetches (see Endpoint contracts below).
    - **E-signature**: toggle, pick provider, set API URL / key / callback secret. Webhook receiver: `POST {site}/api/method/chamber.api.esign.receive_webhook` (payload `{request_id, status}`).
    - **AI**: enable and set API URL / key / model (OpenAI-compatible — works with OpenAI, DeepSeek, Ollama, vLLM…).
-   - **Portal sync**: toggle for IP India / NCLT / RERA polls.
-3. **eCourts auto-sync** — tick `Auto-Sync from eCourts` on a matter; the hourly job refreshes its CNR.
-4. **Portal auto-sync** — set `Portal` (IP India / NCLT / RERA) + `Auto-Sync from Portal` on the matter.
-5. **Hearing reminders** — daily job emails the assigned advocate before upcoming chamber hearings.
+   - **Portal sync**: toggle for IP India / NCLT / RERA polls; override each portal's endpoint.
+   - **Push webhook**: set a **Webhook Secret** to accept court/portal push updates.
+3. **Verify before going live** — use the buttons on Chamber Settings: **Test Connections** (config + reachability), **Test eCourts Lookup (Live)** (real CNR status call, read-only) and **Test Portal (Dry-run)** (connector fetch + parse, no writes).
+4. **eCourts auto-sync** — tick `Auto-Sync from eCourts` on a matter; the hourly job refreshes its CNR. Sync respects the matter's auto-computed **Routing Tier** (DV → Magistrate, etc.).
+5. **Portal auto-sync** — set `Portal` (IP India / NCLT / RERA) + `Auto-Sync from Portal` on the matter (portal is auto-suggested from the matter sub-type).
+6. **Hearing reminders** — daily job emails the assigned advocate (with an `.ics` calendar invite) and posts an in-desk notification before upcoming chamber hearings; caveat-expiry reminders work the same way.
+7. **Documents** — use **Workflow → …** on a Generated Document to move it Draft → Internal Review → Client Review → Finalized → Executed, and **Suggest Clauses** to pull relevant boilerplate from the Clause Library.
+8. **Archive / hold** — **Archive Matter** (or **Unarchive**) and **Legal Hold** buttons on any matter; archived matters show a grey list indicator, legal hold a red one.
+
+## Endpoint contracts (integration hooks)
+
+These endpoints are **best-effort configurable hooks** — eCourts does not publish order-sheet / cause-list / judgment endpoints publicly, so they only fire when you configure a firm- or vendor-provided endpoint that returns the shapes below.
+
+### eCourts extended fetches (Chamber Settings)
+
+- **Order Sheet URL** — GET with `cnr_number` & `app_code` params. Expect `{"order_sheets": [{"order_date": "YYYY-MM-DD", "order_text": "..."}]}` → posted to the timeline as Order events.
+- **Cause List URL** — GET with `cnr_number` & `app_code`. Expect `{"cause_list": [{"listing_date": "YYYY-MM-DD", "purpose": "..."}]}` → posted as Hearing events.
+- **Judgments URL** — GET with `cnr_number` & `app_code`. Expect `{"judgments": [{"title": "...", "pdf_url": "https://..."}]}` → PDFs downloaded and attached to the matter.
+
+Trigger them manually with the **Sync Extended** button on a Legal Matter.
+
+### Push webhook (`chamber.api.webhooks.receive_update`)
+
+```bash
+curl -X POST https://your-site/api/method/chamber.api.webhooks.receive_update \
+  -H "X-Chamber-Secret: <webhook_secret>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "cnr_number": "KA01-000123-2024",        // or "matter": "MATTER-2026-00001"
+    "case_status": "Next Hearing Listed",
+    "case_stage": "For Arguments",
+    "next_hearing_date": "2026-09-01",
+    "judge": "Justice A",
+    "order_summary": "...",
+    "portal": "eCourts"
+  }'
+```
+
+Updates the matter, upserts a Hearing, posts a timeline entry and logs to the eCourts Sync Log. Wrong/missing secret → 401.
 
 ## Typical flow
 
@@ -86,11 +130,14 @@ python -m unittest discover -s chamber/tests -t . -v
 bench --site <site> run-tests --app chamber
 ```
 
+The GitHub Actions workflow (`.github/workflows/ci.yml`) runs the unit tests on every push; the bench-only integration tests in `chamber/tests/test_integration.py` run under `bench run-tests` and skip when the bench isn't available.
+
 ## Development notes
 
 - All vertical configuration (milestones, intake fields, templates) is **data**, stored in `chamber/setup/seed.py` and editable in Desk — the engines are vertical-agnostic (the "build once, configure per vertical" pattern).
-- Scheduler: `poll_auto_sync_matters` (hourly) and `send_hearing_reminders` (daily).
+- Scheduler: `poll_auto_sync_matters` + `poll_portal_matters` (hourly), `send_hearing_reminders` + `expire_overdue_caveats` (daily).
 - Merge engine uses Frappe's Jinja — templates support filters, loops and conditionals.
+- Demo data: `bench --site <site> execute chamber.setup.demo.run` (or the guarded `chamber.api.demo.load` API) seeds sample matters, courts, parties and hearings in developer mode.
 
 ## License
 

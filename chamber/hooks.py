@@ -71,18 +71,20 @@ after_install = "chamber.setup.install.after_install"
 # Desk Notifications
 # ------------------
 # See frappe.core.notifications.get_notification_config
-# notification_config = "chamber.notifications.get_notification_config"
+notification_config = "chamber.notifications.get_notification_config"
 
 # Permissions
 # -----------
 # Permissions evaluated in scripted ways
-# permission_query_conditions = {
-# 	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
-# }
-#
-# has_permission = {
-# 	"Event": "frappe.desk.doctype.event.event.has_permission",
-# }
+permission_query_conditions = {
+	"Legal Matter": "chamber.chamber.doctype.legal_matter.legal_matter.get_permission_query_conditions",
+	"Chamber Application": "chamber.chamber.doctype.chamber_application.chamber_application.get_permission_query_conditions",
+}
+
+has_permission = {
+	"Legal Matter": "chamber.chamber.doctype.legal_matter.legal_matter.has_permission",
+	"Chamber Application": "chamber.chamber.doctype.chamber_application.chamber_application.has_permission",
+}
 
 # DocType Class
 # ---------------

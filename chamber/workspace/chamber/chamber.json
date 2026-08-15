@@ -271,6 +271,16 @@
   },
   {
    "hidden": 0,
+   "is_query_report": 0,
+   "label": "Chamber Dashboard (Page)",
+   "link_count": 0,
+   "link_type": "Page",
+   "onboard": 1,
+   "type": "Link",
+   "link_to": "chamber-dashboard"
+  },
+  {
+   "hidden": 0,
    "is_query_report": 1,
    "label": "Upcoming Hearings (Report)",
    "link_count": 0,
@@ -278,6 +288,16 @@
    "onboard": 0,
    "type": "Link",
    "link_to": "Upcoming Hearings"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Court Fees (Report)",
+   "link_count": 0,
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link",
+   "link_to": "Court Fees"
   },
   {
    "hidden": 0,

@@ -53,6 +53,7 @@
   "court",
   "court_bench",
   "judge_name",
+  "routing_tier",
   "column_break_court",
   "filing_date",
   "cause_of_action_date",
@@ -86,7 +87,13 @@
   "last_sync_status",
   "section_break_notes",
   "description",
-  "notes"
+  "notes",
+  "section_break_archive",
+  "is_archived",
+  "legal_hold",
+  "archive_reason",
+  "archived_on",
+  "archived_by"
  ],
  "fields": [
   {
@@ -230,6 +237,13 @@
    "fieldname": "judge_name",
    "fieldtype": "Data",
    "label": "Judge Name"
+  },
+  {
+   "fieldname": "routing_tier",
+   "fieldtype": "Data",
+   "label": "Routing Tier",
+   "read_only": 1,
+   "description": "Auto-computed from the matter sub-type (spec §5.2): DV → Magistrate Court, anticipatory bail/quashing → High Court, consumer → Consumer Forum, MACT → MACT Tribunal, family → Family Court."
   },
   {
    "fieldname": "column_break_court",
@@ -422,6 +436,43 @@
    "fieldname": "notes",
    "fieldtype": "Text",
    "label": "Notes"
+  },
+  {
+   "fieldname": "section_break_archive",
+   "fieldtype": "Section Break",
+   "label": "Archive & Legal Hold"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_archived",
+   "fieldtype": "Check",
+   "label": "Archived",
+   "description": "Archived matters are hidden from default list views and marked in the list indicator."
+  },
+  {
+   "default": "0",
+   "fieldname": "legal_hold",
+   "fieldtype": "Check",
+   "label": "Legal Hold",
+   "description": "Freeze this matter against deletion/document destruction (retention control)."
+  },
+  {
+   "fieldname": "archive_reason",
+   "fieldtype": "Small Text",
+   "label": "Archive Reason"
+  },
+  {
+   "fieldname": "archived_on",
+   "fieldtype": "Date",
+   "label": "Archived On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "archived_by",
+   "fieldtype": "Link",
+   "label": "Archived By",
+   "options": "User",
+   "read_only": 1
   }
  ],
  "links": [

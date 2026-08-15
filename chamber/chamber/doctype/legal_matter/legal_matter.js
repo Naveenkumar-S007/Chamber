@@ -8,6 +8,9 @@ frappe.ui.form.on("Legal Matter", {
 		}));
 		frm.set_query("court", () => {
 			// DV (PWDVA) matters run through Magistrate Courts — route the court picker
+			if (frm.doc.routing_tier) {
+				return { filters: { court_tier: frm.doc.routing_tier } };
+			}
 			if (frm.doc.matter_type && frm.doc.matter_type.includes("Domestic Violence")) {
 				return { filters: { court_tier: "Magistrate Court" } };
 			}
@@ -40,6 +43,55 @@ frappe.ui.form.on("Legal Matter", {
 					method: "chamber.chamber.doctype.legal_matter.legal_matter.sync_from_ecourts",
 					args: { doc: frm.doc },
 					callback: (r) => frm.refresh(),
+				});
+			});
+			frm.add_custom_button(__("Sync Extended (Orders/Cause List/Judgments)"), () => {
+				frappe.call({
+					method: "chamber.api.ecourts.sync_extended",
+					args: { legal_matter: frm.doc.name },
+					callback: (r) => {
+						frappe.msgprint({
+							title: __("Extended sync"),
+							message: (r.message && r.message.message) || __("Done."),
+							indicator: "green",
+						});
+						frm.reload_doc();
+					},
+				});
+			});
+			if (!frm.doc.is_archived) {
+				frm.add_custom_button(__("Archive Matter"), () => {
+					const d = new frappe.ui.Dialog({
+						title: __("Archive Matter"),
+						fields: [{ fieldname: "reason", fieldtype: "Small Text", label: __("Reason") }],
+						primary_action_label: __("Archive"),
+						primary_action(values) {
+							frappe.call({
+								method: "chamber.chamber.doctype.legal_matter.legal_matter.archive_matter",
+								args: { name: frm.doc.name, reason: values.reason },
+								callback: () => {
+									d.hide();
+									frm.reload_doc();
+								},
+							});
+						},
+					});
+					d.show();
+				});
+			} else {
+				frm.add_custom_button(__("Unarchive"), () => {
+					frappe.call({
+						method: "chamber.chamber.doctype.legal_matter.legal_matter.unarchive_matter",
+						args: { name: frm.doc.name },
+						callback: () => frm.reload_doc(),
+					});
+				});
+			}
+			frm.add_custom_button(__("Legal Hold"), () => {
+				frappe.call({
+					method: "chamber.chamber.doctype.legal_matter.legal_matter.set_legal_hold",
+					args: { name: frm.doc.name, value: frm.doc.legal_hold ? 0 : 1 },
+					callback: () => frm.reload_doc(),
 				});
 			});
 			frm.add_custom_button(__("Log Custody Change"), () => {

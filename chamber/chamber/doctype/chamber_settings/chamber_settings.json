@@ -13,6 +13,9 @@
   "ecourts_causelist_url",
   "ecourts_judgments_url",
   "enable_portal_sync",
+  "portal_endpoint_ip_india",
+  "portal_endpoint_nclt_nclat",
+  "portal_endpoint_state_rera",
   "section_break_reminders",
   "enable_hearing_reminders",
   "default_reminder_days",
@@ -81,7 +84,25 @@
    "fieldname": "enable_portal_sync",
    "fieldtype": "Check",
    "label": "Enable Portal Sync (IP India / NCLT / RERA)",
-   "description": "Runs the hourly poll for matters marked with a non-eCourts portal. Portals without a machine API fall back to manual entry with coverage notes."
+   "description": "Runs the hourly poll for matters marked with a non-eCourts portal."
+  },
+  {
+   "fieldname": "portal_endpoint_ip_india",
+   "fieldtype": "Data",
+   "label": "IP India Endpoint",
+   "description": "Override for the IP India status search endpoint. The connector tries GET then POST (JSON, then HTML-table fallback)."
+  },
+  {
+   "fieldname": "portal_endpoint_nclt_nclat",
+   "fieldtype": "Data",
+   "label": "NCLT / NCLAT Endpoint",
+   "description": "Override for the NCLT e-filing status endpoint (NCLT IPA requires login; best-effort)."
+  },
+  {
+   "fieldname": "portal_endpoint_state_rera",
+   "fieldtype": "Data",
+   "label": "State RERA Endpoint",
+   "description": "Override for the state RERA project-status endpoint (each state runs its own portal)."
   },
   {
    "fieldname": "section_break_reminders",

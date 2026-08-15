@@ -36,6 +36,15 @@ VERTICALS = [
 			"Revision Petition",
 			"Cross-Examination Question Checklist",
 		],
+		"ai_extraction_fields": [
+			{"source_key": "fir_number", "target_doctype": "Legal Matter", "target_field": "fir_number", "required": 1, "description": "FIR number from the charge sheet/FIR copy"},
+			{"source_key": "police_station", "target_doctype": "Legal Matter", "target_field": "police_station"},
+			{"source_key": "fir_date", "target_doctype": "Legal Matter", "target_field": "fir_date"},
+			{"source_key": "sections_charged", "target_doctype": "Legal Matter", "target_field": "sections_charged", "required": 1},
+			{"source_key": "bail_status", "target_doctype": "Legal Matter", "target_field": "bail_status"},
+			{"source_key": "custody_status", "target_doctype": "Legal Matter", "target_field": "custody_status"},
+			{"source_key": "investigating_officer", "target_doctype": "Legal Matter", "target_field": "investigating_officer"},
+		],
 		"matter_types": [
 			{"matter_type": "Regular Offence", "is_sub_type": 0, "code": "REG"},
 			{"matter_type": "Anticipatory Bail (Pre-Arrest)", "is_sub_type": 1, "code": "ANT-BAIL",
@@ -72,6 +81,16 @@ VERTICALS = [
 			"Vakalatnama",
 			"Settlement / Compounding Application",
 		],
+		"ai_extraction_fields": [
+			{"source_key": "cheque_number", "target_doctype": "Intake Response", "target_field": "cheque_number", "required": 1, "description": "Cheque number from bank return memo/cheque image"},
+			{"source_key": "cheque_date", "target_doctype": "Intake Response", "target_field": "cheque_date"},
+			{"source_key": "cheque_amount", "target_doctype": "Intake Response", "target_field": "cheque_amount", "required": 1},
+			{"source_key": "drawee_bank", "target_doctype": "Intake Response", "target_field": "drawee_bank"},
+			{"source_key": "dishonour_reason", "target_doctype": "Intake Response", "target_field": "dishonour_reason"},
+			{"source_key": "dishonour_date", "target_doctype": "Intake Response", "target_field": "dishonour_date"},
+			{"source_key": "demand_notice_date", "target_doctype": "Intake Response", "target_field": "demand_notice_date", "required": 1, "description": "Statutory 15/30-day window anchor"},
+			{"source_key": "claim_amount", "target_doctype": "Legal Matter", "target_field": "claim_amount"},
+		],
 		"matter_types": [
 			{"matter_type": "Standard 138 Complaint", "is_sub_type": 0, "code": "138"},
 			{"matter_type": "Settlement / Compounding", "is_sub_type": 1, "code": "COMP"},
@@ -102,6 +121,12 @@ VERTICALS = [
 			"Consumer Complaint (District/State/National)",
 			"MACT Claim Petition",
 			"Vakalatnama (civil)",
+		],
+		"ai_extraction_fields": [
+			{"source_key": "claim_amount", "target_doctype": "Legal Matter", "target_field": "claim_amount", "required": 1, "description": "Claim/suit amount from plaint or agreement"},
+			{"source_key": "cause_of_action_date", "target_doctype": "Legal Matter", "target_field": "cause_of_action_date", "required": 1, "description": "Anchors the limitation countdown"},
+			{"source_key": "filing_date", "target_doctype": "Legal Matter", "target_field": "filing_date"},
+			{"source_key": "case_number", "target_doctype": "Legal Matter", "target_field": "case_number"},
 		],
 		"matter_types": [
 			{"matter_type": "Recovery Suit", "is_sub_type": 0, "code": "REC"},
@@ -145,6 +170,11 @@ VERTICALS = [
 			"Section 498A Complaint Draft",
 			"Affidavit of Assets and Liabilities",
 			"Memorandum of Settlement",
+		],
+		"ai_extraction_fields": [
+			{"source_key": "marriage_date", "target_doctype": "Intake Response", "target_field": "marriage_date", "required": 1, "description": "From marriage certificate"},
+			{"source_key": "personal_law", "target_doctype": "Intake Response", "target_field": "personal_law"},
+			{"source_key": "parties", "target_doctype": "Intake Response", "target_field": "parties"},
 		],
 		"sensitive": 1,
 		"matter_types": [
@@ -190,6 +220,13 @@ VERTICALS = [
 			"Eviction Petition (Property)",
 			"Land Acquisition Compensation Objection / Appeal",
 		],
+		"ai_extraction_fields": [
+			{"source_key": "survey_number", "target_doctype": "Intake Response", "target_field": "survey_number", "required": 1, "description": "From sale deed/RTC-khata"},
+			{"source_key": "rera_project_number", "target_doctype": "Intake Response", "target_field": "rera_project_number"},
+			{"source_key": "possession_delay", "target_doctype": "Intake Response", "target_field": "possession_delay"},
+			{"source_key": "compensation_offered", "target_doctype": "Intake Response", "target_field": "compensation_offered"},
+			{"source_key": "compensation_claimed", "target_doctype": "Intake Response", "target_field": "compensation_claimed"},
+		],
 		"matter_types": [
 			{"matter_type": "Title Dispute", "is_sub_type": 0, "code": "TITLE"},
 			{"matter_type": "Partition", "is_sub_type": 1, "code": "PART"},
@@ -227,6 +264,11 @@ VERTICALS = [
 			"Legal Notice (Commercial Dispute)",
 			"IBC Application Draft",
 		],
+		"ai_extraction_fields": [
+			{"source_key": "contract_value", "target_doctype": "Intake Response", "target_field": "contract_value", "required": 1, "description": "Deal/contract value from the agreement"},
+			{"source_key": "governing_law", "target_doctype": "Intake Response", "target_field": "governing_law"},
+			{"source_key": "claim_amount", "target_doctype": "Legal Matter", "target_field": "claim_amount"},
+		],
 		"matter_types": [
 			{"matter_type": "Contract Drafting", "is_sub_type": 0, "code": "CONTRACT"},
 			{"matter_type": "Regulatory Compliance", "is_sub_type": 1, "code": "COMPLIANCE"},
@@ -258,6 +300,12 @@ VERTICALS = [
 			"Cease-and-Desist Notice",
 			"Licensing Agreement",
 			"Infringement Suit Draft",
+		],
+		"ai_extraction_fields": [
+			{"source_key": "application_number", "target_doctype": "Intake Response", "target_field": "application_number", "required": 1, "description": "From IP India filing receipt"},
+			{"source_key": "filing_date", "target_doctype": "Intake Response", "target_field": "filing_date"},
+			{"source_key": "renewal_due_date", "target_doctype": "Intake Response", "target_field": "renewal_due_date", "required": 1, "description": "Feeds the deadline tracker"},
+			{"source_key": "ip_type", "target_doctype": "Intake Response", "target_field": "ip_type"},
 		],
 		"matter_types": [
 			{"matter_type": "Trademark", "is_sub_type": 0, "code": "TM"},
@@ -2232,6 +2280,9 @@ def create_vertical(v):
 	doc.template_documents = []
 	for td in v.get("template_documents", []):
 		doc.append("template_documents", {"document_name": td})
+	doc.ai_extraction_fields = []
+	for m in v.get("ai_extraction_fields", []):
+		doc.append("ai_extraction_fields", m)
 	doc.flags.ignore_permissions = True
 	doc.save(ignore_permissions=True)
 

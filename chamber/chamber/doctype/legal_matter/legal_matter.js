@@ -6,6 +6,23 @@ frappe.ui.form.on("Legal Matter", {
 		frm.set_query("client", () => ({
 			filters: { is_client: 1 },
 		}));
+		frm.set_query("court", () => {
+			// DV (PWDVA) matters run through Magistrate Courts — route the court picker
+			if (frm.doc.matter_type && frm.doc.matter_type.includes("Domestic Violence")) {
+				return { filters: { court_tier: "Magistrate Court" } };
+			}
+		});
+	},
+	vertical(frm) {
+		frm.set_value("matter_type", null);
+	},
+	matter_type(frm) {
+		if (frm.doc.matter_type && frm.doc.matter_type.includes("Domestic Violence")) {
+			frappe.show_alert({
+				message: __("DV (PWDVA) matters run through the Magistrate Court — the court picker is filtered accordingly."),
+				indicator: "orange",
+			});
+		}
 	},
 	refresh(frm) {
 		if (!frm.is_new()) {

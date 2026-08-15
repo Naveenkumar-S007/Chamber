@@ -34,6 +34,7 @@ app_include_js = [
 doctype_js = {
 	"Legal Matter": "public/js/legal_matter.js",
 	"Chamber Application": "public/js/chamber_application.js",
+	"Chamber Settings": "chamber_settings.js",
 }
 doctype_list_js = {
 	"Legal Matter": "public/js/legal_matter_list.js",

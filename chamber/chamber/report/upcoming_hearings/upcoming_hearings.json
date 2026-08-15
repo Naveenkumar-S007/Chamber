@@ -1,0 +1,55 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "creation": "2026-08-15 00:00:00.000000",
+ "disable_prepared_report": 0,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [
+  {
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "label": "From Date",
+   "default": "Today"
+  },
+  {
+   "fieldname": "vertical",
+   "fieldtype": "Link",
+   "label": "Vertical",
+   "options": "Legal Vertical"
+  },
+  {
+   "fieldname": "source",
+   "fieldtype": "Select",
+   "label": "Source",
+   "options": "\nManual\neCourts\nCause List"
+  }
+ ],
+ "idx": 0,
+ "is_standard": "Yes",
+ "json": "{}",
+ "modified": "2026-08-15 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Chamber",
+ "name": "Upcoming Hearings",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "ref_doctype": "Hearing",
+ "report_name": "Upcoming Hearings",
+ "report_type": "Script Report",
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "Chamber Manager"
+  },
+  {
+   "role": "Advocate"
+  },
+  {
+   "role": "Filing Clerk"
+  }
+ ]
+}

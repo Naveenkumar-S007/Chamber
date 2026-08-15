@@ -21,6 +21,10 @@
 | **Universal base intake** | Every intake form starts with the Client Details section (name/phone/email/address), auto-creating/updating the client Legal Party. | `chamber/api/intake.py` |
 | **Per-vertical AI field map** | Admin-configurable `AI Extraction Field` table on each Legal Vertical routes extracted keys to Legal Matter fields or Intake Responses. | `Legal Vertical.ai_extraction_fields` |
 | **Custody-change markers** | One-click custody status logging creates a `Custody Change` timeline marker. | `Legal Matter.log_custody_change` |
+| **Portal connectors** | Real connector classes for IP India / NCLT / State RERA: GET-then-POST requests with JSON + HTML-table parsing, endpoint overrides, graceful manual fallback. | `utils/portal_client.py` (`IPIndiaConnector`, `NCLTConnector`, `RERAPortalConnector`) |
+| **Connection tester** | **Test Connections** button on Chamber Settings checks eCourts / e-signature / AI / portal config + reachability. | `chamber/api/settings.py` |
+| **Reports** | Upcoming Hearings, Matter Status (case load by vertical/status), Deadline Watch. | `chamber/chamber/report/*` |
+| **Tests & i18n** | 21 unit tests (merge engine, timeline bands, eCourts parsing, esign status map, portal parsing) runnable without a bench; translations for hi/ta/kn/te/fr/ar/es. | `chamber/tests/`, `chamber/translations.csv` |
 
 ## Vertical coverage
 
@@ -71,6 +75,16 @@ The app runs **standalone on Frappe v15** and **couples with ERPNext v15**:
 6. **AI Bulk Upload** from the matter → extract FIR/sections/cheque/party data from an uploaded file and auto-fill fields.
 7. **Send for Signature** from a Generated Document → signing link → webhook updates status → timeline entry.
 8. Corporate/IP matters → open **Deadline Tracker** to watch statutory deadlines, limitation expiry, IP renewals and caveat expiry.
+
+## Tests
+
+```bash
+# without a bench (uses a minimal frappe stub)
+python -m unittest discover -s chamber/tests -t . -v
+
+# inside a bench
+bench --site <site> run-tests --app chamber
+```
 
 ## Development notes
 

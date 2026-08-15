@@ -1,0 +1,55 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "creation": "2026-08-15 00:00:00.000000",
+ "disable_prepared_report": 0,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [
+  {
+   "fieldname": "vertical",
+   "fieldtype": "Link",
+   "label": "Vertical",
+   "options": "Legal Vertical"
+  },
+  {
+   "fieldname": "deadline_type",
+   "fieldtype": "Select",
+   "label": "Type",
+   "options": "\nStatutory\nLimitation\nIP Renewal\nCaveat"
+  },
+  {
+   "fieldname": "horizon_days",
+   "fieldtype": "Int",
+   "label": "Horizon (days)",
+   "default": "90"
+  }
+ ],
+ "idx": 0,
+ "is_standard": "Yes",
+ "json": "{}",
+ "modified": "2026-08-15 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Chamber",
+ "name": "Deadline Watch",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "ref_doctype": "Legal Matter",
+ "report_name": "Deadline Watch",
+ "report_type": "Script Report",
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "Chamber Manager"
+  },
+  {
+   "role": "Advocate"
+  },
+  {
+   "role": "Filing Clerk"
+  }
+ ]
+}

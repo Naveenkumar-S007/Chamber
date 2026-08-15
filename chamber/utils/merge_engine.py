@@ -36,12 +36,9 @@ def sanitize_merge_data(merge_context):
 	"""JSON-safe copy of merge context for the Generated Document record."""
 	out = {}
 	for key, value in (merge_context or {}).items():
-		if isinstance(value, (dict, list)):
-			try:
-				json.dumps(value)
-				out[key] = value
-			except (TypeError, ValueError):
-				out[key] = str(value)
-		else:
+		try:
+			json.dumps(value)
 			out[key] = value
+		except (TypeError, ValueError):
+			out[key] = str(value)
 	return out

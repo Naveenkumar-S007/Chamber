@@ -3,6 +3,22 @@ from frappe import _
 
 from chamber.utils import esign_client
 
+# Provider webhook status values -> Signature Request status
+WEBHOOK_STATUS_MAP = {
+	"signed": "Signed",
+	"completed": "Signed",
+	"sent": "Sent",
+	"delivered": "Sent",
+	"viewed": "Viewed",
+	"declined": "Declined",
+	"voided": "Expired",
+	"expired": "Expired",
+	"failed": "Failed",
+	"error": "Failed",
+	"cancelled": "Failed",
+	"canceled": "Failed",
+}
+
 
 @frappe.whitelist()
 def send_for_signature(legal_matter, generated_document, signer_name, signer_email, provider=None):
@@ -54,21 +70,7 @@ def receive_webhook():
 	if not request_id:
 		return {"ok": False, "error": "missing request_id"}
 
-	status_map = {
-		"signed": "Signed",
-		"completed": "Signed",
-		"sent": "Sent",
-		"delivered": "Sent",
-		"viewed": "Viewed",
-		"declined": "Declined",
-		"voided": "Expired",
-		"expired": "Expired",
-		"failed": "Failed",
-		"error": "Failed",
-		"cancelled": "Failed",
-		"canceled": "Failed",
-	}
-	new_status = status_map.get(raw_status)
+	new_status = WEBHOOK_STATUS_MAP.get(raw_status)
 	if not new_status:
 		return {"ok": True, "ignored": raw_status}
 

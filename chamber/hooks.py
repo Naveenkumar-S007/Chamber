@@ -31,14 +31,9 @@ app_include_js = [
 
 # Include js in doctype views
 # doctype_js = {"doctype" : "public/js/doctype.js"}
-doctype_js = {
-	"Legal Matter": "public/js/legal_matter.js",
-	"Chamber Application": "public/js/chamber_application.js",
-	"Chamber Settings": "chamber_settings.js",
-}
-doctype_list_js = {
-	"Legal Matter": "public/js/legal_matter_list.js",
-}
+# Note: Legal Matter / Chamber Application / Chamber Settings form & list JS
+# live in their doctype folders and are auto-included by the framework, so no
+# doctype_js / doctype_list_js hook entries are needed.
 
 # Home Pages
 # ----------

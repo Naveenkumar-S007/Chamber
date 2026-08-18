@@ -37,8 +37,7 @@ app_include_js = [
 
 # Home Pages
 # ----------
-# application home page (will override Website Settings)
-# home_page = "login"
+home_page = "chamber"
 
 # Website user home page (by Role)
 # role_home_page = {

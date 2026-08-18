@@ -1,0 +1,184 @@
+{%- extends "templates/web.html" -%}
+
+{%- block page_content -%}
+<div class="container" style="max-width: 800px;">
+  <div class="text-center" style="margin-bottom: 30px;">
+    <h2 style="color: #1a237e;"><i class="fa fa-file-text-o"></i> Case Intake Form</h2>
+    <p style="color: #666;">Submit your case details. Our team will review and get back to you within 24 hours.</p>
+  </div>
+
+  <form id="intake-form" method="POST" action="/api/method/chamber.www.intake.submit_intake">
+    <input type="hidden" name="csrf_token" value="{{ frappe.session.csrf_token }}">
+
+    <!-- Client Information -->
+    <div class="panel panel-default">
+      <div class="panel-heading" style="background: #1a237e; color: white;">
+        <h4 class="panel-title"><i class="fa fa-user"></i> Client Information</h4>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>Full Name <span style="color: red;">*</span></label>
+              <input type="text" class="form-control" name="client_name" required placeholder="e.g. Rajesh Kumar Singh">
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>Contact Number <span style="color: red;">*</span></label>
+              <input type="tel" class="form-control" name="contact_number" required placeholder="+91-XXXXXXXXXX">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" class="form-control" name="email" placeholder="email@example.com">
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>City</label>
+              <input type="text" class="form-control" name="city" placeholder="New Delhi">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Case Details -->
+    <div class="panel panel-default" style="margin-top: 20px;">
+      <div class="panel-heading" style="background: #e65100; color: white;">
+        <h4 class="panel-title"><i class="fa fa-gavel"></i> Case Details</h4>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>Legal Vertical <span style="color: red;">*</span></label>
+              <select class="form-control" name="vertical" required>
+                <option value="">Select vertical...</option>
+                {% for v in verticals %}
+                <option value="{{ v.name }}">{{ v.vertical_name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>Case Category</label>
+              <select class="form-control" name="case_category">
+                <option value="">Select category...</option>
+                <option value="Criminal">Criminal</option>
+                <option value="Civil">Civil</option>
+                <option value="Family">Family</option>
+                <option value="Property">Property</option>
+                <option value="Commercial">Commercial</option>
+                <option value="Consumer">Consumer</option>
+                <option value="IP">Intellectual Property</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Case Title / Brief Description <span style="color: red;">*</span></label>
+          <input type="text" class="form-control" name="matter_title" required
+                 placeholder="e.g. Cheque Bounce case against XYZ Corp">
+        </div>
+
+        <div class="form-group">
+          <label>Detailed Description <span style="color: red;">*</span></label>
+          <textarea class="form-control" name="description" rows="5" required
+                    placeholder="Describe your case in detail. Include dates, parties involved, and key facts..."></textarea>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>FIR Number (if applicable)</label>
+              <input type="text" class="form-control" name="fir_number" placeholder="e.g. FIR 142/2026">
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>CNR Number (if known)</label>
+              <input type="text" class="form-control" name="cnr_number" placeholder="e.g. DLNT01-000123-2026">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>Priority</label>
+              <select class="form-control" name="priority">
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+                <option value="High">High - Urgent attention needed</option>
+                <option value="Urgent">Urgent - Immediate action required</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>Opposing Party Name (if known)</label>
+              <input type="text" class="form-control" name="opposing_counsel" placeholder="e.g. Adv. John Doe">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="text-center" style="margin-top: 30px; margin-bottom: 40px;">
+      <button type="submit" class="btn btn-primary btn-lg" id="submit-btn">
+        <i class="fa fa-paper-plane"></i> Submit Intake Form
+      </button>
+      <p style="color: #999; margin-top: 10px; font-size: 0.9em;">
+        By submitting, you agree to our terms of engagement. Your data is kept strictly confidential.
+      </p>
+    </div>
+  </form>
+
+  <!-- Success Message (hidden by default) -->
+  <div id="success-msg" style="display: none;" class="text-center" style="margin: 40px 0;">
+    <div style="font-size: 64px; color: #2e7d32;"><i class="fa fa-check-circle"></i></div>
+    <h3 style="color: #2e7d32;">Intake Form Submitted!</h3>
+    <p style="color: #666;">Thank you. Our legal team will review your case and contact you within 24 hours.</p>
+    <a href="/chamber" class="btn btn-default">Back to Home</a>
+  </div>
+</div>
+
+<script>
+frappe.ready(function() {
+  $('#intake-form').on('submit', function(e) {
+    e.preventDefault();
+    var $btn = $('#submit-btn');
+    $btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Submitting...');
+
+    frappe.call({
+      method: 'chamber.www.intake.submit_intake',
+      args: $(this).serializeArray().reduce(function(obj, item) {
+        obj[item.name] = item.value; return obj;
+      }, {}),
+      callback: function(r) {
+        if (r.message && r.message.status === 'ok') {
+          $('#intake-form').hide();
+          $('#success-msg').show();
+        } else {
+          frappe.msgprint(r.message || 'Error submitting form');
+          $btn.prop('disabled', false).html('<i class="fa fa-paper-plane"></i> Submit Intake Form');
+        }
+      },
+      error: function(err) {
+        frappe.msgprint('Error: ' + (err.message || 'Submission failed'));
+        $btn.prop('disabled', false).html('<i class="fa fa-paper-plane"></i> Submit Intake Form');
+      }
+    });
+  });
+});
+</script>
+{%- endblock -%}

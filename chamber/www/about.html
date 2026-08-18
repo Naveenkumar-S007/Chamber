@@ -1,0 +1,66 @@
+{%- extends "templates/web.html" -%}
+
+{%- block page_content -%}
+<div class="container" style="max-width: 800px;">
+  <div class="text-center" style="margin-bottom: 40px;">
+    <h2 style="color: #1a237e;"><i class="fa fa-briefcase"></i> About Chamber</h2>
+    <p style="color: #666; font-size: 1.1em;">Legal Practice & Chamber Work Management</p>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-body" style="padding: 30px;">
+      <h3 style="color: #1a237e;">Our Practice Areas</h3>
+      <p>Chamber provides comprehensive legal practice management across seven specialized verticals:</p>
+
+      <div class="row" style="margin-top: 20px;">
+        <div class="col-sm-6">
+          <ul style="list-style: none; padding: 0;">
+            <li style="padding: 8px 0;"><i class="fa fa-shield" style="color: #f44336; width: 24px;"></i> <strong>Criminal Defense</strong> — FIR matters, bail, appeals, cyber crime</li>
+            <li style="padding: 8px 0;"><i class="fa fa-money" style="color: #ff9800; width: 24px;"></i> <strong>Cheque Bounce / NI Act 138</strong> — Demand notices, complaints, trials</li>
+            <li style="padding: 8px 0;"><i class="fa fa-gavel" style="color: #4caf50; width: 24px;"></i> <strong>Civil Litigation</strong> — Money suits, property, contracts</li>
+            <li style="padding: 8px 0;"><i class="fa fa-users" style="color: #9c27b0; width: 24px;"></i> <strong>Family Law</strong> — Divorce, custody, maintenance</li>
+          </ul>
+        </div>
+        <div class="col-sm-6">
+          <ul style="list-style: none; padding: 0;">
+            <li style="padding: 8px 0;"><i class="fa fa-home" style="color: #009688; width: 24px;"></i> <strong>Property / Real Estate</strong> — Title, eviction, RERA</li>
+            <li style="padding: 8px 0;"><i class="fa fa-building" style="color: #2196f3; width: 24px;"></i> <strong>Corporate / Commercial</strong> — Insolvency, contracts</li>
+            <li style="padding: 8px 0;"><i class="fa fa-lightbulb-o" style="color: #ff5722; width: 24px;"></i> <strong>IP Law</strong> — Trademarks, copyrights, patents</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default" style="margin-top: 20px;">
+    <div class="panel-body" style="padding: 30px;">
+      <h3 style="color: #1a237e;">Technology-Enabled Legal Services</h3>
+      <div class="row" style="margin-top: 20px;">
+        <div class="col-sm-6">
+          <h5><i class="fa fa-cloud" style="color: #0277bd;"></i> eCourts CNR Sync</h5>
+          <p style="color: #666;">Automatic case status updates from eCourts. Real-time hearing dates, order status, and cause list integration.</p>
+
+          <h5 style="margin-top: 20px;"><i class="fa fa-robot" style="color: #6a1b9a;"></i> AI-Assisted Drafting</h5>
+          <p style="color: #666;">Intelligent document generation with merge fields, clause libraries, and AI extraction from uploaded documents.</p>
+        </div>
+        <div class="col-sm-6">
+          <h5><i class="fa fa-tasks" style="color: #2e7d32;"></i> Litigation Timelines</h5>
+          <p style="color: #666;">Complete case lifecycle tracking — from FIR registration through judgment, with milestone sequences per vertical.</p>
+
+          <h5 style="margin-top: 20px;"><i class="fa fa-bell" style="color: #e65100;"></i> Deadline Management</h5>
+          <p style="color: #666;">Automated hearing reminders, limitation period tracking, and statutory deadline alerts.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center" style="margin-top: 30px; margin-bottom: 40px;">
+    <a href="/chamber/intake" class="btn btn-primary btn-lg" style="margin-right: 10px;">
+      <i class="fa fa-file-text-o"></i> Submit Case
+    </a>
+    <a href="/chamber/case-status" class="btn btn-default btn-lg">
+      <i class="fa fa-search"></i> Check Status
+    </a>
+  </div>
+</div>
+{%- endblock -%}

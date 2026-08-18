@@ -1,0 +1,189 @@
+{%- extends "templates/web.html" -%}
+
+{%- block page_content -%}
+<div class="container" style="max-width: 700px;">
+  <div class="text-center" style="margin-bottom: 30px;">
+    <h2 style="color: #1a237e;"><i class="fa fa-search"></i> Check Case Status</h2>
+    <p style="color: #666;">Enter your case reference number or CNR number to check the current status.</p>
+  </div>
+
+  <!-- Search Form -->
+  <div class="panel panel-default" id="search-panel">
+    <div class="panel-body" style="padding: 30px;">
+      <form id="status-form">
+        <div class="form-group">
+          <label>Case Reference Number or CNR Number</label>
+          <div class="input-group">
+            <input type="text" class="form-control" id="search-input"
+                   placeholder="e.g. MATTER-2026-00001 or DLNT01-000123-2026"
+                   style="font-size: 1.1em; padding: 12px;">
+            <span class="input-group-btn">
+              <button type="submit" class="btn btn-primary" style="padding: 12px 24px;">
+                <i class="fa fa-search"></i> Search
+              </button>
+            </span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Results (hidden by default) -->
+  <div id="results" style="display: none; margin-top: 20px;">
+    <!-- Matter Card -->
+    <div class="panel panel-default" id="matter-card">
+      <div class="panel-heading" style="background: #1a237e; color: white; padding: 15px 20px;">
+        <div class="row">
+          <div class="col-sm-8">
+            <h4 class="panel-title" id="matter-title" style="color: white; margin: 0;"></h4>
+          </div>
+          <div class="col-sm-4 text-right">
+            <span class="label" id="matter-status" style="font-size: 0.85em; padding: 5px 12px;"></span>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="row" style="margin-bottom: 15px;">
+          <div class="col-sm-4"><strong>Vertical:</strong></div>
+          <div class="col-sm-8" id="matter-vertical"></div>
+        </div>
+        <div class="row" style="margin-bottom: 15px;">
+          <div class="col-sm-4"><strong>Case Number:</strong></div>
+          <div class="col-sm-8" id="matter-case-number"></div>
+        </div>
+        <div class="row" style="margin-bottom: 15px;">
+          <div class="col-sm-4"><strong>Court:</strong></div>
+          <div class="col-sm-8" id="matter-court"></div>
+        </div>
+        <div class="row" style="margin-bottom: 15px;">
+          <div class="col-sm-4"><strong>Judge:</strong></div>
+          <div class="col-sm-8" id="matter-judge"></div>
+        </div>
+        <div class="row" style="margin-bottom: 15px;">
+          <div class="col-sm-4"><strong>Filing Date:</strong></div>
+          <div class="col-sm-8" id="matter-filing-date"></div>
+        </div>
+        <div class="row" style="margin-bottom: 15px;">
+          <div class="col-sm-4"><strong>Priority:</strong></div>
+          <div class="col-sm-8" id="matter-priority"></div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4"><strong>Description:</strong></div>
+          <div class="col-sm-8" id="matter-description"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upcoming Hearings -->
+    <div class="panel panel-info" id="hearings-panel" style="display: none;">
+      <div class="panel-heading" style="background: #0277bd; color: white;">
+        <h4 class="panel-title" style="color: white;"><i class="fa fa-calendar"></i> Upcoming Hearings</h4>
+      </div>
+      <div class="panel-body" id="hearings-list"></div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="panel panel-default" id="timeline-panel" style="display: none;">
+      <div class="panel-heading" style="background: #2e7d32; color: white;">
+        <h4 class="panel-title" style="color: white;"><i class="fa fa-clock-o"></i> Case Timeline</h4>
+      </div>
+      <div class="panel-body" id="timeline-list"></div>
+    </div>
+  </div>
+
+  <!-- No Results -->
+  <div id="no-results" style="display: none; text-align: center; margin-top: 30px; color: #999;">
+    <i class="fa fa-exclamation-triangle" style="font-size: 48px;"></i>
+    <h4>No case found</h4>
+    <p>Please check the reference number and try again.</p>
+  </div>
+
+  <!-- Loading -->
+  <div id="loading" style="display: none; text-align: center; margin-top: 30px;">
+    <i class="fa fa-spinner fa-spin fa-3x" style="color: #1a237e;"></i>
+    <p>Searching...</p>
+  </div>
+</div>
+
+<script>
+frappe.ready(function() {
+  $('#status-form').on('submit', function(e) {
+    e.preventDefault();
+    var query = $('#search-input').val().trim();
+    if (!query) return;
+
+    $('#results, #no-results').hide();
+    $('#loading').show();
+
+    frappe.call({
+      method: 'chamber.www.case_status.search_matter',
+      args: { query: query },
+      callback: function(r) {
+        $('#loading').hide();
+        if (r.message && r.message.matter) {
+          renderMatter(r.message);
+          $('#results').show();
+        } else {
+          $('#no-results').show();
+        }
+      },
+      error: function() {
+        $('#loading').hide();
+        $('#no-results').show();
+      }
+    });
+  });
+});
+
+function renderMatter(data) {
+  var m = data.matter;
+  var statusColors = {
+    'Active': 'label-success', 'Intake Pending': 'label-warning',
+    'On Hold': 'label-default', 'Disposed': 'label-info',
+    'Withdrawn': 'label-danger', 'Closed': 'label-default'
+  };
+  var priorityColors = {
+    'Low': '#8bc34a', 'Medium': '#ff9800', 'High': '#f44336', 'Urgent': '#b71c1c'
+  };
+
+  $('#matter-title').text(m.matter_title);
+  var statusClass = statusColors[m.status] || 'label-default';
+  $('#matter-status').attr('class', 'label ' + statusClass).text(m.status);
+  $('#matter-vertical').text(m.vertical_name || '-');
+  $('#matter-case-number').text(m.case_number || m.cnr_number || '-');
+  $('#matter-court').text(m.court_name || '-');
+  $('#matter-judge').text(m.judge_name || '-');
+  $('#matter-filing-date').text(m.filing_date || '-');
+  $('#matter-priority').html('<span style="color:' + (priorityColors[m.priority] || '#333') + '; font-weight:bold;">' + (m.priority || '-') + '</span>');
+  $('#matter-description').text(m.description || '-');
+
+  // Hearings
+  if (data.hearings && data.hearings.length > 0) {
+    var html = '<table class="table table-striped"><thead><tr><th>Date</th><th>Purpose</th><th>Judge</th><th>Next Date</th></tr></thead><tbody>';
+    data.hearings.forEach(function(h) {
+      html += '<tr><td>' + h.hearing_date + '</td><td>' + (h.purpose || '-') + '</td><td>' + (h.judge || '-') + '</td><td>' + (h.next_hearing_date || '-') + '</td></tr>';
+    });
+    html += '</tbody></table>';
+    $('#hearings-list').html(html);
+    $('#hearings-panel').show();
+  }
+
+  // Timeline
+  if (data.timeline && data.timeline.length > 0) {
+    var html = '<div class="list-group">';
+    data.timeline.forEach(function(t) {
+      var icon = 'fa-circle';
+      if (t.event_type === 'Order') icon = 'fa-gavel';
+      else if (t.event_type === 'Filing') icon = 'fa-file-text-o';
+      else if (t.event_type === 'Hearing') icon = 'fa-calendar';
+      else if (t.event_type === 'Milestone') icon = 'fa-flag';
+      else if (t.event_type === 'Document') icon = 'fa-paperclip';
+      html += '<div class="list-group-item"><span class="badge">' + t.entry_date + '</span><h5 class="list-group-item-heading"><i class="fa ' + icon + '"></i> ' + t.title + '</h5><p class="list-group-item-text" style="margin:5px 0 0;">' + (t.description || '') + ' <em style="color:#999;">(' + (t.source || 'Manual') + ')</em></p></div>';
+    });
+    html += '</div>';
+    $('#timeline-list').html(html);
+    $('#timeline-panel').show();
+  }
+}
+</script>
+{%- endblock -%}

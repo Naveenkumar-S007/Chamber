@@ -1,0 +1,105 @@
+{%- extends "templates/web.html" -%}
+
+{%- block page_content -%}
+<div class="container">
+  <!-- Hero Section -->
+  <div class="text-center" style="padding: 60px 0 40px;">
+    <h1 style="font-size: 2.8em; font-weight: 700; color: #1a237e;">
+      <i class="fa fa-briefcase" style="margin-right: 12px;"></i>Chamber
+    </h1>
+    <p style="font-size: 1.3em; color: #555; max-width: 700px; margin: 10px auto 0;">
+      Legal Practice & Chamber Work Management
+    </p>
+    <p style="font-size: 1em; color: #777; max-width: 600px; margin: 10px auto 30px;">
+      Vertical-wise case intake, litigation timelines, eCourts CNR sync and AI-assisted drafting.
+    </p>
+    <a href="/chamber/intake" class="btn btn-primary btn-lg" style="margin-right: 12px;">
+      <i class="fa fa-plus-circle"></i> Submit Intake Form
+    </a>
+    <a href="/chamber/case-status" class="btn btn-default btn-lg">
+      <i class="fa fa-search"></i> Check Case Status
+    </a>
+  </div>
+
+  <hr style="margin: 40px 0;">
+
+  <!-- Features -->
+  <div class="row" style="margin-top: 30px;">
+    <div class="col-sm-4 text-center" style="margin-bottom: 30px;">
+      <div style="font-size: 48px; color: #1a237e; margin-bottom: 15px;">
+        <i class="fa fa-gavel"></i>
+      </div>
+      <h4>Criminal Defense</h4>
+      <p style="color: #666;">Bail applications, anticipatory bail, quashing petitions, FIR matters, and appeal management.</p>
+    </div>
+    <div class="col-sm-4 text-center" style="margin-bottom: 30px;">
+      <div style="font-size: 48px; color: #e65100; margin-bottom: 15px;">
+        <i class="fa fa-money"></i>
+      </div>
+      <h4>Cheque Bounce / NI Act 138</h4>
+      <p style="color: #666;">Statutory demand notices, complaint filing, trial management, and settlement tracking.</p>
+    </div>
+    <div class="col-sm-4 text-center" style="margin-bottom: 30px;">
+      <div style="font-size: 48px; color: #2e7d32; margin-bottom: 15px;">
+        <i class="fa fa-home"></i>
+      </div>
+      <h4>Civil Litigation</h4>
+      <p style="color: #666;">Money suits, property disputes, consumer complaints, and contract enforcement.</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-4 text-center" style="margin-bottom: 30px;">
+      <div style="font-size: 48px; color: #6a1b9a; margin-bottom: 15px;">
+        <i class="fa fa-users"></i>
+      </div>
+      <h4>Family Law</h4>
+      <p style="color: #666;">Divorce, custody, maintenance, domestic violence, and mutual consent proceedings.</p>
+    </div>
+    <div class="col-sm-4 text-center" style="margin-bottom: 30px;">
+      <div style="font-size: 48px; color: #00695c; margin-bottom: 15px;">
+        <i class="fa fa-building"></i>
+      </div>
+      <h4>Property / Real Estate</h4>
+      <p style="color: #666;">Title disputes, eviction, RERA complaints, landlord-tenant matters.</p>
+    </div>
+    <div class="col-sm-4 text-center" style="margin-bottom: 30px;">
+      <div style="font-size: 48px; color: #0277bd; margin-bottom: 15px;">
+        <i class="fa fa-shield"></i>
+      </div>
+      <h4>IP Law</h4>
+      <p style="color: #666;">Trademark, copyright, patent disputes, and intellectual property enforcement.</p>
+    </div>
+  </div>
+
+  <hr style="margin: 40px 0;">
+
+  <!-- Quick Links -->
+  <div class="row text-center" style="margin-top: 20px; margin-bottom: 40px;">
+    <div class="col-sm-3">
+      <a href="/chamber/intake" style="color: #1a237e; text-decoration: none;">
+        <i class="fa fa-file-text-o" style="font-size: 32px;"></i>
+        <h5 style="margin-top: 10px;">New Case Intake</h5>
+      </a>
+    </div>
+    <div class="col-sm-3">
+      <a href="/chamber/case-status" style="color: #1a237e; text-decoration: none;">
+        <i class="fa fa-search" style="font-size: 32px;"></i>
+        <h5 style="margin-top: 10px;">Case Status</h5>
+      </a>
+    </div>
+    <div class="col-sm-3">
+      <a href="/chamber/about" style="color: #1a237e; text-decoration: none;">
+        <i class="fa fa-info-circle" style="font-size: 32px;"></i>
+        <h5 style="margin-top: 10px;">About Us</h5>
+      </a>
+    </div>
+    <div class="col-sm-3">
+      <a href="/login" style="color: #1a237e; text-decoration: none;">
+        <i class="fa fa-sign-in" style="font-size: 32px;"></i>
+        <h5 style="margin-top: 10px;">Client Login</h5>
+      </a>
+    </div>
+  </div>
+</div>
+{%- endblock -%}

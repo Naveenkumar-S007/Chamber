@@ -88,6 +88,14 @@ has_permission = {
 # 	"Todo": "custom_app.overrides.CustomToDo"
 # }
 
+# Frappe's `remove_orphan_doctypes` (run at the end of `bench migrate`) can
+# falsely flag app doctypes as orphaned when its module map is built from a
+# stale cache, then delete them (frappe/frappe#37799). Registering the
+# controller here makes the orphan check skip the doctype entirely.
+override_doctype_class = {
+	"eCourts Sync Log": "chamber.chamber.doctype.ecourts_sync_log.ecourts_sync_log.ECourtsSyncLog",
+}
+
 # Document Events
 # ---------------
 # Hook on document methods and events

@@ -62,6 +62,7 @@ app_include_js = [
 # ------------
 before_install = "chamber.setup.install.before_install"
 after_install = "chamber.setup.install.after_install"
+after_migrate = "chamber.setup.install.after_migrate"
 
 # Desk Notifications
 # ------------------

@@ -22,7 +22,7 @@ def create_sample_data():
     _create_mediation_sessions()
     _create_intake_templates()
     frappe.db.commit()
-    print("Sample data created successfully.")
+    print("Sample data creation complete.")
 
 
 def _v(name):
@@ -30,6 +30,8 @@ def _v(name):
 
 
 def _mt(name, vertical):
+    if not vertical:
+        return None
     return frappe.db.get_value("Matter Type", {"matter_type": name, "vertical": vertical}, "name")
 
 
@@ -43,6 +45,19 @@ def _party(name):
 
 def _matter(title):
     return frappe.db.get_value("Legal Matter", {"matter_title": title}, "name")
+
+
+def _safe_save(doc, label):
+    """Save doc with error handling. Returns True on success."""
+    try:
+        doc.save(ignore_permissions=True)
+        frappe.db.commit()
+        print(f"  OK: {label}")
+        return True
+    except Exception as e:
+        frappe.db.rollback()
+        print(f"  SKIP: {label} -- {e}")
+        return False
 
 
 def _create_courts():
@@ -62,8 +77,7 @@ def _create_courts():
         if not frappe.db.exists("Court", {"court_name": c["court_name"]}):
             doc = frappe.new_doc("Court")
             doc.update(c)
-            doc.save(ignore_permissions=True)
-            print(f"  Court: {c['court_name']}")
+            _safe_save(doc, f"Court: {c['court_name']}")
 
 
 def _create_parties():
@@ -93,8 +107,7 @@ def _create_parties():
         if not frappe.db.exists("Legal Party", {"party_name": p["party_name"]}):
             doc = frappe.new_doc("Legal Party")
             doc.update(p)
-            doc.save(ignore_permissions=True)
-            print(f"  Party: {p['party_name']}")
+            _safe_save(doc, f"Party: {p['party_name']}")
 
 
 def _create_document_templates():
@@ -126,8 +139,7 @@ def _create_document_templates():
         if not frappe.db.exists("Document Template", {"template_name": t["template_name"]}):
             doc = frappe.new_doc("Document Template")
             doc.update(t)
-            doc.save(ignore_permissions=True)
-            print(f"  Template: {t['template_name']}")
+            _safe_save(doc, f"Template: {t['template_name']}")
 
 
 def _create_matters():
@@ -142,6 +154,7 @@ def _create_matters():
     p_priya = _party("Priya Sharma")
     p_bharat = _party("Bharat Finance Ltd")
     p_amit = _party("Amit Verma")
+
     matters = [
         {"matter_title": "State vs Rajesh Kumar Singh - Theft FIR",
          "vertical": v_crim, "matter_type": _mt("Regular Offence", v_crim),
@@ -166,7 +179,7 @@ def _create_matters():
          "vertical": v_ni, "matter_type": _mt("Cheque Bounce (Sec 138)", v_ni),
          "status": "Active", "priority": "Medium", "case_category": "Commercial",
          "court": c_tis, "filing_date": date(2026, 4, 10),
-         "client": _party("Bharat Finance Ltd"),
+         "client": p_bharat,
          "opposing_counsel": "Adv. Pooja Nair", "claim_amount": 350000,
          "sections_charged": "Section 138 NI Act",
          "description": "Cheque of Rs. 3,50,000 dishonoured."},
@@ -196,14 +209,23 @@ def _create_matters():
          "opposing_counsel": "Learned APP",
          "description": "Appeal against conviction in Sessions Court."},
     ]
+
     for m in matters:
-        if not frappe.db.exists("Legal Matter", {"matter_title": m["matter_title"]}):
-            doc = frappe.new_doc("Legal Matter")
-            doc.update(m)
-            if m.get("client"):
-                doc.append("parties", {"party": m["client"]})
-            doc.save(ignore_permissions=True)
-            print(f"  Matter: {m['matter_title']}")
+        title = m["matter_title"]
+        if frappe.db.exists("Legal Matter", {"matter_title": title}):
+            continue
+        # Skip if required dependencies are missing
+        if not m.get("vertical"):
+            print(f"  SKIP: Matter '{title[:40]}' -- vertical not found")
+            continue
+        if not m.get("matter_type"):
+            print(f"  SKIP: Matter '{title[:40]}' -- matter_type not found")
+            continue
+        doc = frappe.new_doc("Legal Matter")
+        doc.update(m)
+        if m.get("client"):
+            doc.append("parties", {"party": m["client"]})
+        _safe_save(doc, f"Matter: {title[:50]}")
 
 
 def _create_hearings():
@@ -234,12 +256,14 @@ def _create_hearings():
          "source": "Manual"},
     ]
     for h in hearings:
-        if h["legal_matter"] and not frappe.db.exists("Hearing",
+        if not h["legal_matter"]:
+            continue
+        if frappe.db.exists("Hearing",
                 {"legal_matter": h["legal_matter"], "hearing_date": h["hearing_date"]}):
-            doc = frappe.new_doc("Hearing")
-            doc.update(h)
-            doc.save(ignore_permissions=True)
-            print(f"  Hearing for {h['legal_matter'][:25]}...")
+            continue
+        doc = frappe.new_doc("Hearing")
+        doc.update(h)
+        _safe_save(doc, f"Hearing: {h['purpose'][:40]}")
 
 
 def _create_applications():
@@ -255,63 +279,67 @@ def _create_applications():
          "order_date": date(2026, 3, 25),
          "court": c_tis, "judge_name": "Sh. Rakesh Kumar",
          "urgency_level": "Urgent",
-         "order_summary": "Bail granted on surety of Rs. 25,000. Conditions: weekly reporting."},
+         "order_summary": "Bail granted on surety of Rs. 25,000."},
         {"application_title": "Interim Injunction vs Metro Builders",
          "matter": m2, "application_type": "Interim Injunction / Stay",
          "current_status": "Listed", "filing_date": today - timedelta(days=10),
          "next_hearing_date": today + timedelta(days=15),
          "urgency_level": "Normal",
-         "remarks": "Seeking stay on sale of remaining flats until delivery."},
+         "remarks": "Seeking stay on sale of remaining flats."},
         {"application_title": "Anticipatory Bail for Amit Verma",
          "matter": m4, "application_type": "Bail",
          "current_status": "Draft", "urgency_level": "Ex-parte",
-         "remarks": "Preparing 438 CrPC application. Client fears imminent arrest."},
+         "remarks": "Preparing 438 CrPC application."},
     ]
     for a in apps:
-        if a["matter"] and not frappe.db.exists("Chamber Application",
+        if not a["matter"]:
+            continue
+        if frappe.db.exists("Chamber Application",
                 {"application_title": a["application_title"]}):
-            doc = frappe.new_doc("Chamber Application")
-            doc.update(a)
-            doc.save(ignore_permissions=True)
-            print(f"  Application: {a['application_title']}")
+            continue
+        doc = frappe.new_doc("Chamber Application")
+        doc.update(a)
+        _safe_save(doc, f"Application: {a['application_title'][:40]}")
 
 
 def _create_timeline_entries():
     today = date.today()
     m1 = _matter("State vs Rajesh Kumar Singh - Theft FIR")
+    if not m1:
+        return
     entries = [
         {"legal_matter": m1, "entry_date": date(2026, 2, 28),
          "event_type": "Milestone", "title": "FIR Registered",
-         "description": "FIR 142/2026 registered at PS Hauz Khas under Section 379/34 IPC.",
+         "description": "FIR 142/2026 registered at PS Hauz Khas.",
          "source": "Manual"},
         {"legal_matter": m1, "entry_date": date(2026, 3, 1),
-         "event_type": "Filing", "title": "Client Consultation & Retainer",
-         "description": "Initial consultation with Rajesh Kumar Singh. Retainer agreement signed.",
+         "event_type": "Filing", "title": "Client Consultation",
+         "description": "Initial consultation. Retainer signed.",
          "source": "Manual"},
         {"legal_matter": m1, "entry_date": date(2026, 3, 15),
          "event_type": "Filing", "title": "Bail Application Filed",
-         "description": "Bail application filed before Sessions Court, Tis Hazari.",
+         "description": "Bail application filed before Sessions Court.",
          "source": "Manual"},
         {"legal_matter": m1, "entry_date": date(2026, 3, 25),
          "event_type": "Order", "title": "Bail Granted",
-         "description": "Bail granted on surety of Rs. 25,000. Client released.",
+         "description": "Bail granted on Rs. 25,000 surety.",
          "source": "eCourts"},
         {"legal_matter": m1, "entry_date": today - timedelta(days=7),
-         "event_type": "Hearing", "title": "Cross-examination scheduled",
-         "description": "Next hearing fixed for cross-examination of PW1.",
+         "event_type": "Hearing", "title": "Cross-exam scheduled",
+         "description": "Next hearing for cross-examination of PW1.",
          "source": "eCourts"},
         {"legal_matter": m1, "entry_date": today,
          "event_type": "Document", "title": "Charge sheet received",
-         "description": "Complete charge sheet received from investigating officer.",
+         "description": "Complete charge sheet received.",
          "source": "Manual"},
     ]
     for e in entries:
-        if e["legal_matter"] and not frappe.db.exists("Timeline Entry",
+        if frappe.db.exists("Timeline Entry",
                 {"legal_matter": e["legal_matter"], "title": e["title"]}):
-            doc = frappe.new_doc("Timeline Entry")
-            doc.update(e)
-            doc.save(ignore_permissions=True)
-            print(f"  Timeline: {e['title'][:40]}...")
+            continue
+        doc = frappe.new_doc("Timeline Entry")
+        doc.update(e)
+        _safe_save(doc, f"Timeline: {e['title'][:40]}")
 
 
 def _create_notices():
@@ -320,27 +348,29 @@ def _create_notices():
     today = date.today()
     notices = [
         {"legal_matter": m2, "notice_type": "Legal Notice",
-         "title": "Legal Notice to Metro Builders for Deficiency",
+         "title": "Legal Notice to Metro Builders",
          "issued_date": today - timedelta(days=60),
-         "recipient": "Metro Builders Pvt Ltd, Unit 501, DLF Place, Saket",
+         "recipient": "Metro Builders Pvt Ltd",
          "served_date": today - timedelta(days=55),
          "status": "Served",
-         "notes": "Notice sent via registered post and email. 30-day reply window."},
+         "notes": "Notice sent via registered post."},
         {"legal_matter": m3, "notice_type": "Demand Notice",
-         "title": "Statutory Demand Notice under Sec 138",
+         "title": "Statutory Demand Notice Sec 138",
          "issued_date": today - timedelta(days=45),
-         "recipient": "Sunita Devi, 78, Green Park, New Delhi",
+         "recipient": "Sunita Devi",
          "served_date": today - timedelta(days=40),
          "status": "Served",
-         "notes": "Demand notice for Rs. 3,50,000. 15-day statutory period."},
+         "notes": "Demand for Rs. 3,50,000."},
     ]
     for n in notices:
-        if n["legal_matter"] and not frappe.db.exists("Notice",
+        if not n["legal_matter"]:
+            continue
+        if frappe.db.exists("Notice",
                 {"legal_matter": n["legal_matter"], "title": n["title"]}):
-            doc = frappe.new_doc("Notice")
-            doc.update(n)
-            doc.save(ignore_permissions=True)
-            print(f"  Notice: {n['title'][:40]}...")
+            continue
+        doc = frappe.new_doc("Notice")
+        doc.update(n)
+        _safe_save(doc, f"Notice: {n['title'][:40]}")
 
 
 def _create_caveats():
@@ -355,101 +385,91 @@ def _create_caveats():
          "filed_date": today - timedelta(days=30),
          "valid_until": today + timedelta(days=180),
          "status": "Active",
-         "remarks": "Caveat filed to prevent ex-parte proceedings in appeal."},
+         "remarks": "Prevent ex-parte proceedings in appeal."},
         {"caveat_number": "CAV/2026/SH/00456", "legal_matter": m1,
          "client": p_rajesh, "court": c_tis,
          "filed_date": today - timedelta(days=15),
          "valid_until": today + timedelta(days=90),
          "status": "Active",
-         "remarks": "Prevent surprise bail cancellation application."},
+         "remarks": "Prevent surprise bail cancellation."},
     ]
     for c in caveats:
-        if not frappe.db.exists("Caveat", {"caveat_number": c["caveat_number"]}):
-            doc = frappe.new_doc("Caveat")
-            doc.update(c)
-            doc.save(ignore_permissions=True)
-            print(f"  Caveat: {c['caveat_number']}")
+        if frappe.db.exists("Caveat", {"caveat_number": c["caveat_number"]}):
+            continue
+        doc = frappe.new_doc("Caveat")
+        doc.update(c)
+        _safe_save(doc, f"Caveat: {c['caveat_number']}")
 
 
 def _create_mediation_sessions():
     today = date.today()
     m5 = _matter("Priya Sharma - Divorce Petition")
+    if not m5:
+        return
     sessions = [
         {"legal_matter": m5,
          "session_date": today - timedelta(days=45),
-         "purpose": "First mediation attempt - mutual consent divorce",
+         "purpose": "First mediation - mutual consent divorce",
          "status": "Held",
-         "outcome": "Partial agreement on maintenance. Property division pending.",
+         "outcome": "Partial agreement on maintenance.",
          "next_session_date": today - timedelta(days=15)},
         {"legal_matter": m5,
          "session_date": today - timedelta(days=15),
          "purpose": "Second mediation - property division",
          "status": "Held",
-         "outcome": "Agreed on 60-40 split of joint property. Draft MOU to be prepared.",
+         "outcome": "Agreed on 60-40 split.",
          "next_session_date": today + timedelta(days=30)},
     ]
     for s in sessions:
-        if s["legal_matter"] and not frappe.db.exists("Mediation Session",
+        if frappe.db.exists("Mediation Session",
                 {"legal_matter": s["legal_matter"],
                  "session_date": s["session_date"]}):
-            doc = frappe.new_doc("Mediation Session")
-            doc.update(s)
-            doc.save(ignore_permissions=True)
-            print(f"  Mediation session for divorce matter")
+            continue
+        doc = frappe.new_doc("Mediation Session")
+        doc.update(s)
+        _safe_save(doc, "Mediation session")
 
 
 def _create_intake_templates():
     v_crim = _v("Criminal Defense")
     v_ni = _v("Cheque Bounce / NI Act 138")
-    templates = [
-        {"template_name": "Criminal Case Intake",
-         "vertical": v_crim, "status": "Published", "version": 1,
-         "active": 1, "description": "Standard intake form for criminal matters",
-         "fields": [
-             {"fieldname": "client_name", "label": "Client Full Name",
-              "fieldtype": "Data", "reqd": 1},
-             {"fieldname": "contact_number", "label": "Contact Number",
-              "fieldtype": "Data", "reqd": 1},
-             {"fieldname": "fir_number", "label": "FIR Number",
-              "fieldtype": "Data", "reqd": 1},
-             {"fieldname": "police_station", "label": "Police Station",
-              "fieldtype": "Data", "reqd": 1},
-             {"fieldname": "sections_charged", "label": "Sections Charged",
-              "fieldtype": "Small Text", "reqd": 1},
-             {"fieldname": "incident_date", "label": "Date of Incident",
-              "fieldtype": "Date", "reqd": 1},
-             {"fieldname": "bail_status", "label": "Current Bail Status",
-              "fieldtype": "Select",
-              "options": "Not Applied\nApplied\nGranted\nRejected"},
-             {"fieldname": "description", "label": "Brief Description of Case",
-              "fieldtype": "Text", "reqd": 1},
-         ]},
-        {"template_name": "Cheque Bounce Intake",
-         "vertical": v_ni, "status": "Published", "version": 1,
-         "active": 1, "description": "Intake form for NI Act 138 matters",
-         "fields": [
-             {"fieldname": "client_name", "label": "Client Name",
-              "fieldtype": "Data", "reqd": 1},
-             {"fieldname": "cheque_number", "label": "Cheque Number",
-              "fieldtype": "Data", "reqd": 1},
-             {"fieldname": "cheque_amount", "label": "Cheque Amount (INR)",
-              "fieldtype": "Currency", "reqd": 1},
-             {"fieldname": "dishonour_date", "label": "Date of Dishonour",
-              "fieldtype": "Date", "reqd": 1},
-             {"fieldname": "bank_name", "label": "Drawee Bank",
-              "fieldtype": "Data", "reqd": 1},
-             {"fieldname": "payee_name", "label": "Payee / Opposite Party",
-              "fieldtype": "Data", "reqd": 1},
-             {"fieldname": "demand_notice_sent", "label": "Demand Notice Sent?",
-              "fieldtype": "Check"},
-             {"fieldname": "description", "label": "Additional Details",
-              "fieldtype": "Text"},
-         ]},
-    ]
+    templates = []
+    if v_crim:
+        templates.append(
+            {"template_name": "Criminal Case Intake",
+             "vertical": v_crim, "status": "Published", "version": 1,
+             "active": 1, "description": "Intake form for criminal matters",
+             "fields": [
+                 {"fieldname": "client_name", "label": "Client Name",
+                  "fieldtype": "Data", "reqd": 1},
+                 {"fieldname": "contact_number", "label": "Contact Number",
+                  "fieldtype": "Data", "reqd": 1},
+                 {"fieldname": "fir_number", "label": "FIR Number",
+                  "fieldtype": "Data", "reqd": 1},
+                 {"fieldname": "sections_charged", "label": "Sections Charged",
+                  "fieldtype": "Small Text", "reqd": 1},
+                 {"fieldname": "description", "label": "Description",
+                  "fieldtype": "Text", "reqd": 1},
+             ]})
+    if v_ni:
+        templates.append(
+            {"template_name": "Cheque Bounce Intake",
+             "vertical": v_ni, "status": "Published", "version": 1,
+             "active": 1, "description": "Intake form for NI Act 138",
+             "fields": [
+                 {"fieldname": "client_name", "label": "Client Name",
+                  "fieldtype": "Data", "reqd": 1},
+                 {"fieldname": "cheque_number", "label": "Cheque Number",
+                  "fieldtype": "Data", "reqd": 1},
+                 {"fieldname": "cheque_amount", "label": "Amount",
+                  "fieldtype": "Currency", "reqd": 1},
+                 {"fieldname": "description", "label": "Details",
+                  "fieldtype": "Text"},
+             ]})
     for t in templates:
-        if t["vertical"] and not frappe.db.exists("Intake Form Template",
+        if frappe.db.exists("Intake Form Template",
                 {"template_name": t["template_name"]}):
-            doc = frappe.new_doc("Intake Form Template")
-            doc.update(t)
-            doc.save(ignore_permissions=True)
-            print(f"  Intake Template: {t['template_name']}")
+            continue
+        doc = frappe.new_doc("Intake Form Template")
+        doc.update(t)
+        _safe_save(doc, f"Intake: {t['template_name']}")

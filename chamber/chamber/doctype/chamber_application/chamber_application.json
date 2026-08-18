@@ -264,7 +264,7 @@
  ],
  "modified": "2026-08-15 00:00:00.000000",
  "modified_by": "Administrator",
- "module": "Chamber",
+ "module": "chamber",
  "name": "Chamber Application",
  "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",

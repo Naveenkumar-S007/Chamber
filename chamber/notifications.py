@@ -9,7 +9,7 @@ import frappe
 
 def get_notification_config():
 	config = {
-		"for_module_observers": ["Chamber"],
+		"for_module_observers": ["chamber"],
 		"Legal Matter": {
 			"conditions": None,  # any update is a candidate
 		},

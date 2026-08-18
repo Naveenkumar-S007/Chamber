@@ -14,11 +14,8 @@ def after_install():
 	seed_master_data()
 	setup_default_settings()
 	ensure_chamber_workspace()
-	try:
-		from chamber.setup.sample_data import create_sample_data
-		create_sample_data()
-	except Exception:
-		frappe.log_error(frappe.get_traceback(), "Chamber sample data seeding")
+	from chamber.setup.sample_data import create_sample_data
+	create_sample_data()
 
 
 def ensure_chamber_workspace():
@@ -124,17 +121,16 @@ def ensure_chamber_workspace():
 
 
 def after_migrate():
-	"""Ensure Chamber workspace exists and sample data is seeded.
+	"""Ensure workspace, master data and sample data exist after migrate.
 
-	Fixes the case where JSON sync silently skips workspace creation in
-	Frappe v15 (frappe/frappe#40154). Safe to call repeatedly.
+	Fixes: (1) JSON sync skipping workspace creation (frappe#40154),
+	(2) missing verticals when sample data runs, (3) silent errors.
 	"""
 	ensure_chamber_workspace()
-	try:
-		from chamber.setup.sample_data import create_sample_data
-		create_sample_data()
-	except Exception:
-		frappe.log_error(frappe.get_traceback(), "Chamber sample data seeding")
+	# Master data (verticals + matter types) must exist before sample data
+	seed_master_data()
+	from chamber.setup.sample_data import create_sample_data
+	create_sample_data()
 
 
 def create_roles():

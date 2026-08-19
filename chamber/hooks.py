@@ -19,6 +19,7 @@ app_version = app_version
 app_include_js = [
 	"/assets/chamber/js/intake_form_renderer.js",
 	"/assets/chamber/js/timeline_view.js",
+	"/assets/chamber/js/chamber_workflow.js",
 ]
 # app_include_css = ["/assets/chamber/css/chamber.css"]
 
@@ -37,7 +38,7 @@ app_include_js = [
 
 # Home Pages
 # ----------
-home_page = "chamber"
+home_page = "index"
 
 # Website user home page (by Role)
 # role_home_page = {

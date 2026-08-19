@@ -1,0 +1,156 @@
+{%- extends "templates/web.html" -%}
+
+{%- block page_content -%}
+<div class="container" style="max-width:900px;">
+  <div class="text-center" style="margin-bottom:30px;">
+    <h2 style="color:#1a237e;"><i class="fa fa-sitemap"></i> Case Workflow</h2>
+    <p style="color:#666;">How a case moves through your chamber — from intake to closure.</p>
+  </div>
+
+  <!-- Main Workflow Steps -->
+  <div class="panel panel-default" style="border-radius:10px;overflow:hidden;">
+    <div class="panel-heading" style="background:linear-gradient(135deg,#1a237e,#283593);color:white;padding:20px;">
+      <h4 class="panel-title" style="margin:0;"><i class="fa fa-sitemap" style="margin-right:8px;"></i>Case Lifecycle</h4>
+    </div>
+    <div class="panel-body" style="padding:24px;">
+      <div style="display:flex;gap:0;align-items:stretch;flex-wrap:wrap;justify-content:center;">
+
+        <!-- Step 1 -->
+        <div style="flex:1;min-width:120px;text-align:center;padding:0 6px;">
+          <div style="width:56px;height:56px;border-radius:50%;background:#e3f2fd;border:3px solid #1565c0;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:22px;color:#1565c0;">
+            <i class="fa fa-file-text-o"></i>
+          </div>
+          <div style="font-weight:700;color:#1a237e;font-size:14px;">1. Intake</div>
+          <div style="color:#546e7a;font-size:11px;margin-top:4px;line-height:1.4;">Client submits case<br>via portal or desk</div>
+          <div style="margin-top:6px;"><span style="background:#e3f2fd;color:#1565c0;padding:2px 6px;border-radius:4px;font-size:10px;">Creates: Legal Party + Legal Matter</span></div>
+        </div>
+
+        <div style="display:flex;align-items:center;color:#c5cae9;font-size:18px;padding:0 2px;"><i class="fa fa-chevron-right"></i></div>
+
+        <!-- Step 2 -->
+        <div style="flex:1;min-width:120px;text-align:center;padding:0 6px;">
+          <div style="width:56px;height:56px;border-radius:50%;background:#fff8e1;border:3px solid #f9a825;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:22px;color:#f9a825;">
+            <i class="fa fa-briefcase"></i>
+          </div>
+          <div style="font-weight:700;color:#1a237e;font-size:14px;">2. Registered</div>
+          <div style="color:#546e7a;font-size:11px;margin-top:4px;line-height:1.4;">Matter created<br>timeline entry added</div>
+          <div style="margin-top:6px;"><span style="background:#fff8e1;color:#f9a825;padding:2px 6px;border-radius:4px;font-size:10px;">Auto: routing, limitation</span></div>
+        </div>
+
+        <div style="display:flex;align-items:center;color:#c5cae9;font-size:18px;padding:0 2px;"><i class="fa fa-chevron-right"></i></div>
+
+        <!-- Step 3 -->
+        <div style="flex:1;min-width:120px;text-align:center;padding:0 6px;">
+          <div style="width:56px;height:56px;border-radius:50%;background:#e8f5e9;border:3px solid #2e7d32;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:22px;color:#2e7d32;">
+            <i class="fa fa-check-circle"></i>
+          </div>
+          <div style="font-weight:700;color:#1a237e;font-size:14px;">3. Active</div>
+          <div style="color:#546e7a;font-size:11px;margin-top:4px;line-height:1.4;">Team reviews &amp;<br>activates the matter</div>
+          <div style="margin-top:6px;"><span style="background:#e8f5e9;color:#2e7d32;padding:2px 6px;border-radius:4px;font-size:10px;">Sets: court, judge, type</span></div>
+        </div>
+
+        <div style="display:flex;align-items:center;color:#c5cae9;font-size:18px;padding:0 2px;"><i class="fa fa-chevron-right"></i></div>
+
+        <!-- Step 4 -->
+        <div style="flex:1;min-width:120px;text-align:center;padding:0 6px;">
+          <div style="width:56px;height:56px;border-radius:50%;background:#f3e5f5;border:3px solid #7b1fa2;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:22px;color:#7b1fa2;">
+            <i class="fa fa-gavel"></i>
+          </div>
+          <div style="font-weight:700;color:#1a237e;font-size:14px;">4. Hearings & Docs</div>
+          <div style="color:#546e7a;font-size:11px;margin-top:4px;line-height:1.4;">Track hearings,<br>generate documents</div>
+          <div style="margin-top:6px;"><span style="background:#f3e5f5;color:#7b1fa2;padding:2px 6px;border-radius:4px;font-size:10px;">Draft → Review → Final</span></div>
+        </div>
+
+        <div style="display:flex;align-items:center;color:#c5cae9;font-size:18px;padding:0 2px;"><i class="fa fa-chevron-right"></i></div>
+
+        <!-- Step 5 -->
+        <div style="flex:1;min-width:120px;text-align:center;padding:0 6px;">
+          <div style="width:56px;height:56px;border-radius:50%;background:#e0f2f1;border:3px solid #00897b;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:22px;color:#00897b;">
+            <i class="fa fa-refresh"></i>
+          </div>
+          <div style="font-weight:700;color:#1a237e;font-size:14px;">5. eCourts Sync</div>
+          <div style="color:#546e7a;font-size:11px;margin-top:4px;line-height:1.4;">Auto-sync status<br>orders &amp; cause lists</div>
+          <div style="margin-top:6px;"><span style="background:#e0f2f1;color:#00897b;padding:2px 6px;border-radius:4px;font-size:10px;">Hourly CNR polling</span></div>
+        </div>
+
+        <div style="display:flex;align-items:center;color:#c5cae9;font-size:18px;padding:0 2px;"><i class="fa fa-chevron-right"></i></div>
+
+        <!-- Step 6 -->
+        <div style="flex:1;min-width:120px;text-align:center;padding:0 6px;">
+          <div style="width:56px;height:56px;border-radius:50%;background:#eceff1;border:3px solid #546e7a;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:22px;color:#546e7a;">
+            <i class="fa fa-archive"></i>
+          </div>
+          <div style="font-weight:700;color:#1a237e;font-size:14px;">6. Close</div>
+          <div style="color:#546e7a;font-size:11px;margin-top:4px;line-height:1.4;">Matter disposed<br>archived or withdrawn</div>
+          <div style="margin-top:6px;"><span style="background:#eceff1;color:#546e7a;padding:2px 6px;border-radius:4px;font-size:10px;">Final timeline entry</span></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Status Flow -->
+  <div class="panel panel-default" style="border-radius:10px;margin-top:20px;">
+    <div class="panel-heading" style="background:#283593;color:white;padding:12px 20px;">
+      <h4 class="panel-title" style="margin:0;"><i class="fa fa-arrows-h" style="margin-right:8px;"></i>Matter Status Flow</h4>
+    </div>
+    <div class="panel-body" style="text-align:center;">
+      <span style="background:#e3f2fd;color:#1565c0;padding:6px 14px;border-radius:6px;font-size:13px;font-weight:600;">Intake Pending</span>
+      <i class="fa fa-long-arrow-right" style="color:#90a4ae;margin:0 8px;"></i>
+      <span style="background:#e8f5e9;color:#2e7d32;padding:6px 14px;border-radius:6px;font-size:13px;font-weight:600;">Active</span>
+      <i class="fa fa-long-arrow-right" style="color:#90a4ae;margin:0 8px;"></i>
+      <span style="background:#fff3e0;color:#e65100;padding:6px 14px;border-radius:6px;font-size:13px;font-weight:600;">On Hold</span>
+      <i class="fa fa-long-arrow-right" style="color:#90a4ae;margin:0 8px;"></i>
+      <span style="background:#eceff1;color:#455a64;padding:6px 14px;border-radius:6px;font-size:13px;font-weight:600;">Disposed</span>
+      <span style="background:#eceff1;color:#455a64;padding:6px 14px;border-radius:6px;font-size:13px;font-weight:600;margin-left:6px;">Withdrawn</span>
+      <span style="background:#eceff1;color:#455a64;padding:6px 14px;border-radius:6px;font-size:13px;font-weight:600;margin-left:6px;">Closed</span>
+    </div>
+  </div>
+
+  <!-- Document Workflow -->
+  <div class="panel panel-default" style="border-radius:10px;margin-top:20px;">
+    <div class="panel-heading" style="background:#4527a0;color:white;padding:12px 20px;">
+      <h4 class="panel-title" style="margin:0;"><i class="fa fa-file-text" style="margin-right:8px;"></i>Document Approval Workflow</h4>
+    </div>
+    <div class="panel-body" style="text-align:center;">
+      <span style="background:#f5f5f5;color:#90a4ae;padding:6px 14px;border-radius:6px;font-size:13px;font-weight:600;border:1px solid #e0e0e0;">Draft</span>
+      <i class="fa fa-long-arrow-right" style="color:#90a4ae;margin:0 8px;"></i>
+      <span style="background:#e3f2fd;color:#1565c0;padding:6px 14px;border-radius:6px;font-size:13px;font-weight:600;border:1px solid #bbdefb;">Internal Review</span>
+      <i class="fa fa-long-arrow-right" style="color:#90a4ae;margin:0 8px;"></i>
+      <span style="background:#fff8e1;color:#f9a825;padding:6px 14px;border-radius:6px;font-size:13px;font-weight:600;border:1px solid #fff9c4;">Client Review</span>
+      <i class="fa fa-long-arrow-right" style="color:#90a4ae;margin:0 8px;"></i>
+      <span style="background:#e8f5e9;color:#2e7d32;padding:6px 14px;border-radius:6px;font-size:13px;font-weight:600;border:1px solid #c8e6c9;">Finalized</span>
+      <i class="fa fa-long-arrow-right" style="color:#90a4ae;margin:0 8px;"></i>
+      <span style="background:#eceff1;color:#455a64;padding:6px 14px;border-radius:6px;font-size:13px;font-weight:600;border:1px solid #cfd8dc;">Executed</span>
+      <div style="margin-top:10px;color:#90a4ae;font-size:11px;">Sensitive templates (DV, 498A, adoption) require mandatory lawyer review before advancing past Internal Review.</div>
+    </div>
+  </div>
+
+  <!-- Key Features -->
+  <div class="panel panel-default" style="border-radius:10px;margin-top:20px;margin-bottom:40px;">
+    <div class="panel-heading" style="background:#00695c;color:white;padding:12px 20px;">
+      <h4 class="panel-title" style="margin:0;"><i class="fa fa-cogs" style="margin-right:8px;"></i>Key Features</h4>
+    </div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-sm-6">
+          <ul style="list-style:none;padding:0;">
+            <li style="padding:8px 0;border-bottom:1px solid #f0f0f0;"><i class="fa fa-clock-o" style="color:#ef5350;width:20px;"></i> <strong>Auto Timeline</strong> — every event synced to matter timeline</li>
+            <li style="padding:8px 0;border-bottom:1px solid #f0f0f0;"><i class="fa fa-plug" style="color:#42a5f5;width:20px;"></i> <strong>eCourts Integration</strong> — hourly CNR polling, order sheets</li>
+            <li style="padding:8px 0;border-bottom:1px solid #f0f0f0;"><i class="fa fa-magic" style="color:#ab47bc;width:20px;"></i> <strong>AI Drafting</strong> — extract fields, suggest clauses, generate docs</li>
+            <li style="padding:8px 0;"><i class="fa fa-bell" style="color:#ff9800;width:20px;"></i> <strong>Hearing Reminders</strong> — daily email + calendar invite</li>
+          </ul>
+        </div>
+        <div class="col-sm-6">
+          <ul style="list-style:none;padding:0;">
+            <li style="padding:8px 0;border-bottom:1px solid #f0f0f0;"><i class="fa fa-shield" style="color:#66bb6a;width:20px;"></i> <strong>Matter-Level Permissions</strong> — advocates see only assigned matters</li>
+            <li style="padding:8px 0;border-bottom:1px solid #f0f0f0;"><i class="fa fa-globe" style="color:#26a69a;width:20px;"></i> <strong>Portal Sync</strong> — IP India, NCLT, RERA auto-polling</li>
+            <li style="padding:8px 0;border-bottom:1px solid #f0f0f0;"><i class="fa fa-file-o" style="color:#5c6bc0;width:20px;"></i> <strong>Template Engine</strong> — Jinja merge tags, clause library</li>
+            <li style="padding:8px 0;"><i class="fa fa-pencil" style="color:#8d6e63;width:20px;"></i> <strong>E-Signature</strong> — DocuSign, eMudhra, SignDesk</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{%- endblock -%}

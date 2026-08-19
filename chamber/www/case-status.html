@@ -116,7 +116,7 @@ frappe.ready(function() {
     $('#loading').show();
 
     frappe.call({
-      method: 'chamber.www.case_status.search_matter',
+      method: 'chamber.api.case_status.search_matter',
       args: { query: query },
       callback: function(r) {
         $('#loading').hide();

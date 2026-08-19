@@ -28,7 +28,11 @@ def ensure_chamber_workspace():
 	if frappe.db.exists("Workspace", "Chamber"):
 		return
 
+	# Import the workflow HTML from the patch module
+	from chamber.patches.add_workflow_to_workspace import WORKFLOW_HTML
+
 	content_blocks = [
+		{"id": "workflow_viz", "type": "custom_html", "data": {"html": WORKFLOW_HTML, "col": 12}},
 		{"id": "hdr1", "type": "header", "data": {"text": "<span class=\"h4\"><b>Shortcuts</b></span>", "col": 12}},
 		{"id": "sc1", "type": "shortcut", "data": {"shortcut_name": "New Legal Matter", "col": 3}},
 		{"id": "sc2", "type": "shortcut", "data": {"shortcut_name": "New Chamber Application", "col": 3}},
@@ -120,6 +124,34 @@ def ensure_chamber_workspace():
 	frappe.clear_cache()
 
 
+def _ensure_workflow_visualization():
+	"""Add the workflow diagram block to the Chamber workspace if missing."""
+	from chamber.patches.add_workflow_to_workspace import WORKFLOW_HTML
+
+	try:
+		ws = frappe.get_doc("Workspace", "Chamber")
+	except Exception:
+		return
+
+	content = json.loads(ws.content) if ws.content else []
+	has_workflow = any(
+		b.get("type") == "custom_html"
+		and "chamber-workflow" in (b.get("data", {}).get("html") or "")
+		for b in content
+	)
+	if has_workflow:
+		return
+
+	workflow_block = {
+		"id": "workflow_viz",
+		"type": "custom_html",
+		"data": {"html": WORKFLOW_HTML, "col": 12},
+	}
+	ws.content = json.dumps([workflow_block] + content, ensure_ascii=False)
+	ws.save(ignore_permissions=True)
+	frappe.db.commit()
+
+
 def after_migrate():
 	"""Ensure workspace, master data and sample data exist after migrate.
 
@@ -127,6 +159,7 @@ def after_migrate():
 	(2) missing verticals when sample data runs, (3) silent errors.
 	"""
 	ensure_chamber_workspace()
+	_ensure_workflow_visualization()
 	# Master data (verticals + matter types) must exist before sample data
 	seed_master_data()
 	from chamber.setup.sample_data import create_sample_data

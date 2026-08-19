@@ -42,11 +42,20 @@ def submit_intake(**kwargs):
         else:
             party_name = frappe.db.get_value("Legal Party", {"party_name": client_name}, "name")
 
+        # Resolve a default matter type for the chosen vertical so the
+        # required field is satisfied even though the portal form does not
+        # collect it.  Falls back to the first Matter Type in that vertical
+        # (priority-0 / base type), or leaves it empty if the JSON has been
+        # patched to make matter_type optional.
+        default_mt = frappe.db.get_value(
+            "Matter Type", {"vertical": vertical}, "name"
+        )
+
         # Create Legal Matter
         matter = frappe.new_doc("Legal Matter")
         matter.matter_title = matter_title
         matter.vertical = vertical
-        matter.matter_type = None  # will be set by team
+        matter.matter_type = default_mt  # first matter type for the vertical
         matter.status = "Intake Pending"
         matter.priority = kwargs.get("priority", "Medium")
         matter.case_category = kwargs.get("case_category", "")

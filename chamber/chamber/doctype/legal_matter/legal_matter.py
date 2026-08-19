@@ -46,7 +46,8 @@ class LegalMatter(Document):
 		mt = (self.matter_type or "").lower()
 		vertical = (frappe.db.get_value("Legal Vertical", self.vertical, "vertical_name") or "").lower() if self.vertical else ""
 		if not self.portal:
-			if any(k in mt for k in ("ip", "trademark", "patent", "copyright", "design")) or "ip" in vertical:
+			mt_words = set(mt.replace("(", "").replace(")", "").replace("/", " ").replace("-", " ").split())
+			if any(k in mt_words for k in ("ip",)) or any(k in mt for k in ("trademark", "patent", "copyright", "design")) or "ip" in vertical.split():
 				self.portal = "IP India"
 			elif any(k in mt for k in ("ibc", "insolvency", "nclt", "company petition", "liquidation")) or "corporate" in vertical:
 				self.portal = "NCLT / NCLAT"

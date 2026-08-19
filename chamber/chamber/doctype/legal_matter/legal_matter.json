@@ -125,8 +125,7 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Matter Type",
-   "options": "Matter Type",
-   "reqd": 1
+   "options": "Matter Type"
   },
   {
    "default": "Intake Pending",

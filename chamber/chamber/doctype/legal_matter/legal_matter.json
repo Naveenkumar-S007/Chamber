@@ -35,6 +35,7 @@
   "vertical",
   "matter_type",
   "status",
+  "workflow_step",
   "priority",
   "column_break_6",
   "case_number",
@@ -135,6 +136,15 @@
    "in_standard_filter": 1,
    "label": "Status",
    "options": "\nIntake Pending\nActive\nOn Hold\nDisposed\nWithdrawn\nClosed"
+  },
+  {
+   "default": "Intake",
+   "fieldname": "workflow_step",
+   "fieldtype": "Select",
+   "label": "Workflow Step",
+   "options": "\nIntake\nRegistered\nActive\nHearings & Docs\neCourts Sync\nClosed",
+   "read_only": 1,
+   "description": "Current step in the chamber workflow lifecycle. Updated via workflow action buttons."
   },
   {
    "fieldname": "priority",

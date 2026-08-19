@@ -12,9 +12,10 @@ class LegalMatter(Document):
 		self.validate_matter_type_vertical()
 		self.sync_client_from_parties()
 		self.auto_route()
-		self.compute_ecourts_coverage()
-
-	def after_insert(self):
+		self.compute_ecourts_coverage()    def after_insert(self):
+		self.workflow_step = "Intake"
+		self.flags.ignore_permissions = True
+		frappe.db.set_value("Legal Matter", self.name, "workflow_step", "Intake")
 		self.create_registration_timeline_entry()
 
 	# ---------------------------------------------------------------- helpers
@@ -87,9 +88,7 @@ class LegalMatter(Document):
 				client_party = p.party
 				break
 		if client_party and self.client != client_party:
-			self.client = client_party
-
-	def create_registration_timeline_entry(self):
+			self.client = client_party    def create_registration_timeline_entry(self):
 		frappe.get_doc(
 			{
 				"doctype": "Timeline Entry",
@@ -101,6 +100,54 @@ class LegalMatter(Document):
 				"source": "Manual",
 			}
 		).insert(ignore_permissions=True)
+
+	# ---------------------------------------------------------------- workflow
+	WORKFLOW_STEPS = ["Intake", "Registered", "Active", "Hearings & Docs", "eCourts Sync", "Closed"]
+	WORKFLOW_STATUS_MAP = {
+		"Intake": "Intake Pending",
+		"Registered": "Intake Pending",
+		"Active": "Active",
+		"Hearings & Docs": "Active",
+		"eCourts Sync": "Active",
+		"Closed": "Closed",
+	}
+
+	def advance_workflow(self, target_step):
+		"""Advance the matter to the next workflow step and log a timeline entry."""
+		current = self.workflow_step or "Intake"
+		if target_step not in self.WORKFLOW_STEPS:
+			frappe.throw(_("Invalid workflow step: {0}").format(target_step))
+
+		current_idx = self.WORKFLOW_STEPS.index(current)
+		target_idx = self.WORKFLOW_STEPS.index(target_step)
+		if target_idx <= current_idx:
+			frappe.throw(_("Cannot move backwards from '{0}' to '{1}'.").format(current, target_step))
+
+		self.workflow_step = target_step
+		self.status = self.WORKFLOW_STATUS_MAP.get(target_step, self.status)
+		self.flags.ignore_permissions = True
+		self.save(ignore_permissions=True)
+
+		step_descriptions = {
+			"Registered": "Matter reviewed and registered by team",
+			"Active": "Matter activated — tracking began",
+			"Hearings & Docs": "Court hearings and document drafting underway",
+			"eCourts Sync": "Portal sync configured and running",
+			"Closed": "Matter disposed / settled / closed",
+		}
+		frappe.get_doc(
+			{
+				"doctype": "Timeline Entry",
+				"legal_matter": self.name,
+				"entry_date": getdate(),
+				"event_type": "Milestone",
+				"milestone": f"Workflow → {target_step}",
+				"title": step_descriptions.get(target_step, f"Advanced to {target_step}"),
+				"source": "Manual",
+			}
+		).insert(ignore_permissions=True)
+
+		return {"workflow_step": self.workflow_step, "status": self.status}
 
 	def get_merge_context(self):
 		"""Structured data pulled into document templates / merge engine.

@@ -1,105 +1,574 @@
 {%- extends "templates/web.html" -%}
 
 {%- block page_content -%}
-<div class="container">
-  <!-- Hero Section -->
-  <div class="text-center" style="padding: 60px 0 40px;">
-    <h1 style="font-size: 2.8em; font-weight: 700; color: #1a237e;">
-      <i class="fa fa-briefcase" style="margin-right: 12px;"></i>Chamber
-    </h1>
-    <p style="font-size: 1.3em; color: #555; max-width: 700px; margin: 10px auto 0;">
-      Legal Practice & Chamber Work Management
-    </p>
-    <p style="font-size: 1em; color: #777; max-width: 600px; margin: 10px auto 30px;">
-      Vertical-wise case intake, litigation timelines, eCourts CNR sync and AI-assisted drafting.
-    </p>
-    <a href="/intake" class="btn btn-primary btn-lg" style="margin-right: 12px;">
-      <i class="fa fa-plus-circle"></i> Submit Intake Form
+<style>
+  :root {
+    --chamber-primary: #0f172a;
+    --chamber-accent: #1e40af;
+    --chamber-gold: #d97706;
+    --chamber-light: #f8fafc;
+    --chamber-border: #e2e8f0;
+  }
+
+  /* ── Hero ── */
+  .ch-hero {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #1e40af 100%);
+    color: #fff;
+    padding: 80px 0 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .ch-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(217,119,6,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .ch-hero h1 {
+    font-size: 3em;
+    font-weight: 800;
+    margin: 0 0 8px;
+    letter-spacing: -1px;
+  }
+  .ch-hero h1 .fa { color: #d97706; }
+  .ch-hero .subtitle {
+    font-size: 1.25em;
+    font-weight: 300;
+    opacity: 0.9;
+    margin: 0 0 6px;
+  }
+  .ch-hero .tagline {
+    font-size: 1em;
+    opacity: 0.7;
+    max-width: 600px;
+    margin: 0 auto 32px;
+  }
+  .ch-hero .btn-primary {
+    background: #d97706;
+    border: none;
+    padding: 12px 32px;
+    font-weight: 600;
+    border-radius: 8px;
+    font-size: 1.05em;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .ch-hero .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(217,119,6,0.4); }
+  .ch-hero .btn-outline {
+    background: transparent;
+    border: 2px solid rgba(255,255,255,0.4);
+    color: #fff;
+    padding: 10px 30px;
+    font-weight: 600;
+    border-radius: 8px;
+    font-size: 1.05em;
+    transition: all 0.2s;
+  }
+  .ch-hero .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
+
+  /* ── Workflow Section ── */
+  .ch-workflow-section {
+    background: #fff;
+    padding: 60px 0 50px;
+    border-bottom: 1px solid var(--chamber-border);
+  }
+  .ch-section-title {
+    text-align: center;
+    font-size: 1.8em;
+    font-weight: 700;
+    color: var(--chamber-primary);
+    margin: 0 0 8px;
+  }
+  .ch-section-sub {
+    text-align: center;
+    color: #64748b;
+    font-size: 1.05em;
+    margin: 0 0 40px;
+  }
+  .ch-workflow {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    flex-wrap: wrap;
+  }
+  .ch-wf-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1 1 0;
+    min-width: 130px;
+    max-width: 170px;
+    position: relative;
+  }
+  .ch-wf-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    transition: transform 0.2s;
+  }
+  .ch-wf-step:hover .ch-wf-icon { transform: scale(1.08); }
+  .ch-wf-step .ch-wf-num {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 22px;
+    height: 22px;
+    background: #fff;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--chamber-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    z-index: 3;
+  }
+  .ch-wf-step h5 {
+    font-size: 0.85em;
+    font-weight: 700;
+    color: var(--chamber-primary);
+    margin: 0 0 4px;
+  }
+  .ch-wf-step p {
+    font-size: 0.78em;
+    color: #64748b;
+    margin: 0;
+    line-height: 1.4;
+    padding: 0 4px;
+  }
+  .ch-wf-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 24px;
+    color: #cbd5e1;
+    font-size: 22px;
+    flex-shrink: 0;
+    width: 36px;
+  }
+
+  /* Status flow bar */
+  .ch-status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+  }
+  .ch-status-pill {
+    padding: 5px 16px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .ch-status-arrow { color: #cbd5e1; font-size: 14px; }
+
+  /* ── Verticals ── */
+  .ch-verticals {
+    padding: 60px 0;
+    background: var(--chamber-light);
+  }
+  .ch-vert-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 32px 24px;
+    text-align: center;
+    border: 1px solid var(--chamber-border);
+    transition: all 0.25s;
+    height: 100%;
+  }
+  .ch-vert-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+    border-color: transparent;
+  }
+  .ch-vert-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 16px;
+  }
+  .ch-vert-card h4 {
+    font-size: 1.05em;
+    font-weight: 700;
+    color: var(--chamber-primary);
+    margin: 0 0 8px;
+  }
+  .ch-vert-card p {
+    font-size: 0.9em;
+    color: #64748b;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* ── Stats ── */
+  .ch-stats {
+    padding: 50px 0;
+    background: #fff;
+    border-top: 1px solid var(--chamber-border);
+    border-bottom: 1px solid var(--chamber-border);
+  }
+  .ch-stat-item {
+    text-align: center;
+    padding: 16px;
+  }
+  .ch-stat-num {
+    font-size: 2.4em;
+    font-weight: 800;
+    color: var(--chamber-accent);
+    line-height: 1;
+  }
+  .ch-stat-label {
+    font-size: 0.9em;
+    color: #64748b;
+    margin-top: 4px;
+  }
+
+  /* ── CTA ── */
+  .ch-cta {
+    padding: 60px 0;
+    background: linear-gradient(135deg, #0f172a, #1e40af);
+    color: #fff;
+    text-align: center;
+  }
+  .ch-cta h2 { font-size: 2em; font-weight: 700; margin: 0 0 12px; }
+  .ch-cta p { font-size: 1.1em; opacity: 0.85; margin: 0 0 32px; max-width: 550px; margin-left: auto; margin-right: auto; }
+  .ch-cta .btn-gold {
+    background: #d97706;
+    border: none;
+    color: #fff;
+    padding: 14px 36px;
+    font-weight: 700;
+    border-radius: 8px;
+    font-size: 1.1em;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .ch-cta .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(217,119,6,0.4); }
+
+  /* ── Footer ── */
+  .ch-footer {
+    background: #0f172a;
+    color: rgba(255,255,255,0.6);
+    padding: 32px 0;
+    text-align: center;
+    font-size: 0.9em;
+  }
+  .ch-footer a { color: #d97706; text-decoration: none; }
+  .ch-footer a:hover { text-decoration: underline; }
+  .ch-footer-links { margin-top: 10px; }
+  .ch-footer-links a { margin: 0 12px; }
+
+  /* ── Quick Links Nav ── */
+  .ch-quick-nav {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  .ch-quick-nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 0.92em;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .ch-quick-nav .nav-intake {
+    background: rgba(217,119,6,0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(217,119,6,0.3);
+  }
+  .ch-quick-nav .nav-intake:hover { background: rgba(217,119,6,0.25); }
+  .ch-quick-nav .nav-status {
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.8);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .ch-quick-nav .nav-status:hover { background: rgba(255,255,255,0.18); }
+  .ch-quick-nav .nav-about {
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.8);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .ch-quick-nav .nav-about:hover { background: rgba(255,255,255,0.18); }
+  .ch-quick-nav .nav-login {
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.8);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .ch-quick-nav .nav-login:hover { background: rgba(255,255,255,0.18); }
+
+  @media (max-width: 768px) {
+    .ch-hero { padding: 50px 0 40px; }
+    .ch-hero h1 { font-size: 2em; }
+    .ch-workflow { gap: 0; }
+    .ch-wf-step { min-width: 100px; }
+    .ch-wf-step h5 { font-size: 0.75em; }
+    .ch-wf-step p { font-size: 0.7em; }
+    .ch-wf-arrow { width: 24px; font-size: 16px; }
+    .ch-wf-icon { width: 50px; height: 50px; font-size: 20px; }
+  }
+</style>
+
+<!-- ═══════ HERO ═══════ -->
+<section class="ch-hero">
+  <div class="container">
+    <h1><i class="fa fa-briefcase"></i> Chamber</h1>
+    <p class="subtitle">Legal Practice &amp; Chamber Work Management</p>
+    <p class="tagline">Vertical-wise case intake, litigation timelines, eCourts CNR sync and AI-assisted drafting.</p>
+    <div style="margin-bottom: 8px;">
+      <a href="/intake" class="btn btn-primary" style="margin-right: 10px;">
+        <i class="fa fa-plus-circle"></i> New Case Intake
+      </a>
+      <a href="/case-status" class="btn btn-outline">
+        <i class="fa fa-search"></i> Check Case Status
+      </a>
+    </div>
+    <nav class="ch-quick-nav">
+      <a href="/intake" class="nav-intake"><i class="fa fa-file-text-o"></i> Submit Intake Form</a>
+      <a href="/case-status" class="nav-status"><i class="fa fa-bar-chart"></i> Case Status</a>
+      <a href="/about" class="nav-about"><i class="fa fa-info-circle"></i> About Us</a>
+      <a href="/login" class="nav-login"><i class="fa fa-sign-in"></i> Client Login</a>
+    </nav>
+  </div>
+</section>
+
+<!-- ═══════ WORKFLOW ═══════ -->
+<section class="ch-workflow-section">
+  <div class="container">
+    <h2 class="ch-section-title">How It Works</h2>
+    <p class="ch-section-sub">From intake to case closure — your complete litigation lifecycle in six steps.</p>
+
+    <div class="ch-workflow">
+      <!-- Step 1 -->
+      <div class="ch-wf-step">
+        <div class="ch-wf-icon" style="background: linear-gradient(135deg, #2563eb, #3b82f6);">
+          <i class="fa fa-file-text-o"></i>
+          <span class="ch-wf-num">1</span>
+        </div>
+        <h5>Intake</h5>
+        <p>Client submits case details via the online intake form.</p>
+      </div>
+      <div class="ch-wf-arrow"><i class="fa fa-chevron-right"></i></div>
+
+      <!-- Step 2 -->
+      <div class="ch-wf-step">
+        <div class="ch-wf-icon" style="background: linear-gradient(135deg, #d97706, #f59e0b);">
+          <i class="fa fa-clipboard"></i>
+          <span class="ch-wf-num">2</span>
+        </div>
+        <h5>Register</h5>
+        <p>Team reviews and creates a Legal Matter with auto-routing.</p>
+      </div>
+      <div class="ch-wf-arrow"><i class="fa fa-chevron-right"></i></div>
+
+      <!-- Step 3 -->
+      <div class="ch-wf-step">
+        <div class="ch-wf-icon" style="background: linear-gradient(135deg, #16a34a, #22c55e);">
+          <i class="fa fa-bolt"></i>
+          <span class="ch-wf-num">3</span>
+        </div>
+        <h5>Active</h5>
+        <p>Matter goes active — timelines, hearings, and documents tracked.</p>
+      </div>
+      <div class="ch-wf-arrow"><i class="fa fa-chevron-right"></i></div>
+
+      <!-- Step 4 -->
+      <div class="ch-wf-step">
+        <div class="ch-wf-icon" style="background: linear-gradient(135deg, #7c3aed, #a855f7);">
+          <i class="fa fa-gavel"></i>
+          <span class="ch-wf-num">4</span>
+        </div>
+        <h5>Hearings &amp; Docs</h5>
+        <p>Court hearings scheduled, AI-assisted documents drafted and reviewed.</p>
+      </div>
+      <div class="ch-wf-arrow"><i class="fa fa-chevron-right"></i></div>
+
+      <!-- Step 5 -->
+      <div class="ch-wf-step">
+        <div class="ch-wf-icon" style="background: linear-gradient(135deg, #0891b2, #22d3ee);">
+          <i class="fa fa-cloud-download"></i>
+          <span class="ch-wf-num">5</span>
+        </div>
+        <h5>eCourts Sync</h5>
+        <p>Auto-sync case status from eCourts, IP India, and NCLT portals.</p>
+      </div>
+      <div class="ch-wf-arrow"><i class="fa fa-chevron-right"></i></div>
+
+      <!-- Step 6 -->
+      <div class="ch-wf-step">
+        <div class="ch-wf-icon" style="background: linear-gradient(135deg, #475569, #64748b);">
+          <i class="fa fa-check-circle"></i>
+          <span class="ch-wf-num">6</span>
+        </div>
+        <h5>Close</h5>
+        <p>Matter disposed or settled. Archived with full audit trail.</p>
+      </div>
+    </div>
+
+    <!-- Status flow bar -->
+    <div class="ch-status-bar">
+      <span class="ch-status-pill" style="background: #eff6ff; color: #2563eb;">Intake Pending</span>
+      <span class="ch-status-arrow"><i class="fa fa-long-arrow-right"></i></span>
+      <span class="ch-status-pill" style="background: #f0fdf4; color: #16a34a;">Active</span>
+      <span class="ch-status-arrow"><i class="fa fa-long-arrow-right"></i></span>
+      <span class="ch-status-pill" style="background: #fefce8; color: #ca8a04;">On Hold</span>
+      <span class="ch-status-arrow"><i class="fa fa-long-arrow-right"></i></span>
+      <span class="ch-status-pill" style="background: #f0fdf4; color: #16a34a;">Disposed</span>
+      <span class="ch-status-pill" style="background: #fef2f2; color: #dc2626;">Withdrawn</span>
+      <span class="ch-status-pill" style="background: #f1f5f9; color: #475569;">Closed</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ VERTICALS ═══════ -->
+<section class="ch-verticals">
+  <div class="container">
+    <h2 class="ch-section-title">Practice Areas</h2>
+    <p class="ch-section-sub">Specialized workflows tailored to each legal vertical.</p>
+
+    <div class="row">
+      <div class="col-sm-4" style="margin-bottom: 24px;">
+        <div class="ch-vert-card">
+          <div class="ch-vert-icon" style="background: #eff6ff; color: #2563eb;">
+            <i class="fa fa-shield"></i>
+          </div>
+          <h4>Criminal Defense</h4>
+          <p>Bail applications, anticipatory bail, quashing petitions, FIR matters, and appeal management.</p>
+        </div>
+      </div>
+      <div class="col-sm-4" style="margin-bottom: 24px;">
+        <div class="ch-vert-card">
+          <div class="ch-vert-icon" style="background: #fff7ed; color: #ea580c;">
+            <i class="fa fa-money"></i>
+          </div>
+          <h4>Cheque Bounce / NI Act 138</h4>
+          <p>Statutory demand notices, complaint filing, trial management, and settlement tracking.</p>
+        </div>
+      </div>
+      <div class="col-sm-4" style="margin-bottom: 24px;">
+        <div class="ch-vert-card">
+          <div class="ch-vert-icon" style="background: #f0fdf4; color: #16a34a;">
+            <i class="fa fa-home"></i>
+          </div>
+          <h4>Civil Litigation</h4>
+          <p>Money suits, property disputes, consumer complaints, and contract enforcement.</p>
+        </div>
+      </div>
+      <div class="col-sm-4" style="margin-bottom: 24px;">
+        <div class="ch-vert-card">
+          <div class="ch-vert-icon" style="background: #faf5ff; color: #9333ea;">
+            <i class="fa fa-users"></i>
+          </div>
+          <h4>Family Law</h4>
+          <p>Divorce, custody, maintenance, domestic violence, and mutual consent proceedings.</p>
+        </div>
+      </div>
+      <div class="col-sm-4" style="margin-bottom: 24px;">
+        <div class="ch-vert-card">
+          <div class="ch-vert-icon" style="background: #ecfdf5; color: #059669;">
+            <i class="fa fa-building"></i>
+          </div>
+          <h4>Property / Real Estate</h4>
+          <p>Title disputes, eviction, RERA complaints, landlord-tenant matters.</p>
+        </div>
+      </div>
+      <div class="col-sm-4" style="margin-bottom: 24px;">
+        <div class="ch-vert-card">
+          <div class="ch-vert-icon" style="background: #eff6ff; color: #2563eb;">
+            <i class="fa fa-lightbulb-o"></i>
+          </div>
+          <h4>IP Law</h4>
+          <p>Trademark, copyright, patent disputes, and intellectual property enforcement.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ STATS ═══════ -->
+<section class="ch-stats">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="ch-stat-item">
+          <div class="ch-stat-num">6</div>
+          <div class="ch-stat-label">Practice Verticals</div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="ch-stat-item">
+          <div class="ch-stat-num">5</div>
+          <div class="ch-stat-label">Doc Workflow Stages</div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="ch-stat-item">
+          <div class="ch-stat-num">3</div>
+          <div class="ch-stat-label">Court Portal Integrations</div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="ch-stat-item">
+          <div class="ch-stat-num">24/7</div>
+          <div class="ch-stat-label">Client Intake Portal</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ CTA ═══════ -->
+<section class="ch-cta">
+  <div class="container">
+    <h2>Ready to Get Started?</h2>
+    <p>Submit your case intake form online. Our team will review and register your matter within 24 hours.</p>
+    <a href="/intake" class="btn btn-gold">
+      <i class="fa fa-arrow-right"></i> Submit Intake Form
     </a>
-    <a href="/case-status" class="btn btn-default btn-lg">
-      <i class="fa fa-search"></i> Check Case Status
-    </a>
   </div>
+</section>
 
-  <hr style="margin: 40px 0;">
-
-  <!-- Features -->
-  <div class="row" style="margin-top: 30px;">
-    <div class="col-sm-4 text-center" style="margin-bottom: 30px;">
-      <div style="font-size: 48px; color: #1a237e; margin-bottom: 15px;">
-        <i class="fa fa-gavel"></i>
-      </div>
-      <h4>Criminal Defense</h4>
-      <p style="color: #666;">Bail applications, anticipatory bail, quashing petitions, FIR matters, and appeal management.</p>
-    </div>
-    <div class="col-sm-4 text-center" style="margin-bottom: 30px;">
-      <div style="font-size: 48px; color: #e65100; margin-bottom: 15px;">
-        <i class="fa fa-money"></i>
-      </div>
-      <h4>Cheque Bounce / NI Act 138</h4>
-      <p style="color: #666;">Statutory demand notices, complaint filing, trial management, and settlement tracking.</p>
-    </div>
-    <div class="col-sm-4 text-center" style="margin-bottom: 30px;">
-      <div style="font-size: 48px; color: #2e7d32; margin-bottom: 15px;">
-        <i class="fa fa-home"></i>
-      </div>
-      <h4>Civil Litigation</h4>
-      <p style="color: #666;">Money suits, property disputes, consumer complaints, and contract enforcement.</p>
+<!-- ═══════ FOOTER ═══════ -->
+<footer class="ch-footer">
+  <div class="container">
+    <div>Chamber — Legal Practice &amp; Chamber Work Management</div>
+    <div class="ch-footer-links">
+      <a href="/intake">Intake</a>
+      <a href="/case-status">Case Status</a>
+      <a href="/about">About</a>
+      <a href="/login">Login</a>
     </div>
   </div>
+</footer>
 
-  <div class="row">
-    <div class="col-sm-4 text-center" style="margin-bottom: 30px;">
-      <div style="font-size: 48px; color: #6a1b9a; margin-bottom: 15px;">
-        <i class="fa fa-users"></i>
-      </div>
-      <h4>Family Law</h4>
-      <p style="color: #666;">Divorce, custody, maintenance, domestic violence, and mutual consent proceedings.</p>
-    </div>
-    <div class="col-sm-4 text-center" style="margin-bottom: 30px;">
-      <div style="font-size: 48px; color: #00695c; margin-bottom: 15px;">
-        <i class="fa fa-building"></i>
-      </div>
-      <h4>Property / Real Estate</h4>
-      <p style="color: #666;">Title disputes, eviction, RERA complaints, landlord-tenant matters.</p>
-    </div>
-    <div class="col-sm-4 text-center" style="margin-bottom: 30px;">
-      <div style="font-size: 48px; color: #0277bd; margin-bottom: 15px;">
-        <i class="fa fa-shield"></i>
-      </div>
-      <h4>IP Law</h4>
-      <p style="color: #666;">Trademark, copyright, patent disputes, and intellectual property enforcement.</p>
-    </div>
-  </div>
-
-  <hr style="margin: 40px 0;">
-
-  <!-- Quick Links -->
-  <div class="row text-center" style="margin-top: 20px; margin-bottom: 40px;">
-    <div class="col-sm-3">
-      <a href="/intake" style="color: #1a237e; text-decoration: none;">
-        <i class="fa fa-file-text-o" style="font-size: 32px;"></i>
-        <h5 style="margin-top: 10px;">New Case Intake</h5>
-      </a>
-    </div>
-    <div class="col-sm-3">
-      <a href="/case-status" style="color: #1a237e; text-decoration: none;">
-        <i class="fa fa-search" style="font-size: 32px;"></i>
-        <h5 style="margin-top: 10px;">Case Status</h5>
-      </a>
-    </div>
-    <div class="col-sm-3">
-      <a href="/about" style="color: #1a237e; text-decoration: none;">
-        <i class="fa fa-info-circle" style="font-size: 32px;"></i>
-        <h5 style="margin-top: 10px;">About Us</h5>
-      </a>
-    </div>
-    <div class="col-sm-3">
-      <a href="/login" style="color: #1a237e; text-decoration: none;">
-        <i class="fa fa-sign-in" style="font-size: 32px;"></i>
-        <h5 style="margin-top: 10px;">Client Login</h5>
-      </a>
-    </div>
-  </div>
-</div>
 {%- endblock -%}

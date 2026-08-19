@@ -12,7 +12,9 @@ class LegalMatter(Document):
 		self.validate_matter_type_vertical()
 		self.sync_client_from_parties()
 		self.auto_route()
-		self.compute_ecourts_coverage()    def after_insert(self):
+		self.compute_ecourts_coverage()
+
+	def after_insert(self):
 		self.workflow_step = "Intake"
 		self.flags.ignore_permissions = True
 		frappe.db.set_value("Legal Matter", self.name, "workflow_step", "Intake")

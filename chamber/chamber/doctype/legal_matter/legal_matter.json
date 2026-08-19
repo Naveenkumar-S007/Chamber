@@ -1,28 +1,4 @@
 {
- "actions": [
-  {
-   "action": "Sync eCourts",
-   "action_type": "Action",
-   "group": "External Sync"
-  },
-  {
-   "action": "Open Intake Form",
-   "action_type": "Route",
-   "group": "Intake",
-   "link": "intake-form?matter=%(name)s"
-  },
-  {
-   "action": "Generate Document",
-   "action_type": "Action",
-   "group": "Documents"
-  },
-  {
-   "action": "View Timeline",
-   "action_type": "Route",
-   "group": "Documents",
-   "link": "matter-timeline?matter=%(name)s"
-  }
- ],
  "allow_events_in_timeline": 1,
  "autoname": "naming_series:",
  "creation": "2026-08-15 00:00:00.000000",

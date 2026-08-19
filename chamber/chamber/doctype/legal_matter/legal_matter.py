@@ -89,8 +89,9 @@ class LegalMatter(Document):
 			if p.role == "Client" or p.is_client:
 				client_party = p.party
 				break
-		if client_party and self.client != client_party:
-			self.client = client_party    def create_registration_timeline_entry(self):
+		if client_party and self.client != client_party:				self.client = client_party
+
+	def create_registration_timeline_entry(self):
 		frappe.get_doc(
 			{
 				"doctype": "Timeline Entry",

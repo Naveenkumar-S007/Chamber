@@ -5,7 +5,7 @@ from frappe.utils import add_days, getdate, nowdate
 
 
 class ChamberApplication(Document):
-	def validate(self):
+	def _run_validations(self):
 		self.update_next_hearing_from_log()
 		self.set_defaults_from_matter()
 
@@ -47,6 +47,12 @@ class ChamberApplication(Document):
 					"reference_name": self.name,
 				}
 			).insert(ignore_permissions=True)
+
+
+# ---------------------------------------------------------------- doc events
+def validate(doc, method=None):
+	"""doc_events hook — the controller keeps header fields in step on every save."""
+	doc._run_validations()
 
 
 # ---------------------------------------------------------------- permissions

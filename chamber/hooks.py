@@ -18,6 +18,7 @@ app_version = app_version
 # include js, css files in header of desk.html
 app_include_js = [
 	"/assets/chamber/js/intake_form_renderer.js",
+	"/assets/chamber/js/intake_form_page.js",
 	"/assets/chamber/js/timeline_view.js",
 	"/assets/chamber/js/chamber_workflow.js",
 ]
